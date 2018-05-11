@@ -64,6 +64,20 @@ private:
   // data members                   
   G4int  fAbsHCID;
   G4int  fGapHCID;
+  std::vector<G4double> positionX;
+  std::vector<G4double> positionY;
+  std::vector<G4double> positionZ;
+  std::vector<G4double> hitEdep;
+  std::vector<G4double> hitTime;
+  std::vector<G4int> barOrientation;
+  std::vector<G4double> transBarPos;
+  std::vector<G4double> longBarPos;
+  std::vector<G4int> tasd;
+  std::vector<G4int> barNum;
+  std::vector<G4double> momentumX;
+  std::vector<G4double> momentumY;
+  std::vector<G4double> momentumZ;
+  std::vector<G4int> pdg;
 };
                      
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

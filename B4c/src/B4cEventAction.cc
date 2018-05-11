@@ -48,7 +48,51 @@ B4cEventAction::B4cEventAction()
  : G4UserEventAction(),
    fAbsHCID(-1),
    fGapHCID(-1)
-{}
+{
+  /* test */
+  auto analysisManager = G4AnalysisManager::Instance();
+  G4cout << "Using " << analysisManager->GetType() << G4endl;
+  analysisManager->SetVerboseLevel(1);
+  analysisManager->SetNtupleMerging(true);
+
+  // Creating histograms
+  /*
+  analysisManager->CreateH1("Eabs","Edep in absorber", 100, 0., 800*MeV);
+  analysisManager->CreateH1("Egap","Edep in gap", 100, 0., 100*MeV);
+  analysisManager->CreateH1("Labs","trackL in absorber", 100, 0., 1*m);
+  analysisManager->CreateH1("Lgap","trackL in gap", 100, 0., 50*cm);
+  */
+  // Creating ntuple
+  //
+  analysisManager->CreateNtuple("B4", "Edep and TrackL");
+  analysisManager->CreateNtupleIColumn("EventID");
+  //analysisManager->CreateNtupleDColumn("positionX");
+  //analysisManager->CreateNtupleDColumn("positionY");
+  //analysisManager->CreateNtupleDColumn("positionZ");
+  analysisManager->CreateNtupleDColumn("positionX",positionX);
+  analysisManager->CreateNtupleDColumn("positionY",positionY);
+  analysisManager->CreateNtupleDColumn("positionZ",positionZ);
+  analysisManager->CreateNtupleDColumn("hitEdep",hitEdep);
+  analysisManager->CreateNtupleDColumn("hitTime",hitTime);
+  //analysisManager->CreateNtupleDColumn("GetBarTranslationX");
+  //analysisManager->CreateNtupleDColumn("GetModule");
+  analysisManager->CreateNtupleIColumn("barOrientation",barOrientation);
+  analysisManager->CreateNtupleDColumn("transBarPos",transBarPos);
+  analysisManager->CreateNtupleDColumn("longBarPos",longBarPos);
+  analysisManager->CreateNtupleIColumn("TASD",tasd);
+  analysisManager->CreateNtupleIColumn("barNumber",barNum);
+  analysisManager->CreateNtupleDColumn("momentumX",momentumX);
+  analysisManager->CreateNtupleDColumn("momentumY",momentumY);
+  analysisManager->CreateNtupleDColumn("momentumZ",momentumZ);
+  analysisManager->CreateNtupleIColumn("pdg",pdg);
+  //analysisManager->CreateNtupleDColumn("Eabs");
+  //analysisManager->CreateNtupleDColumn("Egap");
+  //analysisManager->CreateNtupleDColumn("Labs");
+  //analysisManager->CreateNtupleDColumn("Lgap");
+  //analysisManager->CreateNtupleDColumn("position");
+  analysisManager->FinishNtuple();
+  
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -106,14 +150,14 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
 {  
   // Get hits collections IDs (only once)
   /*
-  if ( fAbsHCID == -1 ) {
+    if ( fAbsHCID == -1 ) {
     fAbsHCID 
-      = G4SDManager::GetSDMpointer()->GetCollectionID("AbsorberHitsCollection");
+    = G4SDManager::GetSDMpointer()->GetCollectionID("AbsorberHitsCollection");
     fGapHCID 
-      = G4SDManager::GetSDMpointer()->GetCollectionID("GapHitsCollection");
+    = G4SDManager::GetSDMpointer()->GetCollectionID("GapHitsCollection");
   */
   G4int collection_id = G4SDManager::GetSDMpointer()->GetCollectionID("MindCollection");
-
+  
   //std::cout<<"collection_id="<<collection_id<<std::endl;
   
   //G4int collection_id = SDman->GetCollectionID("MindCollection");
@@ -121,19 +165,19 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   //auto hitsCollection 
   //= static_cast<B4cCalorHitsCollection*>(
   //    event->GetHCofThisEvent()->GetHC(hcID));
-
+  
   // Get hits collections
   //auto absoHC = GetHitsCollection(fAbsHCID, event);
   //auto gapHC = GetHitsCollection(fGapHCID, event);
   auto collection = static_cast<MindBarHitsCollection*>(event->GetHCofThisEvent()->GetHC(collection_id));
-
+  
   //std::cout<<"collection="<<collection<<std::endl;
   
   // Get hit with total values
   //auto absoHit = (*absoHC)[absoHC->entries()-1];
   //auto gapHit = (*gapHC)[gapHC->entries()-1];
-
-  auto collectionHit = (*collection)[collection->entries()-1];
+  
+  //auto collectionHit = (*collection)[collection->entries()-1];
   
   // Print per event (modulo n)
   //
@@ -142,19 +186,19 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   if ( ( printModulo > 0 ) && ( eventID % printModulo == 0 ) ) {
     G4cout << "---> End of event: " << eventID << G4endl;     
 /*
-    PrintEventStatistics(
-      absoHit->GetEdep(), absoHit->GetTrackLength(),
-      gapHit->GetEdep(), gapHit->GetTrackLength());
+  PrintEventStatistics(
+  absoHit->GetEdep(), absoHit->GetTrackLength(),
+  gapHit->GetEdep(), gapHit->GetTrackLength());
 */
-
+    
   }  
   
   // Fill histograms, ntuple
   //
-
+  
   // get analysis manager
   auto analysisManager = G4AnalysisManager::Instance();
-
+  
   /*
     int GetTrackID
     G4ThreeVector GetPosition
@@ -174,7 +218,8 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   //analysisManager->FillH1(3, collectionHit->GetHitTime());
   
   // fill ntuple
-  analysisManager->FillNtupleIColumn(0, collectionHit->GetTrackID());
+  //analysisManager->FillNtupleIColumn(0, collectionHit->GetTrackID());
+  analysisManager->FillNtupleIColumn(0,eventID);
   //std::cout<<collectionHit->GetTrackID()<<std::endl;
 
   //aStep->GetTrack()->GetDefinition()->GetParticleName()
@@ -183,14 +228,31 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   //if(collectionHit && collectionHit->GetTrackID()){
     //std::cout<<collectionHit->GetTrackID()<<std::endl;
   //std::cout<<"entries="<<collection->entries()<<std::endl;
-  
+  //std::vector<G4double> test;
    for (G4int i=0;i<collection->entries();i++) 
-  {
-    G4ThreeVector position = (*collection)[i]->GetPosition();
-    G4ThreeVector momentum = (*collection)[i]->GetMomentum();
+     {
+       G4ThreeVector position = (*collection)[i]->GetPosition();
+       G4ThreeVector momentum = (*collection)[i]->GetMomentum();
+       positionX.push_back(position.x());
+       positionY.push_back(position.y());
+       positionZ.push_back(position.z());
+       hitEdep.push_back((*collection)[i]->GetEnergyDeposit());
+       hitTime.push_back((*collection)[i]->GetHitTime());
+       barOrientation.push_back((*collection)[i]->GetBarOrientation());
+       G4double transBar= (*collection)[i]->GetBarOrientation()==1 ?
+	 (*collection)[i]->GetBarTranslation().y() : (*collection)[i]->GetBarTranslation().x();
+       transBarPos.push_back(transBar);
+       longBarPos.push_back((*collection)[i]->GetBarTranslation().z());
+       tasd.push_back((*collection)[i]->GetTASD());
+       barNum.push_back((*collection)[i]->GetBarNumber());
+       momentumX.push_back(momentum.x());
+       momentumY.push_back(momentum.y());
+       momentumZ.push_back(momentum.z());
+       pdg.push_back((*collection)[i]->GetPDG());
+    /*
     analysisManager->FillNtupleDColumn(1,position.x());
     analysisManager->FillNtupleDColumn(2,position.y());
-    analysisManager->FillNtupleDColumn(3,position.z());
+    //analysisManager->FillNtupleDColumn(3,position.z());
     //std::cout<<"PosZ="<<position.z()<<std::endl;
     analysisManager->FillNtupleDColumn(4, (*collection)[i]->GetEnergyDeposit());
     analysisManager->FillNtupleDColumn(5, (*collection)[i]->GetHitTime());
@@ -210,12 +272,26 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
     analysisManager->FillNtupleDColumn(13,momentum.z());
     analysisManager->FillNtupleIColumn(14,(*collection)[i]->GetPDG());
     analysisManager->AddNtupleRow(); 
-  } 
+    */
+     } 
    //}
-  
-   //analysisManager->AddNtupleRow(); 
-  
-  
+   
+   analysisManager->AddNtupleRow(); 
+   positionX.clear();
+   positionY.clear();
+   positionZ.clear();
+   hitEdep.clear();
+   hitTime.clear();
+   barOrientation.clear();
+   transBarPos.clear();
+   longBarPos.clear();
+   tasd.clear();
+   barNum.clear();
+   momentumX.clear();
+   momentumY.clear();
+   momentumZ.clear();
+   pdg.clear();
+   
 }  
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

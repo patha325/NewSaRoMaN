@@ -43,7 +43,7 @@ B4RunAction::B4RunAction()
 { 
   // set printing event number per each event
   G4RunManager::GetRunManager()->SetPrintProgress(1);     
-
+  /*
   // Create analysis manager
   // The choice of analysis technology is done via selectin of a namespace
   // in B4Analysis.hh
@@ -70,7 +70,7 @@ B4RunAction::B4RunAction()
   // Creating ntuple
   //
   analysisManager->CreateNtuple("B4", "Edep and TrackL");
-  analysisManager->CreateNtupleIColumn("trackID");
+  analysisManager->CreateNtupleIColumn("EventID");
   analysisManager->CreateNtupleDColumn("positionX");
   analysisManager->CreateNtupleDColumn("positionY");
   analysisManager->CreateNtupleDColumn("positionZ");
@@ -93,6 +93,7 @@ B4RunAction::B4RunAction()
   //analysisManager->CreateNtupleDColumn("Lgap");
   //analysisManager->CreateNtupleDColumn("position");
   analysisManager->FinishNtuple();
+  */
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
