@@ -61,18 +61,34 @@ B4RunAction::B4RunAction()
   //
   
   // Creating histograms
+  
   analysisManager->CreateH1("Eabs","Edep in absorber", 100, 0., 800*MeV);
   analysisManager->CreateH1("Egap","Edep in gap", 100, 0., 100*MeV);
   analysisManager->CreateH1("Labs","trackL in absorber", 100, 0., 1*m);
   analysisManager->CreateH1("Lgap","trackL in gap", 100, 0., 50*cm);
-
+  
   // Creating ntuple
   //
   analysisManager->CreateNtuple("B4", "Edep and TrackL");
-  analysisManager->CreateNtupleDColumn("Eabs");
-  analysisManager->CreateNtupleDColumn("Egap");
-  analysisManager->CreateNtupleDColumn("Labs");
-  analysisManager->CreateNtupleDColumn("Lgap");
+  analysisManager->CreateNtupleIColumn("trackID");
+  analysisManager->CreateNtupleDColumn("positionX");
+  analysisManager->CreateNtupleDColumn("positionY");
+  analysisManager->CreateNtupleDColumn("positionZ");
+  analysisManager->CreateNtupleDColumn("hitEdep");
+  analysisManager->CreateNtupleDColumn("hitTime");
+  //analysisManager->CreateNtupleDColumn("GetBarTranslationX");
+  //analysisManager->CreateNtupleDColumn("GetModule");
+  analysisManager->CreateNtupleIColumn("GetBarOrientation");
+  analysisManager->CreateNtupleIColumn("GetTASD");
+  analysisManager->CreateNtupleIColumn("GetBarNumber");
+    analysisManager->CreateNtupleDColumn("momentumX");
+  analysisManager->CreateNtupleDColumn("momentumY");
+  analysisManager->CreateNtupleDColumn("momentumZ");
+  //analysisManager->CreateNtupleDColumn("Eabs");
+  //analysisManager->CreateNtupleDColumn("Egap");
+  //analysisManager->CreateNtupleDColumn("Labs");
+  //analysisManager->CreateNtupleDColumn("Lgap");
+  //analysisManager->CreateNtupleDColumn("position");
   analysisManager->FinishNtuple();
 }
 

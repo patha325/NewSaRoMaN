@@ -1379,15 +1379,17 @@
       <materialref ref="G4_AIR0x19316e30"/>
       <solidref ref="WORLD_solid"/>
       <physvol name="AiDA_physi0">
-      <file name="WAGASCI.gdml"/>
+      <file name="half_AiDA.gdml"/>
       <position name="AiDA_pos0" x="0.0" y="0.0" z="-(DetectorLength)/2" unit="mm"/>
+      </physvol>
+      <physvol name="AiDA_physi1">
+      <file name="half_AiDA.gdml"/>
+      <position name="AiDA_pos1" x="0.0" y="0.0" z="-(DetectorLength+HalfAidaDepth)/2" unit="mm"/>
       </physvol>
       <physvol name="DETECTOR_physi">
         <volumeref ref="Detector"/>
         <position name="Detector_pos" x="0.0" y="0.0" z="(2*GapAidaMIND+HalfAidaDepth)/2" unit="mm"/>
       </physvol>
-      <auxiliary auxtype="EMField" auxvalue="NULL"/>
-      <auxiliary auxtype="Invisible" auxvalue="1"/>
     </volume>
   </structure>
   

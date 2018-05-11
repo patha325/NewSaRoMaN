@@ -75,7 +75,7 @@ B4cDetectorConstruction::~B4cDetectorConstruction()
 G4VPhysicalVolume* B4cDetectorConstruction::Construct()
 {
   G4PVPlacement* world_physi;
-  _gdml.Read("MIND.gdml");
+  _gdml.Read("MIND.gdml",0);
   world_physi = dynamic_cast<G4PVPlacement*>(_gdml.GetWorldVolume());
   // SetNullField(*world_physi->GetLogicalVolume());
   regionmass["TASD"] = 0;

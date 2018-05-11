@@ -1,7 +1,7 @@
-/root/B4c/build/CMakeFiles/install/strip.dir
-/root/B4c/build/CMakeFiles/edit_cache.dir
-/root/B4c/build/CMakeFiles/exampleB4c.dir
-/root/B4c/build/CMakeFiles/rebuild_cache.dir
-/root/B4c/build/CMakeFiles/list_install_components.dir
-/root/B4c/build/CMakeFiles/install/local.dir
-/root/B4c/build/CMakeFiles/install.dir
+/root/NewSaRoMaN/B4c/build/CMakeFiles/install/strip.dir
+/root/NewSaRoMaN/B4c/build/CMakeFiles/edit_cache.dir
+/root/NewSaRoMaN/B4c/build/CMakeFiles/exampleB4c.dir
+/root/NewSaRoMaN/B4c/build/CMakeFiles/rebuild_cache.dir
+/root/NewSaRoMaN/B4c/build/CMakeFiles/list_install_components.dir
+/root/NewSaRoMaN/B4c/build/CMakeFiles/install/local.dir
+/root/NewSaRoMaN/B4c/build/CMakeFiles/install.dir

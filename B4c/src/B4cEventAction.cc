@@ -114,6 +114,8 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   */
   G4int collection_id = G4SDManager::GetSDMpointer()->GetCollectionID("MindCollection");
 
+  cout<<"collection_id="<<collection_id<<endl;
+  
   //G4int collection_id = SDman->GetCollectionID("MindCollection");
   //(MindBarHitsCollection*)(HCE->GetHC(collection_id));
   //auto hitsCollection 
@@ -150,20 +152,54 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
 
   // get analysis manager
   auto analysisManager = G4AnalysisManager::Instance();
- 
-  // fill histograms
-  analysisManager->FillH1(0, collectionHit->GetEnergyDeposit());
-  //analysisManager->FillH1(1, collectionHit->GetModule());
-  analysisManager->FillH1(2, collectionHit->GetBarNumber());
-  analysisManager->FillH1(3, collectionHit->GetHitTime());
+
   /*
+    int GetTrackID
+    G4ThreeVector GetPosition
+    double GetEnergyDeposit
+    double GetHitTime
+    G4ThreeVector GetBarTranslation
+    string GetModule
+    int GetBarOrientation
+    int GetTASD
+    int GetBarNumber
+    G4ThreeVector GetMomentum
+   */
+  // fill histograms
+  //analysisManager->FillH1(0, collectionHit->GetEnergyDeposit());
+  //analysisManager->FillH1(1, collectionHit->GetModule());
+  //analysisManager->FillH1(2, collectionHit->GetBarNumber());
+  //analysisManager->FillH1(3, collectionHit->GetHitTime());
+  
   // fill ntuple
-  analysisManager->FillNtupleDColumn(0, absoHit->GetEdep());
-  analysisManager->FillNtupleDColumn(1, gapHit->GetEdep());
-  analysisManager->FillNtupleDColumn(2, absoHit->GetTrackLength());
-  analysisManager->FillNtupleDColumn(3, gapHit->GetTrackLength());
+  //analysisManager->FillNtupleIColumn(0, collectionHit->GetTrackID());
+  //std::cout<<collectionHit->GetTrackID()<<std::endl;
+  std::cout<<"Here"<<std::endl;
+  //if(collectionHit && collectionHit->GetTrackID()){
+    //std::cout<<collectionHit->GetTrackID()<<std::endl;
+  //std::cout<<collection->entries()<<std::endl;
+  /*
+   for (G4int i=0;i<collection->entries();i++) 
+  {
+    G4ThreeVector position = (*collection)[i]->GetPosition();
+    G4ThreeVector momentum = (*collection)[i]->GetMomentum();
+    analysisManager->FillNtupleDColumn(1,position.x());
+    analysisManager->FillNtupleDColumn(2,position.y());
+    analysisManager->FillNtupleDColumn(3,position.z());
+    analysisManager->FillNtupleDColumn(4, (*collection)[i]->GetEnergyDeposit());
+    analysisManager->FillNtupleDColumn(5, (*collection)[i]->GetHitTime());
+    analysisManager->FillNtupleIColumn(6, (*collection)[i]->GetBarOrientation());
+    analysisManager->FillNtupleDColumn(7, (*collection)[i]->GetTASD());
+    analysisManager->FillNtupleDColumn(8, (*collection)[i]->GetBarNumber());
+    analysisManager->FillNtupleDColumn(9,momentum.x());
+    analysisManager->FillNtupleDColumn(10,momentum.y());
+    analysisManager->FillNtupleDColumn(11,momentum.z());
+  } 
+  
+  }
+  */
   analysisManager->AddNtupleRow(); 
-  */ 
+  
   
 }  
 

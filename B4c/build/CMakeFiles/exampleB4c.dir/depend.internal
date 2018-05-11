@@ -6,7 +6,7 @@ CMakeFiles/exampleB4c.dir/exampleB4c.cc.o
  ../include/B4cDetectorConstruction.hh
  ../include/MindBarHit.h
  ../include/MindBarSD.h
- /root/B4c/exampleB4c.cc
+ /root/NewSaRoMaN/B4c/exampleB4c.cc
  /root/geant4/geant4-install/include/Geant4/CLHEP/Evaluator/Evaluator.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Normal3D.h
@@ -610,7 +610,7 @@ CMakeFiles/exampleB4c.dir/exampleB4c.cc.o
  /root/geant4/geant4-install/include/Geant4/windefs.hh
 CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o
  ../include/B4PrimaryGeneratorAction.hh
- /root/B4c/src/B4PrimaryGeneratorAction.cc
+ /root/NewSaRoMaN/B4c/src/B4PrimaryGeneratorAction.cc
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Normal3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Plane3D.h
@@ -880,7 +880,7 @@ CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o
 CMakeFiles/exampleB4c.dir/src/B4RunAction.cc.o
  ../include/B4Analysis.hh
  ../include/B4RunAction.hh
- /root/B4c/src/B4RunAction.cc
+ /root/NewSaRoMaN/B4c/src/B4RunAction.cc
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Normal3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Point3D.h
@@ -1282,7 +1282,7 @@ CMakeFiles/exampleB4c.dir/src/B4cActionInitialization.cc.o
  ../include/B4cEventAction.hh
  ../include/MindBarHit.h
  ../include/MindBarSD.h
- /root/B4c/src/B4cActionInitialization.cc
+ /root/NewSaRoMaN/B4c/src/B4cActionInitialization.cc
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Normal3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Point3D.h
@@ -1408,7 +1408,7 @@ CMakeFiles/exampleB4c.dir/src/B4cActionInitialization.cc.o
  /root/geant4/geant4-install/include/Geant4/windefs.hh
 CMakeFiles/exampleB4c.dir/src/B4cCalorHit.cc.o
  ../include/B4cCalorHit.hh
- /root/B4c/src/B4cCalorHit.cc
+ /root/NewSaRoMaN/B4c/src/B4cCalorHit.cc
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Normal3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Point3D.h
@@ -1468,7 +1468,7 @@ CMakeFiles/exampleB4c.dir/src/B4cCalorHit.cc.o
 CMakeFiles/exampleB4c.dir/src/B4cCalorimeterSD.cc.o
  ../include/B4cCalorHit.hh
  ../include/B4cCalorimeterSD.hh
- /root/B4c/src/B4cCalorimeterSD.cc
+ /root/NewSaRoMaN/B4c/src/B4cCalorimeterSD.cc
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Normal3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Point3D.h
@@ -1597,7 +1597,7 @@ CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o
  ../include/B4cDetectorConstruction.hh
  ../include/MindBarHit.h
  ../include/MindBarSD.h
- /root/B4c/src/B4cDetectorConstruction.cc
+ /root/NewSaRoMaN/B4c/src/B4cDetectorConstruction.cc
  /root/geant4/geant4-install/include/Geant4/CLHEP/Evaluator/Evaluator.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Normal3D.h
@@ -1893,7 +1893,7 @@ CMakeFiles/exampleB4c.dir/src/B4cEventAction.cc.o
  ../include/B4cEventAction.hh
  ../include/MindBarHit.h
  ../include/MindBarSD.h
- /root/B4c/src/B4cEventAction.cc
+ /root/NewSaRoMaN/B4c/src/B4cEventAction.cc
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Normal3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Point3D.h
@@ -2297,7 +2297,7 @@ CMakeFiles/exampleB4c.dir/src/B4cEventAction.cc.o
  /root/geant4/geant4-install/include/Geant4/windefs.hh
 CMakeFiles/exampleB4c.dir/src/MindBarHit.cc.o
  ../include/MindBarHit.h
- /root/B4c/src/MindBarHit.cc
+ /root/NewSaRoMaN/B4c/src/MindBarHit.cc
  /root/geant4/geant4-install/include/Geant4/CLHEP/Utility/defs.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Vector/ThreeVector.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Vector/ThreeVector.icc
@@ -2318,7 +2318,7 @@ CMakeFiles/exampleB4c.dir/src/MindBarHit.cc.o
 CMakeFiles/exampleB4c.dir/src/MindBarSD.cc.o
  ../include/MindBarHit.h
  ../include/MindBarSD.h
- /root/B4c/src/MindBarSD.cc
+ /root/NewSaRoMaN/B4c/src/MindBarSD.cc
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Normal3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Point3D.h

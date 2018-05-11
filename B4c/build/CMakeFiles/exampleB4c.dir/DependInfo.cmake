@@ -4,16 +4,16 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/root/B4c/exampleB4c.cc" "/root/B4c/build/CMakeFiles/exampleB4c.dir/exampleB4c.cc.o"
-  "/root/B4c/src/B4PrimaryGeneratorAction.cc" "/root/B4c/build/CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o"
-  "/root/B4c/src/B4RunAction.cc" "/root/B4c/build/CMakeFiles/exampleB4c.dir/src/B4RunAction.cc.o"
-  "/root/B4c/src/B4cActionInitialization.cc" "/root/B4c/build/CMakeFiles/exampleB4c.dir/src/B4cActionInitialization.cc.o"
-  "/root/B4c/src/B4cCalorHit.cc" "/root/B4c/build/CMakeFiles/exampleB4c.dir/src/B4cCalorHit.cc.o"
-  "/root/B4c/src/B4cCalorimeterSD.cc" "/root/B4c/build/CMakeFiles/exampleB4c.dir/src/B4cCalorimeterSD.cc.o"
-  "/root/B4c/src/B4cDetectorConstruction.cc" "/root/B4c/build/CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o"
-  "/root/B4c/src/B4cEventAction.cc" "/root/B4c/build/CMakeFiles/exampleB4c.dir/src/B4cEventAction.cc.o"
-  "/root/B4c/src/MindBarHit.cc" "/root/B4c/build/CMakeFiles/exampleB4c.dir/src/MindBarHit.cc.o"
-  "/root/B4c/src/MindBarSD.cc" "/root/B4c/build/CMakeFiles/exampleB4c.dir/src/MindBarSD.cc.o"
+  "/root/NewSaRoMaN/B4c/exampleB4c.cc" "/root/NewSaRoMaN/B4c/build/CMakeFiles/exampleB4c.dir/exampleB4c.cc.o"
+  "/root/NewSaRoMaN/B4c/src/B4PrimaryGeneratorAction.cc" "/root/NewSaRoMaN/B4c/build/CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o"
+  "/root/NewSaRoMaN/B4c/src/B4RunAction.cc" "/root/NewSaRoMaN/B4c/build/CMakeFiles/exampleB4c.dir/src/B4RunAction.cc.o"
+  "/root/NewSaRoMaN/B4c/src/B4cActionInitialization.cc" "/root/NewSaRoMaN/B4c/build/CMakeFiles/exampleB4c.dir/src/B4cActionInitialization.cc.o"
+  "/root/NewSaRoMaN/B4c/src/B4cCalorHit.cc" "/root/NewSaRoMaN/B4c/build/CMakeFiles/exampleB4c.dir/src/B4cCalorHit.cc.o"
+  "/root/NewSaRoMaN/B4c/src/B4cCalorimeterSD.cc" "/root/NewSaRoMaN/B4c/build/CMakeFiles/exampleB4c.dir/src/B4cCalorimeterSD.cc.o"
+  "/root/NewSaRoMaN/B4c/src/B4cDetectorConstruction.cc" "/root/NewSaRoMaN/B4c/build/CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o"
+  "/root/NewSaRoMaN/B4c/src/B4cEventAction.cc" "/root/NewSaRoMaN/B4c/build/CMakeFiles/exampleB4c.dir/src/B4cEventAction.cc.o"
+  "/root/NewSaRoMaN/B4c/src/MindBarHit.cc" "/root/NewSaRoMaN/B4c/build/CMakeFiles/exampleB4c.dir/src/MindBarHit.cc.o"
+  "/root/NewSaRoMaN/B4c/src/MindBarSD.cc" "/root/NewSaRoMaN/B4c/build/CMakeFiles/exampleB4c.dir/src/MindBarSD.cc.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
