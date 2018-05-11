@@ -9,6 +9,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/exampleB4c.dir/src/B4cEventAction.cc.o"
   "CMakeFiles/exampleB4c.dir/src/MindBarHit.cc.o"
   "CMakeFiles/exampleB4c.dir/src/MindBarSD.cc.o"
+  "CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.o"
   "exampleB4c.pdb"
   "exampleB4c"
 )

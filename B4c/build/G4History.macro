@@ -54,5 +54,3 @@
 /run/printProgress 100
 /run/beamOn 1
 /vis/scene/notifyHandlers scene-0
-/run/beamOn 3
-/run/beamOn 30

@@ -78,12 +78,15 @@ B4RunAction::B4RunAction()
   analysisManager->CreateNtupleDColumn("hitTime");
   //analysisManager->CreateNtupleDColumn("GetBarTranslationX");
   //analysisManager->CreateNtupleDColumn("GetModule");
-  analysisManager->CreateNtupleIColumn("GetBarOrientation");
+  analysisManager->CreateNtupleIColumn("BarOrientation");
+  analysisManager->CreateNtupleDColumn("transBarPos");
+  analysisManager->CreateNtupleDColumn("longBarPos");
   analysisManager->CreateNtupleIColumn("GetTASD");
   analysisManager->CreateNtupleIColumn("GetBarNumber");
     analysisManager->CreateNtupleDColumn("momentumX");
   analysisManager->CreateNtupleDColumn("momentumY");
   analysisManager->CreateNtupleDColumn("momentumZ");
+  analysisManager->CreateNtupleIColumn("pdg");
   //analysisManager->CreateNtupleDColumn("Eabs");
   //analysisManager->CreateNtupleDColumn("Egap");
   //analysisManager->CreateNtupleDColumn("Labs");

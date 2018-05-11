@@ -83,7 +83,7 @@ G4bool MindBarSD::ProcessHits(G4Step* step, G4TouchableHistory*)
   G4String volName = theTouchable->GetVolume()->GetName();
   G4String volNameMother = theTouchable->GetVolume(1)->GetName();
   G4int copyNo = theTouchable->GetCopyNumber();
-    
+  hit->SetPDG(step->GetTrack()->GetDefinition()->GetPDGEncoding());
   
   G4double barOffset = 0;
 

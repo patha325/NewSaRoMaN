@@ -61,6 +61,8 @@ fstream
 -
 MindBarSD.h
 ../include/MindBarSD.h
+MindFieldMapR.hh
+../include/MindFieldMapR.hh
 
 ../include/B4cEventAction.hh
 G4UserEventAction.hh
@@ -86,6 +88,20 @@ G4VSensitiveDetector.hh
 MindBarHit.h
 ../include/MindBarHit.h
 vector
+-
+
+../include/MindFieldMapR.hh
+globals.hh
+../include/globals.hh
+G4MagneticField.hh
+../include/G4MagneticField.hh
+string
+-
+vector
+-
+map
+-
+math.h
 -
 
 /root/NewSaRoMaN/B4c/exampleB4c.cc
@@ -259,6 +275,22 @@ G4SDManager.hh
 -
 G4HCofThisEvent.hh
 -
+
+/root/NewSaRoMaN/B4c/src/MindFieldMapR.cc
+MindFieldMapR.hh
+/root/NewSaRoMaN/B4c/src/MindFieldMapR.hh
+G4String.hh
+/root/NewSaRoMaN/B4c/src/G4String.hh
+iostream
+-
+fstream
+-
+vector
+-
+algorithm
+-
+G4SystemOfUnits.hh
+/root/NewSaRoMaN/B4c/src/G4SystemOfUnits.hh
 
 /root/geant4/geant4-install/include/Geant4/CLHEP/Evaluator/Evaluator.h
 string
@@ -1558,6 +1590,10 @@ G4DynamicParticle.icc
 
 /root/geant4/geant4-install/include/Geant4/G4DynamicParticle.icc
 
+/root/geant4/geant4-install/include/Geant4/G4ElectroMagneticField.hh
+G4Field.hh
+/root/geant4/geant4-install/include/Geant4/G4Field.hh
+
 /root/geant4/geant4-install/include/Geant4/G4Electron.hh
 globals.hh
 /root/geant4/geant4-install/include/Geant4/globals.hh
@@ -2577,6 +2613,12 @@ G4MagIntegratorStepper.icc
 /root/geant4/geant4-install/include/Geant4/G4MagIntegratorStepper.icc
 
 /root/geant4/geant4-install/include/Geant4/G4MagIntegratorStepper.icc
+
+/root/geant4/geant4-install/include/Geant4/G4MagneticField.hh
+G4Types.hh
+/root/geant4/geant4-install/include/Geant4/G4Types.hh
+G4ElectroMagneticField.hh
+/root/geant4/geant4-install/include/Geant4/G4ElectroMagneticField.hh
 
 /root/geant4/geant4-install/include/Geant4/G4Material.hh
 vector

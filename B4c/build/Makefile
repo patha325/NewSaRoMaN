@@ -439,6 +439,33 @@ src/MindBarSD.cc.s:
 	$(MAKE) -f CMakeFiles/exampleB4c.dir/build.make CMakeFiles/exampleB4c.dir/src/MindBarSD.cc.s
 .PHONY : src/MindBarSD.cc.s
 
+src/MindFieldMapR.o: src/MindFieldMapR.cc.o
+
+.PHONY : src/MindFieldMapR.o
+
+# target to build an object file
+src/MindFieldMapR.cc.o:
+	$(MAKE) -f CMakeFiles/exampleB4c.dir/build.make CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.o
+.PHONY : src/MindFieldMapR.cc.o
+
+src/MindFieldMapR.i: src/MindFieldMapR.cc.i
+
+.PHONY : src/MindFieldMapR.i
+
+# target to preprocess a source file
+src/MindFieldMapR.cc.i:
+	$(MAKE) -f CMakeFiles/exampleB4c.dir/build.make CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.i
+.PHONY : src/MindFieldMapR.cc.i
+
+src/MindFieldMapR.s: src/MindFieldMapR.cc.s
+
+.PHONY : src/MindFieldMapR.s
+
+# target to generate assembly for a file
+src/MindFieldMapR.cc.s:
+	$(MAKE) -f CMakeFiles/exampleB4c.dir/build.make CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.s
+.PHONY : src/MindFieldMapR.cc.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -482,6 +509,9 @@ help:
 	@echo "... src/MindBarSD.o"
 	@echo "... src/MindBarSD.i"
 	@echo "... src/MindBarSD.s"
+	@echo "... src/MindFieldMapR.o"
+	@echo "... src/MindFieldMapR.i"
+	@echo "... src/MindFieldMapR.s"
 .PHONY : help
 
 

@@ -231,11 +231,13 @@
 <structure>
  <volume name="WBar_volume">
    <materialref ref="Al"/> <solidref ref="sub19"/>
+   <auxiliary auxtype="SD" auxvalue="Bar"/>
   <auxiliary auxtype="EMField" auxvalue="NULL"/>
   <auxiliary auxtype="Color" auxvalue="Red"/>
   </volume>
  <volume name="WBarO_volume">
    <materialref ref="Al"/> <solidref ref="WBarO_solid"/>
+   <auxiliary auxtype="SD" auxvalue="Bar"/>
   <auxiliary auxtype="EMField" auxvalue="NULL"/>
   <auxiliary auxtype="Color" auxvalue="Blue"/>
   </volume>

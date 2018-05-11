@@ -39,6 +39,7 @@
 #include <G4ChordFinder.hh>
 #include <fstream>
 #include "MindBarSD.h"
+#include "MindFieldMapR.hh"
 
 
 class G4VPhysicalVolume;
@@ -81,7 +82,7 @@ private:
 
 
   void SetNullField(G4LogicalVolume& detector_logic);
-
+  void SetMagneticField(G4LogicalVolume& vol);
   
   G4GDMLParser _gdml;
   double _detectormass;

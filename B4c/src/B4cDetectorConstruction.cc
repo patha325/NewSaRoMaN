@@ -243,17 +243,32 @@ void B4cDetectorConstruction::SetAuxInformation(G4String basename,
 	myvol->SetVisAttributes(new G4VisAttributes(false));
       }
       else if ((*vit).type.contains("EMField")) {
-	//if ((*vit).value.contains("MagMap")){
-	  //SetMagneticField(*myvol);
-	//} else if((*vit).value.contains("NULL")){
+	if ((*vit).value.contains("MagMap")){
+	  SetMagneticField(*myvol);
+	} else if((*vit).value.contains("NULL")){
 	  SetNullField(*myvol);
-	  //}
+	  }
       }
     } catch (...) { 
       continue;
     }
     vit++;
   } while (vit != auxlist.end());	  
+}
+
+void B4cDetectorConstruction::SetMagneticField(G4LogicalVolume& vol) {
+  
+  G4FieldManager* fieldMgr = new G4FieldManager(); 
+ 
+  double fieldScaling = +1.0;
+  G4String Bmap = "CenterPlate.table";
+  // Declaration of the magnetic field map object
+  MindFieldMapR* magField = new MindFieldMapR(Bmap, fieldScaling, 30.0, 4, 30.0);
+  // Now to embed the field in the detector geometry
+  fieldMgr->SetDetectorField(magField);
+  fieldMgr->CreateChordFinder(magField);
+  fieldMgr->GetChordFinder()->SetDeltaChord(0.1*cm);
+  vol.SetFieldManager( fieldMgr, true );
 }
 
 void B4cDetectorConstruction::SetNullField(G4LogicalVolume& detector_logic)

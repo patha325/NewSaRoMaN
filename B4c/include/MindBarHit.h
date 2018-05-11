@@ -66,6 +66,9 @@ public:
   G4ThreeVector GetMomentum() { return _momentum; }
   void SetMomentum(G4ThreeVector p) { _momentum = p; }
 
+  G4int GetPDG() { return _pdg; }
+  void SetPDG(G4int i) { _pdg = i; }
+
 private:
   G4int _track_id;
   G4double _energy_dep;
@@ -77,6 +80,7 @@ private:
   G4int _isTASD;
   G4int _barNumber;
   G4ThreeVector _momentum;
+  G4int _pdg;
 };
 
 

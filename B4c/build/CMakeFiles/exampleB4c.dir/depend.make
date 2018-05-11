@@ -5,6 +5,7 @@ CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: ../include/B4cActionInitialization.hh
 CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: ../include/B4cDetectorConstruction.hh
 CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: ../include/MindBarHit.h
 CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: ../include/MindBarSD.h
+CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: ../include/MindFieldMapR.hh
 CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: ../exampleB4c.cc
 CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: /root/geant4/geant4-install/include/Geant4/CLHEP/Evaluator/Evaluator.h
 CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
@@ -177,6 +178,7 @@ CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: /root/geant4/geant4-install/include/G
 CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: /root/geant4/geant4-install/include/Geant4/G4DsMesonPlus.hh
 CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: /root/geant4/geant4-install/include/Geant4/G4DynamicParticle.hh
 CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: /root/geant4/geant4-install/include/Geant4/G4DynamicParticle.icc
+CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: /root/geant4/geant4-install/include/Geant4/G4ElectroMagneticField.hh
 CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: /root/geant4/geant4-install/include/Geant4/G4Electron.hh
 CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: /root/geant4/geant4-install/include/Geant4/G4ElectronOccupancy.hh
 CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: /root/geant4/geant4-install/include/Geant4/G4Element.hh
@@ -290,6 +292,7 @@ CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: /root/geant4/geant4-install/include/G
 CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: /root/geant4/geant4-install/include/Geant4/G4MTRunManager.hh
 CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: /root/geant4/geant4-install/include/Geant4/G4MagIntegratorStepper.hh
 CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: /root/geant4/geant4-install/include/Geant4/G4MagIntegratorStepper.icc
+CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: /root/geant4/geant4-install/include/Geant4/G4MagneticField.hh
 CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: /root/geant4/geant4-install/include/Geant4/G4Material.hh
 CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: /root/geant4/geant4-install/include/Geant4/G4MaterialCutsCouple.hh
 CMakeFiles/exampleB4c.dir/exampleB4c.cc.o: /root/geant4/geant4-install/include/Geant4/G4MaterialPropertiesIndex.hh
@@ -1596,6 +1599,7 @@ CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: ../include/B4cCalori
 CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: ../include/B4cDetectorConstruction.hh
 CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: ../include/MindBarHit.h
 CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: ../include/MindBarSD.h
+CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: ../include/MindFieldMapR.hh
 CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: ../src/B4cDetectorConstruction.cc
 CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: /root/geant4/geant4-install/include/Geant4/CLHEP/Evaluator/Evaluator.h
 CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
@@ -1655,6 +1659,7 @@ CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: /root/geant4/geant4-
 CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: /root/geant4/geant4-install/include/Geant4/G4DataVector.icc
 CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: /root/geant4/geant4-install/include/Geant4/G4DynamicParticle.hh
 CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: /root/geant4/geant4-install/include/Geant4/G4DynamicParticle.icc
+CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: /root/geant4/geant4-install/include/Geant4/G4ElectroMagneticField.hh
 CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: /root/geant4/geant4-install/include/Geant4/G4ElectronOccupancy.hh
 CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: /root/geant4/geant4-install/include/Geant4/G4Element.hh
 CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: /root/geant4/geant4-install/include/Geant4/G4ElementTable.hh
@@ -1713,6 +1718,7 @@ CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: /root/geant4/geant4-
 CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: /root/geant4/geant4-install/include/Geant4/G4LorentzVector.hh
 CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: /root/geant4/geant4-install/include/Geant4/G4MagIntegratorStepper.hh
 CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: /root/geant4/geant4-install/include/Geant4/G4MagIntegratorStepper.icc
+CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: /root/geant4/geant4-install/include/Geant4/G4MagneticField.hh
 CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: /root/geant4/geant4-install/include/Geant4/G4Material.hh
 CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: /root/geant4/geant4-install/include/Geant4/G4MaterialPropertiesIndex.hh
 CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o: /root/geant4/geant4-install/include/Geant4/G4MaterialPropertiesTable.hh
@@ -2440,4 +2446,20 @@ CMakeFiles/exampleB4c.dir/src/MindBarSD.cc.o: /root/geant4/geant4-install/includ
 CMakeFiles/exampleB4c.dir/src/MindBarSD.cc.o: /root/geant4/geant4-install/include/Geant4/tls.hh
 CMakeFiles/exampleB4c.dir/src/MindBarSD.cc.o: /root/geant4/geant4-install/include/Geant4/trkdefs.hh
 CMakeFiles/exampleB4c.dir/src/MindBarSD.cc.o: /root/geant4/geant4-install/include/Geant4/windefs.hh
+
+CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.o: ../include/MindFieldMapR.hh
+CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.o: ../src/MindFieldMapR.cc
+CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.o: /root/geant4/geant4-install/include/Geant4/CLHEP/Units/SystemOfUnits.h
+CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.o: /root/geant4/geant4-install/include/Geant4/G4ElectroMagneticField.hh
+CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.o: /root/geant4/geant4-install/include/Geant4/G4ExceptionSeverity.hh
+CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.o: /root/geant4/geant4-install/include/Geant4/G4Field.hh
+CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.o: /root/geant4/geant4-install/include/Geant4/G4MagneticField.hh
+CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.o: /root/geant4/geant4-install/include/Geant4/G4String.hh
+CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.o: /root/geant4/geant4-install/include/Geant4/G4String.icc
+CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.o: /root/geant4/geant4-install/include/Geant4/G4SystemOfUnits.hh
+CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.o: /root/geant4/geant4-install/include/Geant4/G4Types.hh
+CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.o: /root/geant4/geant4-install/include/Geant4/G4ios.hh
+CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.o: /root/geant4/geant4-install/include/Geant4/globals.hh
+CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.o: /root/geant4/geant4-install/include/Geant4/templates.hh
+CMakeFiles/exampleB4c.dir/src/MindFieldMapR.cc.o: /root/geant4/geant4-install/include/Geant4/tls.hh
 

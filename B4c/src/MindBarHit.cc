@@ -26,6 +26,7 @@ MindBarHit::MindBarHit(const MindBarHit& right): G4VHit()
   _isYbar     = right._isYbar;
   _isTASD     = right._isTASD;
   _momentum   = right._momentum;
+  _pdg        = right._pdg;
 }
   
 
@@ -41,6 +42,7 @@ const MindBarHit& MindBarHit::operator=(const MindBarHit& right)
   _isYbar     = right._isYbar;
   _isTASD     = right._isTASD;
   _momentum   = right._momentum;
+  _pdg        = right._pdg;
   return *this;
 }
 

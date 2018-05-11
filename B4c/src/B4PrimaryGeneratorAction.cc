@@ -53,10 +53,10 @@ B4PrimaryGeneratorAction::B4PrimaryGeneratorAction()
   // default particle kinematic
   //
   auto particleDefinition 
-    = G4ParticleTable::GetParticleTable()->FindParticle("e-");
+    = G4ParticleTable::GetParticleTable()->FindParticle("mu-");
   fParticleGun->SetParticleDefinition(particleDefinition);
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  fParticleGun->SetParticleEnergy(50.*MeV);
+  fParticleGun->SetParticleEnergy(3000.*MeV);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -99,7 +99,7 @@ void B4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   
   // Set gun position
   fParticleGun
-    ->SetParticlePosition(G4ThreeVector(0., 0., -worldZHalfLength));
+    ->SetParticlePosition(G4ThreeVector(0., 0., -2*worldZHalfLength));
 
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }
