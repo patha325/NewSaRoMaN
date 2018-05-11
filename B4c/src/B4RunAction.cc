@@ -125,6 +125,7 @@ void B4RunAction::EndOfRunAction(const G4Run* /*run*/)
   // print histogram statistics
   //
   auto analysisManager = G4AnalysisManager::Instance();
+  /*
   if ( analysisManager->GetH1(1) ) {
     G4cout << G4endl << " ----> print histograms statistic ";
     if(isMaster) {
@@ -154,7 +155,7 @@ void B4RunAction::EndOfRunAction(const G4Run* /*run*/)
       << " rms = " 
       << G4BestUnit(analysisManager->GetH1(3)->rms(),  "Length") << G4endl;
   }
-
+  */
   // save histograms & ntuple
   //
   analysisManager->Write();

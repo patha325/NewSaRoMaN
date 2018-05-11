@@ -114,7 +114,7 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   */
   G4int collection_id = G4SDManager::GetSDMpointer()->GetCollectionID("MindCollection");
 
-  std::cout<<"collection_id="<<collection_id<<std::endl;
+  //std::cout<<"collection_id="<<collection_id<<std::endl;
   
   //G4int collection_id = SDman->GetCollectionID("MindCollection");
   //(MindBarHitsCollection*)(HCE->GetHC(collection_id));
@@ -127,7 +127,7 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   //auto gapHC = GetHitsCollection(fGapHCID, event);
   auto collection = static_cast<MindBarHitsCollection*>(event->GetHCofThisEvent()->GetHC(collection_id));
 
-  std::cout<<"collection="<<collection<<std::endl;
+  //std::cout<<"collection="<<collection<<std::endl;
   
   // Get hit with total values
   //auto absoHit = (*absoHC)[absoHC->entries()-1];
@@ -175,14 +175,14 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   
   // fill ntuple
   analysisManager->FillNtupleIColumn(0, collectionHit->GetTrackID());
-  std::cout<<collectionHit->GetTrackID()<<std::endl;
+  //std::cout<<collectionHit->GetTrackID()<<std::endl;
 
   //aStep->GetTrack()->GetDefinition()->GetParticleName()
   
-  std::cout<<"Here"<<std::endl;
+  //std::cout<<"Here"<<std::endl;
   //if(collectionHit && collectionHit->GetTrackID()){
     //std::cout<<collectionHit->GetTrackID()<<std::endl;
-  std::cout<<"entries="<<collection->entries()<<std::endl;
+  //std::cout<<"entries="<<collection->entries()<<std::endl;
   
    for (G4int i=0;i<collection->entries();i++) 
   {
@@ -191,7 +191,7 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
     analysisManager->FillNtupleDColumn(1,position.x());
     analysisManager->FillNtupleDColumn(2,position.y());
     analysisManager->FillNtupleDColumn(3,position.z());
-    std::cout<<"PosZ="<<position.z()<<std::endl;
+    //std::cout<<"PosZ="<<position.z()<<std::endl;
     analysisManager->FillNtupleDColumn(4, (*collection)[i]->GetEnergyDeposit());
     analysisManager->FillNtupleDColumn(5, (*collection)[i]->GetHitTime());
     analysisManager->FillNtupleIColumn(6, (*collection)[i]->GetBarOrientation());

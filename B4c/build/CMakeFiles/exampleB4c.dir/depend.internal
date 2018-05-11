@@ -253,6 +253,7 @@ CMakeFiles/exampleB4c.dir/exampleB4c.cc.o
  /root/geant4/geant4-install/include/Geant4/G4HadronElasticProcess.hh
  /root/geant4/geant4-install/include/Geant4/G4HadronInelasticProcess.hh
  /root/geant4/geant4-install/include/Geant4/G4HadronPhysicsFTFP_BERT.hh
+ /root/geant4/geant4-install/include/Geant4/G4HadronPhysicsNuBeam.hh
  /root/geant4/geant4-install/include/Geant4/G4HadronicException.hh
  /root/geant4/geant4-install/include/Geant4/G4HadronicInteraction.hh
  /root/geant4/geant4-install/include/Geant4/G4HadronicProcess.hh
@@ -597,6 +598,8 @@ CMakeFiles/exampleB4c.dir/exampleB4c.cc.o
  /root/geant4/geant4-install/include/Geant4/G4XicZero.hh
  /root/geant4/geant4-install/include/Geant4/G4ios.hh
  /root/geant4/geant4-install/include/Geant4/HepPolyhedron.h
+ /root/geant4/geant4-install/include/Geant4/NuBeam.hh
+ /root/geant4/geant4-install/include/Geant4/NuBeam.icc
  /root/geant4/geant4-install/include/Geant4/Randomize.hh
  /root/geant4/geant4-install/include/Geant4/evmandefs.hh
  /root/geant4/geant4-install/include/Geant4/evtdefs.hh
