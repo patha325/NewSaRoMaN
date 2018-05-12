@@ -387,7 +387,7 @@
 <volume name="WAGASCIDetectorMod">
   <materialref ref="Air"/>
   <solidref ref="WAGASCI_solid"/>
-  <physvol name="WBars_phys">
+  <physvol name="TASD_WBars_phys">
     <volumeref ref="WBars"/>
     <position name="WBars_pos" unit="mm"
                   x="0.0" y="0.0" z="-2*(yBarLength+zBarLength)/2+zBarLength/2"/>
@@ -397,13 +397,13 @@
     <position name="WGrid3D_pos" unit="mm"
                   x="0.0" y="0.0" z="-2*(yBarLength+zBarLength)/2+zBarLength+yBarLength/2"/>
   </physvol>
-  <physvol name="WBars_phys">
+  <physvol name="TASD_WBars_phys2">
     <volumeref ref="WBars"/>
     <position name="WBars_pos2" unit="mm"
                   x="0.0" y="0.0" z="-2*(yBarLength+zBarLength)/2+zBarLength+yBarLength+zBarLength/2"/>
     <rotationref ref="rotatebyz"/>
   </physvol>
-    <physvol name="WGrid3D_phys">
+    <physvol name="WGrid3D_phys2">
     <volumeref ref="WGrid3D"/>
     <position name="WGrid3D_pos2" unit="mm"
                   x="0.0" y="0.0" z="-2*(yBarLength+zBarLength)/2+zBarLength+yBarLength+zBarLength+yBarLength/2"/>
@@ -421,7 +421,7 @@
         <position name="WAGASCIDetectorMod_pos" unit="mm"
                   x="0.0" y="0.0" z="-(2*zBarLength+2*yBarLength)/2"/>
     </physvol>
-        <physvol name="WAGASCIDetectorMod_physi">
+        <physvol name="WAGASCIDetectorMod_physi2">
         <volumeref ref="WAGASCIDetectorMod"/>
         <position name="WAGASCIDetectorMod_pos2" unit="mm"
                   x="0.0" y="0.0" z="+(2*zBarLength+2*yBarLength)/2"/>

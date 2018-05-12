@@ -23,8 +23,8 @@
 # 3 events
 #
 /gun/particle mu-
-/gun/energy 3000 MeV
-/run/beamOn 100
+/gun/energy 2000 MeV
+/run/beamOn 1000
 #
 # 20 events
 #
