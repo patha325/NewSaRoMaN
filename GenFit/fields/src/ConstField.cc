@@ -17,17 +17,32 @@
    along with GENFIT.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "ConstField.h"
+#include <TGeoManager.h>
+//#include <iostream>
 
 namespace genfit {
-
-TVector3 ConstField::get(const TVector3&) const {
-  return field_;
+  
+  TVector3 ConstField::get(const TVector3&) const {
+    return field_;
+  }
+  
+  void ConstField::get(const double& x, const double& y, const double& z, double& Bx, double& By, double& Bz) const {
+    // Handling only field in iron.
+    if(gGeoManager->FindNode(x,y,z)->GetName()[0]=='F')
+      {
+	//std::cout<<true<<std::endl;
+	//std::cout<<gGeoManager->FindNode(x,y,z)->GetName()<<std::endl;
+	Bx = field_.X();
+	By = field_.Y();
+	Bz = field_.Z();
+      }
+    else
+      {
+	Bx=0.0;
+	By=0.0;
+	Bz=0.0;
+      }
+    
+  }
+  /* End of namespace genfit */
 }
-
-void ConstField::get(const double&, const double&, const double&, double& Bx, double& By, double& Bz) const {
-  Bx = field_.X();
-  By = field_.Y();
-  Bz = field_.Z();
-}
-
-} /* End of namespace genfit */

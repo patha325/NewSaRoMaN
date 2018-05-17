@@ -6331,9 +6331,28 @@ CMakeFiles/genfit2.dir/fields/src/ConstField.cc.o
  /root/root-build/include/RWrap_libcpp_string_view.h
  /root/root-build/include/Rtypes.h
  /root/root-build/include/RtypesCore.h
+ /root/root-build/include/TAtt3D.h
+ /root/root-build/include/TAttFill.h
+ /root/root-build/include/TAttLine.h
+ /root/root-build/include/TAttMarker.h
+ /root/root-build/include/TCollection.h
  /root/root-build/include/TError.h
  /root/root-build/include/TGenericClassInfo.h
+ /root/root-build/include/TGeoAtt.h
+ /root/root-build/include/TGeoCache.h
+ /root/root-build/include/TGeoElement.h
+ /root/root-build/include/TGeoManager.h
+ /root/root-build/include/TGeoMaterial.h
+ /root/root-build/include/TGeoMatrix.h
+ /root/root-build/include/TGeoMedium.h
+ /root/root-build/include/TGeoNavigator.h
+ /root/root-build/include/TGeoNode.h
+ /root/root-build/include/TGeoPatternFinder.h
+ /root/root-build/include/TGeoShape.h
+ /root/root-build/include/TGeoStateInfo.h
+ /root/root-build/include/TGeoVolume.h
  /root/root-build/include/TIsAProxy.h
+ /root/root-build/include/TIterator.h
  /root/root-build/include/TMath.h
  /root/root-build/include/TMathBase.h
  /root/root-build/include/TMatrix.h
@@ -6347,8 +6366,10 @@ CMakeFiles/genfit2.dir/fields/src/ConstField.cc.o
  /root/root-build/include/TMatrixTBase.h
  /root/root-build/include/TMatrixTUtils.h
  /root/root-build/include/TNamed.h
+ /root/root-build/include/TObjArray.h
  /root/root-build/include/TObject.h
  /root/root-build/include/TSchemaHelper.h
+ /root/root-build/include/TSeqCollection.h
  /root/root-build/include/TStorage.h
  /root/root-build/include/TString.h
  /root/root-build/include/TVector2.h
@@ -6357,6 +6378,8 @@ CMakeFiles/genfit2.dir/fields/src/ConstField.cc.o
  /root/root-build/include/TVectorFfwd.h
  /root/root-build/include/TVersionCheck.h
  /root/root-build/include/TVirtualIsAProxy.h
+ /root/root-build/include/TVirtualMutex.h
+ /root/root-build/include/TVirtualRWMutex.h
  /root/root-build/include/libcpp_string_view.h
  /root/root-build/include/snprintf.h
  /root/root-build/include/strlcpy.h

@@ -2339,6 +2339,8 @@ memory
 /root/NewSaRoMaN/GenFit/fields/src/ConstField.cc
 ConstField.h
 /root/NewSaRoMaN/GenFit/fields/src/ConstField.h
+TGeoManager.h
+-
 
 /root/NewSaRoMaN/GenFit/finitePlanes/include/RectangularFinitePlane.h
 AbsFinitePlane.h
