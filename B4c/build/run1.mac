@@ -33,7 +33,7 @@
 # Magnetic field
 # 
 #/globalField/setValue 0.2 0 0 tesla
-/run/beamOn 10
+/run/beamOn 1
 #
 # Activate/inactivate physics processes
 #
