@@ -21,7 +21,6 @@
       <constant name="BarWidthY1" value="31.3"/>
       <constant name="BarWidthY2" value="41.3"/>
       <constant name="AlWidth" value="5"/>
-
       <constant name="GapAidaMIND" value="3680"/>
       <constant name="HalfAidaDepth" value="360"/>
 
@@ -33,16 +32,17 @@
       <constant name="Gap2" value="0"/>
       <constant name="Gap3" value="50"/>      
 
-      <constant name= "ArmcoLength" value= "FeDepth + 2*AlWidth + 2 *Gap0" />
-      <constant name= "Bloc1Length" value= "3*ArmcoLength + 2*GapFeFe + 2*GapFeSci + 2*SciDepth" />
-      <constant name= "Bloc2Length" value= "3*ArmcoLength + 5*GapFeSci + 3*SciDepth" />
-      <constant name= "Bloc3Length" value= "4*ArmcoLength + 2*GapFeFe + 3*GapFeSci + 2*SciDepth" />
-      <constant name= "Bloc4Length" value= "4*ArmcoLength + 2*GapFeFe + 3*GapFeSci + 2*SciDepth" />
-      <constant name= "Bloc5Length" value= "3*ArmcoLength + 2*GapFeFe + 2*GapFeSci + 2*SciDepth" />
-      <constant name= "Bloc6Length" value= "4*ArmcoLength + 3*GapFeFe + 2*GapFeSci + 2*SciDepth" />>
-      <constant name= "Bloc7Length" value= "4*ArmcoLength + 3*GapFeFe + 2*GapFeSci + 2*SciDepth" />
-      <constant name= "Bloc8Length" value= "4*ArmcoLength + 3*GapFeFe + 1*GapFeSci + 1*SciDepth" />
-      <constant name= "Bloc9Length" value= "4*ArmcoLength + 3*GapFeFe + 1*GapFeSci + 2*SciDepth + Gap3" />
+      <constant name="ArmcoLength" value="FeDepth+2*AlWidth+2*Gap0"/>
+
+      <constant name="Bloc1Length" value="3*ArmcoLength+2*GapFeFe+2*GapFeSci+2*SciDepth"/>
+      <constant name="Bloc2Length" value="3*ArmcoLength+5*GapFeSci+3*SciDepth"/>
+      <constant name="Bloc3Length" value="4*ArmcoLength+2*GapFeFe+3*GapFeSci+2*SciDepth"/>
+      <constant name="Bloc4Length" value="4*ArmcoLength+2*GapFeFe+3*GapFeSci+2*SciDepth"/>
+      <constant name="Bloc5Length" value="3*ArmcoLength+2*GapFeFe+2*GapFeSci+2*SciDepth"/>
+      <constant name="Bloc6Length" value="4*ArmcoLength+3*GapFeFe+2*GapFeSci+2*SciDepth"/>
+      <constant name="Bloc7Length" value="4*ArmcoLength+3*GapFeFe+2*GapFeSci+2*SciDepth"/>
+      <constant name="Bloc8Length" value="4*ArmcoLength+3*GapFeFe+1*GapFeSci+1*SciDepth"/>
+      <constant name="Bloc9Length" value="4*ArmcoLength+3*GapFeFe+1*GapFeSci+2*SciDepth+Gap3"/>
    
       <constant name="DetectorLength" value="Bloc1Length+Bloc2Length+Bloc3Length+Bloc4Length+Bloc5Length+Bloc6Length+Bloc7Length+Bloc8Length+Bloc9Length+Gap1+7*Gap2+200"/>
 
@@ -847,7 +847,7 @@
     
     <!-- Specific Module types -->
     <!-- Module 1 -->
-    <volume name= "SFFFS0">
+    <volume name="SFFFS0">
       <materialref ref="G4_AIR0x19316e30"/>
       <solidref ref="Bloc1_solid"/>
 
@@ -877,7 +877,7 @@
      </volume>
 
     <!-- Module 2 -->
-    <volume name= "SFModule">
+    <volume name="SFModule">
       <materialref ref="G4_AIR0x19316e30"/>
       <solidref ref="Bloc2_solid"/>
 
@@ -911,7 +911,7 @@
     </volume>
 
     <!-- Module 3 -->
-    <volume name= "SFFModule0">
+    <volume name="SFFModule0">
       <materialref ref="G4_AIR0x19316e30"/>
       <solidref ref="Bloc3_solid"/>
 
@@ -945,7 +945,7 @@
     </volume>
 
     <!-- Module 4 -->
-    <volume name= "SFFModule1">
+    <volume name="SFFModule1">
       <materialref ref="G4_AIR0x19316e30"/>
       <solidref ref="Bloc4_solid"/>
 
@@ -979,7 +979,7 @@
     </volume>
 
     <!-- Module 5 -->
-    <volume name= "SFFFS1">
+    <volume name="SFFFS1">
       <materialref ref="G4_AIR0x19316e30"/>
       <solidref ref="Bloc5_solid"/>
 
@@ -1010,7 +1010,7 @@
 
 
  <!-- Module 6 -->
-    <volume name= "SFFFFS0">
+    <volume name="SFFFFS0">
       <materialref ref="G4_AIR0x19316e30"/>
       <solidref ref="Bloc6_solid"/>
 
@@ -1044,7 +1044,7 @@
     </volume>
 
  <!-- Module 7 -->
-    <volume name= "SFFFFS1">
+    <volume name="SFFFFS1">
       <materialref ref="G4_AIR0x19316e30"/>
       <solidref ref="Bloc7_solid"/>
 
@@ -1078,7 +1078,7 @@
     </volume>
 
      <!-- Module 8 -->
-    <volume name= "SFFFF0">
+    <volume name="SFFFF0">
       <materialref ref="G4_AIR0x19316e30"/>
       <solidref ref="Bloc8_solid"/>
 
@@ -1108,7 +1108,7 @@
     </volume>
 
     <!-- Module 9 -->
-    <volume name= "SFFFFS2">
+    <volume name="SFFFFS2">
       <materialref ref="G4_AIR0x19316e30"/>
       <solidref ref="Bloc9_solid"/>
 
@@ -1204,7 +1204,7 @@
       <auxiliary auxtype="Invisible" auxvalue="1"/>
     </volume>
     
-    <volume name="WORLD0x19325900">
+    <volume name="World">
       <materialref ref="G4_AIR0x19316e30"/>
       <solidref ref="WORLD_solid"/>
       <physvol name="WAGASCI">
@@ -1219,7 +1219,7 @@
   </structure>
   
   <setup name="Default" version="1.0">
-    <world ref="WORLD0x19325900"/>
+    <world ref="World"/>
     <!-- <world ref="ACTIVE"/> -->
   </setup>
   

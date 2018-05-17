@@ -13,7 +13,7 @@
 # electron 50 MeV in direction (0.,0.,1.)
 # 1 event with tracking/verbose
 #
-/tracking/verbose 1
+#/tracking/verbose 1
 /run/beamOn 1
 #
 #
@@ -28,12 +28,12 @@
 #
 /tracking/verbose 0
 #/run/printProgress 5
-/run/beamOn 20
+#/run/beamOn 20
 #
 # Magnetic field
 # 
 #/globalField/setValue 0.2 0 0 tesla
-/run/beamOn 1000
+/run/beamOn 10
 #
 # Activate/inactivate physics processes
 #

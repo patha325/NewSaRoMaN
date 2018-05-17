@@ -136,7 +136,7 @@
   <box name="WGrid_solid" x="xBarLength" y="xBarLength" z="yBarLength"/>
   <box name="WBars_solid" x="xBarLength" y="xBarLength" z="zBarLength"/>
   <box name="WAGASCI_solid" x="xBarLength" y="xBarLength" z="2*zBarLength+2*yBarLength"/>
-  <box name="DETECTOR_solid" x="xBarLength" y="xBarLength" z="2*(2*zBarLength+2*yBarLength)"/>
+  <box name="DETECTOR_solid2" x="xBarLength" y="xBarLength" z="2*(2*zBarLength+2*yBarLength)"/>
 
   <define>
    <quantity type="length" name="sizeoft500" unit="mm" value="500.0"/>
@@ -412,9 +412,9 @@
   <auxiliary auxtype="Invisible" auxvalue="1"/>
 </volume>
 
-  <volume name="World">
+  <volume name="WW">
     <materialref ref="Air"/> 
-    <solidref ref="DETECTOR_solid"/>
+    <solidref ref="DETECTOR_solid2"/>
     <!--solidref ref="WorldBox"/-->
     <physvol name="WAGASCIDetectorMod_physi">
         <volumeref ref="WAGASCIDetectorMod"/>
@@ -432,7 +432,7 @@
  </structure>
 
 <setup name="Default" version="1.0">
-  <world ref="World"/>
+  <world ref="WW"/>
  </setup>
 
  </gdml>
