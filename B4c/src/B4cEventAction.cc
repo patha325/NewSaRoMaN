@@ -51,7 +51,7 @@ B4cEventAction::B4cEventAction()
 {
   /* test */
   auto analysisManager = G4AnalysisManager::Instance();
-  G4cout << "Using " << analysisManager->GetType() << G4endl;
+  //G4cout << "Using " << analysisManager->GetType() << G4endl;
   analysisManager->SetVerboseLevel(1);
   analysisManager->SetNtupleMerging(true);
 
@@ -186,7 +186,13 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
 
   //auto currentTrack = G4RunManagerKernel::GetRunManagerKernel()->GetTrackingManager()->GetTrack();
 
-  auto primary = event->GetPrimaryVertex(0)->GetPrimary(0);
+  auto vertex = event->GetPrimaryVertex(0);
+
+  G4PrimaryParticle* primary;
+  
+  if(vertex)
+    primary  = event->GetPrimaryVertex(0)->GetPrimary(0);
+  
   //G4cout << ">>> Event " << event->GetEventID() << " >>> Simulation truth : "
   //	 << primary->GetG4code()->GetParticleName()
   //	 << " " << primary->GetMomentum() << G4endl;
@@ -230,7 +236,11 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   // fill ntuple
   //analysisManager->FillNtupleIColumn(0, collectionHit->GetTrackID());
   analysisManager->FillNtupleIColumn(0,eventID);
-  analysisManager->FillNtupleIColumn(1,primary->GetMomentum().z());
+
+  if(primary)
+    analysisManager->FillNtupleIColumn(1,primary->GetMomentum().z());
+  else
+     analysisManager->FillNtupleIColumn(1,0);
   //std::cout<<collectionHit->GetTrackID()<<std::endl;
 
   //aStep->GetTrack()->GetDefinition()->GetParticleName()
@@ -302,7 +312,6 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
    momentumY.clear();
    momentumZ.clear();
    pdg.clear();
-   
 }  
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

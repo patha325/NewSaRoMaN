@@ -379,12 +379,24 @@ TFile.h
 /root/NewSaRoMaN/GenFit/test/minimalFittingExample/TFile.h
 TTree.h
 /root/NewSaRoMaN/GenFit/test/minimalFittingExample/TTree.h
+vector
+-
+TH1.h
+/root/NewSaRoMaN/GenFit/test/minimalFittingExample/TH1.h
+TCanvas.h
+/root/NewSaRoMaN/GenFit/test/minimalFittingExample/TCanvas.h
 
 /root/root-build/include/Buttons.h
 
 /root/root-build/include/DllImport.h
 
 /root/root-build/include/ESTLType.h
+
+/root/root-build/include/Fit/FitExecutionPolicy.h
+
+/root/root-build/include/Foption.h
+Fit/FitExecutionPolicy.h
+/root/root-build/include/Fit/FitExecutionPolicy.h
 
 /root/root-build/include/GuiTypes.h
 Rtypes.h
@@ -496,7 +508,15 @@ Rtypes.h
 string.h
 -
 
+/root/root-build/include/TArrayC.h
+TArray.h
+/root/root-build/include/TArray.h
+
 /root/root-build/include/TArrayD.h
+TArray.h
+/root/root-build/include/TArray.h
+
+/root/root-build/include/TArrayF.h
 TArray.h
 /root/root-build/include/TArray.h
 
@@ -504,11 +524,29 @@ TArray.h
 TArray.h
 /root/root-build/include/TArray.h
 
+/root/root-build/include/TArrayS.h
+TArray.h
+/root/root-build/include/TArray.h
+
 /root/root-build/include/TAtt3D.h
 Rtypes.h
 /root/root-build/include/Rtypes.h
 
+/root/root-build/include/TAttAxis.h
+Rtypes.h
+/root/root-build/include/Rtypes.h
+
 /root/root-build/include/TAttBBox.h
+Rtypes.h
+/root/root-build/include/Rtypes.h
+
+/root/root-build/include/TAttBBox2D.h
+GuiTypes.h
+/root/root-build/include/GuiTypes.h
+Rtypes.h
+/root/root-build/include/Rtypes.h
+
+/root/root-build/include/TAttCanvas.h
 Rtypes.h
 /root/root-build/include/Rtypes.h
 
@@ -531,6 +569,14 @@ Rtypes.h
 /root/root-build/include/TAttText.h
 Rtypes.h
 /root/root-build/include/Rtypes.h
+
+/root/root-build/include/TAxis.h
+TNamed.h
+/root/root-build/include/TNamed.h
+TAttAxis.h
+/root/root-build/include/TAttAxis.h
+TArrayD.h
+/root/root-build/include/TArrayD.h
 
 /root/root-build/include/TBasket.h
 TKey.h
@@ -557,6 +603,22 @@ vector
 -
 typeinfo
 -
+
+/root/root-build/include/TCanvas.h
+TPad.h
+/root/root-build/include/TPad.h
+TAttCanvas.h
+/root/root-build/include/TAttCanvas.h
+TVirtualX.h
+/root/root-build/include/TVirtualX.h
+TString.h
+/root/root-build/include/TString.h
+TCanvasImp.h
+/root/root-build/include/TCanvasImp.h
+
+/root/root-build/include/TCanvasImp.h
+Rtypes.h
+/root/root-build/include/Rtypes.h
 
 /root/root-build/include/TClass.h
 TDictionary.h
@@ -736,6 +798,12 @@ TUrl.h
 ROOT/TRWSpinLock.hxx
 /root/root-build/include/ROOT/TRWSpinLock.hxx
 mutex
+-
+
+/root/root-build/include/TFitResultPtr.h
+Rtypes.h
+/root/root-build/include/Rtypes.h
+memory
 -
 
 /root/root-build/include/TGButton.h
@@ -961,6 +1029,36 @@ TGeoMedium.h
 /root/root-build/include/TGeoMedium.h
 TGeoShape.h
 /root/root-build/include/TGeoShape.h
+
+/root/root-build/include/TH1.h
+TAxis.h
+/root/root-build/include/TAxis.h
+TAttLine.h
+/root/root-build/include/TAttLine.h
+TAttFill.h
+/root/root-build/include/TAttFill.h
+TAttMarker.h
+/root/root-build/include/TAttMarker.h
+TArrayC.h
+/root/root-build/include/TArrayC.h
+TArrayS.h
+/root/root-build/include/TArrayS.h
+TArrayI.h
+/root/root-build/include/TArrayI.h
+TArrayF.h
+/root/root-build/include/TArrayF.h
+TArrayD.h
+/root/root-build/include/TArrayD.h
+Foption.h
+/root/root-build/include/Foption.h
+TVectorFfwd.h
+/root/root-build/include/TVectorFfwd.h
+TVectorDfwd.h
+/root/root-build/include/TVectorDfwd.h
+TFitResultPtr.h
+/root/root-build/include/TFitResultPtr.h
+float.h
+-
 
 /root/root-build/include/THashTable.h
 TCollection.h
@@ -1210,6 +1308,16 @@ string
 iosfwd
 -
 
+/root/root-build/include/TPad.h
+TVirtualPad.h
+/root/root-build/include/TVirtualPad.h
+TAttBBox2D.h
+/root/root-build/include/TAttBBox2D.h
+TPoint.h
+/root/root-build/include/TPoint.h
+GuiTypes.h
+/root/root-build/include/GuiTypes.h
+
 /root/root-build/include/TParticleClassPDG.h
 TNamed.h
 /root/root-build/include/TNamed.h
@@ -1221,6 +1329,10 @@ TNamed.h
 /root/root-build/include/TNamed.h
 TObjArray.h
 /root/root-build/include/TObjArray.h
+
+/root/root-build/include/TPoint.h
+Rtypes.h
+/root/root-build/include/Rtypes.h
 
 /root/root-build/include/TQClass.h
 TQObject.h

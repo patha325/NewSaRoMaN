@@ -42,6 +42,8 @@ CMakeFiles/minimalFittingExample2.dir/test/minimalFittingExample/main2.cc.o
  /root/root-build/include/Buttons.h
  /root/root-build/include/DllImport.h
  /root/root-build/include/ESTLType.h
+ /root/root-build/include/Fit/FitExecutionPolicy.h
+ /root/root-build/include/Foption.h
  /root/root-build/include/GuiTypes.h
  /root/root-build/include/Math/ProbFuncMathCore.h
  /root/root-build/include/RConfig.h
@@ -55,18 +57,27 @@ CMakeFiles/minimalFittingExample2.dir/test/minimalFittingExample/main2.cc.o
  /root/root-build/include/Rtypes.h
  /root/root-build/include/RtypesCore.h
  /root/root-build/include/TArray.h
+ /root/root-build/include/TArrayC.h
  /root/root-build/include/TArrayD.h
+ /root/root-build/include/TArrayF.h
  /root/root-build/include/TArrayI.h
+ /root/root-build/include/TArrayS.h
  /root/root-build/include/TAtt3D.h
+ /root/root-build/include/TAttAxis.h
  /root/root-build/include/TAttBBox.h
+ /root/root-build/include/TAttBBox2D.h
+ /root/root-build/include/TAttCanvas.h
  /root/root-build/include/TAttFill.h
  /root/root-build/include/TAttLine.h
  /root/root-build/include/TAttMarker.h
  /root/root-build/include/TAttPad.h
  /root/root-build/include/TAttText.h
+ /root/root-build/include/TAxis.h
  /root/root-build/include/TBasket.h
  /root/root-build/include/TBranch.h
  /root/root-build/include/TBuffer.h
+ /root/root-build/include/TCanvas.h
+ /root/root-build/include/TCanvasImp.h
  /root/root-build/include/TClass.h
  /root/root-build/include/TClonesArray.h
  /root/root-build/include/TCollection.h
@@ -86,6 +97,7 @@ CMakeFiles/minimalFittingExample2.dir/test/minimalFittingExample/main2.cc.o
  /root/root-build/include/TEveUtil.h
  /root/root-build/include/TEveVector.h
  /root/root-build/include/TFile.h
+ /root/root-build/include/TFitResultPtr.h
  /root/root-build/include/TGButton.h
  /root/root-build/include/TGButtonGroup.h
  /root/root-build/include/TGClient.h
@@ -115,6 +127,7 @@ CMakeFiles/minimalFittingExample2.dir/test/minimalFittingExample/main2.cc.o
  /root/root-build/include/TGeoShape.h
  /root/root-build/include/TGeoStateInfo.h
  /root/root-build/include/TGeoVolume.h
+ /root/root-build/include/TH1.h
  /root/root-build/include/THashTable.h
  /root/root-build/include/TInterpreter.h
  /root/root-build/include/TIsAProxy.h
@@ -148,8 +161,10 @@ CMakeFiles/minimalFittingExample2.dir/test/minimalFittingExample/main2.cc.o
  /root/root-build/include/TObjArray.h
  /root/root-build/include/TObjString.h
  /root/root-build/include/TObject.h
+ /root/root-build/include/TPad.h
  /root/root-build/include/TParticleClassPDG.h
  /root/root-build/include/TParticlePDG.h
+ /root/root-build/include/TPoint.h
  /root/root-build/include/TQClass.h
  /root/root-build/include/TQObject.h
  /root/root-build/include/TRef.h

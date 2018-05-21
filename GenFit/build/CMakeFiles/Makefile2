@@ -228,12 +228,12 @@ clean: CMakeFiles/generate_rootNewSaRoMaNGenFitbuildeventDisplayRootDict.cc.dir/
 # Target rules for target CMakeFiles/tests.dir
 
 # All Build rule for target.
-CMakeFiles/tests.dir/all: CMakeFiles/minimalFittingExample2.dir/all
-CMakeFiles/tests.dir/all: CMakeFiles/streamerTest.dir/all
-CMakeFiles/tests.dir/all: CMakeFiles/unitTests.dir/all
 CMakeFiles/tests.dir/all: CMakeFiles/fitterTests.dir/all
+CMakeFiles/tests.dir/all: CMakeFiles/minimalFittingExample2.dir/all
 CMakeFiles/tests.dir/all: CMakeFiles/minimalFittingExample.dir/all
 CMakeFiles/tests.dir/all: CMakeFiles/measurementFactoryExample.dir/all
+CMakeFiles/tests.dir/all: CMakeFiles/streamerTest.dir/all
+CMakeFiles/tests.dir/all: CMakeFiles/unitTests.dir/all
 	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/depend
 	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/NewSaRoMaN/GenFit/build/CMakeFiles --progress-num= "Built target tests"

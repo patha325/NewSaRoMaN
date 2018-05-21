@@ -24,7 +24,9 @@
 
 #include "TFile.h"
 #include "TTree.h"
-
+#include <vector>
+#include "TH1.h"
+#include "TCanvas.h"
 
 int main() {
 
@@ -54,156 +56,209 @@ int main() {
   
 
   // reading root
-  TFile *f=new TFile("B4.root");
+  TFile *f=new TFile("B4.root","update");
   TTree *tr=(TTree*)f->Get("B4");
 
+  TCanvas *c1 = new TCanvas("c1","The HSUM example",200,10,600,400);
   
+  TH1F* main_histo = new TH1F("main_histo","Main contributor",100,-10,10);
 
+
+  std::vector<double> recMom;
   // need some initial guess, this is for simulation?
   
   // particle pdg code; pion hypothesis
   const int pdg = 13;
 
-  // start values for the fit, e.g. from pattern recognition
-  //TVector3 pos(0, 0, -2200);
-  TVector3 pos(0, 0, -400);
-  //TVector3 pos(0, 0, 100);
-  TVector3 mom(0, 0, 3);
-
-
-  // need better rep, helix.
-  
-  // trackrep
-  genfit::AbsTrackRep* rep = new genfit::RKTrackRep(pdg);
-
-  // create track
-  genfit::Track fitTrack(rep, pos, mom);
-
-  // need to initialize a track?
-
-  // read in hits from root and implement these planar hits.
-  // check other examples to see if this is also done.
-  
-
-  const int detId(0); // detector ID
-  int planeId(0); // detector plane ID
-  int hitId(0); // hit ID
-
-  //double detectorResolution(0.001); // resolution of planar detectors
-  double detectorResolution(3); // resolution of planar detectors
-  TMatrixDSym hitCov(2);
-  hitCov.UnitMatrix();
-  hitCov *= detectorResolution*detectorResolution;
-
-  // reading root
-  std::vector<double> *vposX=0;
-  std::vector<double> *vposY=0;
-  std::vector<double> *vposZ=0;
-  std::vector<int> *vPDG=0;
-  
-
-  tr->SetBranchAddress("positionX",&vposX);
-  tr->SetBranchAddress("positionY",&vposY);
-  tr->SetBranchAddress("positionZ",&vposZ);
-  tr->SetBranchAddress("pdg",&vPDG);
-
-  TVectorD hitCoords(2);
-  genfit::PlanarMeasurement* measurement;
-  
-  int entries= tr->GetEntries();
-  for (int i=0; i<entries; i++)
+  for (unsigned int iEvent=0; iEvent<5; ++iEvent)
     {
-      tr->GetEntry(i);
-      for(unsigned int j=0; j<vposY->size(); j++)
+      std::cout<<"Event Num="<<iEvent<<std::endl;
+      // start values for the fit, e.g. from pattern recognition
+      //TVector3 pos(0, 0, -2200);
+      TVector3 pos(0, 0, -400);
+      //TVector3 pos(0, 0, 100);
+      TVector3 mom(0, 0, 5);
+      
+      // need better rep, helix.
+      
+      // trackrep
+      genfit::AbsTrackRep* rep = new genfit::RKTrackRep(pdg);
+      
+      // create track
+      genfit::Track fitTrack(rep, pos, mom);
+      
+      // need to initialize a track?
+      
+      // read in hits from root and implement these planar hits.
+      // check other examples to see if this is also done.
+      
+      
+      const int detId(0); // detector ID
+      int planeId(0); // detector plane ID
+      int hitId(0); // hit ID
+      
+      //double detectorResolution(0.001); // resolution of planar detectors
+      double detectorResolution(3); // resolution of planar detectors
+      TMatrixDSym hitCov(2);
+      hitCov.UnitMatrix();
+      hitCov *= detectorResolution*detectorResolution;
+      
+      // reading root
+      std::vector<double> *vposX=0;
+      std::vector<double> *vposY=0;
+      std::vector<double> *vposZ=0;
+      std::vector<int> *vPDG=0;
+
+      int eventIDR = 0;
+      
+      
+      tr->SetBranchAddress("positionX",&vposX);
+      tr->SetBranchAddress("positionY",&vposY);
+      tr->SetBranchAddress("positionZ",&vposZ);
+      tr->SetBranchAddress("pdg",&vPDG);
+      tr->SetBranchAddress("EventID",&eventIDR);
+      
+      TVectorD hitCoords(2);
+      genfit::PlanarMeasurement* measurement;
+
+      std::cout<<"Here"<<std::endl;
+      
+      int entries= tr->GetEntries();
+      for (int i=0; i<entries; i++)
 	{
-	  int pdgR = vPDG->at(j);
-	  if(pdgR==13)
+	  tr->GetEntry(i);
+	  //std::cout<<"Here "<<eventIDR<<" "<<iEvent<<std::endl;
+	  
+	  if(eventIDR==iEvent)
 	    {
-	      double posX = vposX->at(j);
-	      double posY = vposY->at(j);
-	      double posZ = vposZ->at(j);
-	      std::cout<<"Coord="<<posY<<" "<<posZ<<std::endl;
-	      
-	      hitCoords[0] = posX/10.0;
-	      hitCoords[1] = posY/10.0;
-	      measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
-	      measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,posZ/10.0), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
-	      fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
+	      //std::cout<<"Here2"<<std::endl;
+	      for(unsigned int j=0; j<vposY->size(); j++)
+		{
+		  //std::cout<<"Here3"<<std::endl;
+		  int pdgR = vPDG->at(j);
+		  if(pdgR==13)
+		    {
+		      //std::cout<<"Here4"<<std::endl;
+		      double posX = vposX->at(j);
+		      double posY = vposY->at(j);
+		      double posZ = vposZ->at(j);
+		      std::cout<<"Coord="<<posY<<" "<<posZ<<std::endl;
+		      
+		      hitCoords[0] = posX/10.0;
+		      hitCoords[1] = posY/10.0;
+		      measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
+		      measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,posZ/10.0), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
+		      fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
+		    }
+		}  
 	    }
-	}  
-    }
+	}
+      
+      // add some planar hits to track with coordinates I just made up
+      /*
+	TVectorD hitCoords(2);
+	hitCoords[0] = 0;
+	hitCoords[1] = 0;
+	genfit::PlanarMeasurement* measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
+	measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,0), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
+	fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
+	
+	hitCoords[0] = -0.15;
+	hitCoords[1] = 0.15;
+	measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
+	measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,100), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
+	fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
+	
+	hitCoords[0] = -0.15;
+	hitCoords[1] = 0.3;
+	measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
+	measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,-100), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
+	fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
+	
+	hitCoords[0] = -0.4;
+	hitCoords[1] = 0.6;
+	measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
+	measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,200), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
+	fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
+
+	hitCoords[0] = -0.4;
+	hitCoords[1] = 0.8;
+	measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
+	measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,-200), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
+	fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
+      */
+      
+      //check
+      fitTrack.checkConsistency();
+      
+      // do the fit
+      fitter->processTrack(&fitTrack);
+      
+      std::cout<<"State?"<<std::endl;
+      // print fit result
+      fitTrack.getFittedState().Print();
+      std::cout<<"End of state"<<std::endl;
+      
+      TVector3 pos2;
+      TVector3 mom2;
+      TMatrixDSym cov2;
+      fitTrack.getFittedState().getPosMomCov(pos2,mom2,cov2);
+      
+      //const TVectorD& state = fitTrack.getFittedState();
+      //std::cout<<"Momentum rec="<<1.0/state[0]<<std::endl;
+      std::cout<<"Rec Momentum:"<<std::endl;
+      std::cout<<mom2[0]<<" "<<mom2[1]<<" "<<mom2[2]<<std::endl;
+      
+      std::cout<<"True Momentum:"<<std::endl;
+      std::cout<<mom[0]<<" "<<mom[1]<<" "<<mom[2]<<std::endl;
+
+
+      main_histo->Fill(mom2[2]);
+      //std::cout<<"Here"<<std::endl;
+      /*
+      float pt;
+      TBranch *bpt = tr->Branch("rec_mom",&pt,"pt/F");
+      pt = mom2[2];
+      bpt->Fill();
+      tr->Write();
+      */
+      //T->SetBranchAddress("px",&px);
+      //T->SetBranchAddress("py",&py);
+      //Long64_t nentries = T->GetEntries();
+      /*for (Long64_t i=0;i<nentries;i++)
+	{
+	  T->GetEntry(i);
+	  pt = TMath::Sqrt(px*px+py*py);
+	  bpt->Fill();
+	}
+      T->Print();
+      T->Write();
+      delete f; 
+      */
+      
+      //check
+      fitTrack.checkConsistency();
+      display->addEvent(&fitTrack);
+
+      recMom.push_back(mom2[2]);
+      std::cout<<mom2[2]<<"=="<<recMom.back()<<std::endl;
+      
+    } // end loop over events
   
-  // add some planar hits to track with coordinates I just made up
-  /*
-  TVectorD hitCoords(2);
-  hitCoords[0] = 0;
-  hitCoords[1] = 0;
-  genfit::PlanarMeasurement* measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
-  measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,0), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
-  fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
-
-  hitCoords[0] = -0.15;
-  hitCoords[1] = 0.15;
-  measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
-  measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,100), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
-  fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
-
-  hitCoords[0] = -0.15;
-  hitCoords[1] = 0.3;
-  measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
-  measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,-100), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
-  fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
-
-  hitCoords[0] = -0.4;
-  hitCoords[1] = 0.6;
-  measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
-  measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,200), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
-  fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
-
-    hitCoords[0] = -0.4;
-  hitCoords[1] = 0.8;
-  measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
-  measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,-200), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
-  fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
-  */
-
-  //check
-  fitTrack.checkConsistency();
-
-  // do the fit
-  fitter->processTrack(&fitTrack);
-
-  std::cout<<"State?"<<std::endl;
-  // print fit result
-  fitTrack.getFittedState().Print();
-  std::cout<<"End of state"<<std::endl;
-
-  TVector3 pos2;
-  TVector3 mom2;
-  TMatrixDSym cov2;
-  fitTrack.getFittedState().getPosMomCov(pos2,mom2,cov2);
-  
-  //const TVectorD& state = fitTrack.getFittedState();
-  //std::cout<<"Momentum rec="<<1.0/state[0]<<std::endl;
-  std::cout<<"Rec Momentum:"<<std::endl;
-  std::cout<<mom2[0]<<" "<<mom2[1]<<" "<<mom2[2]<<std::endl;
-
-  std::cout<<"True Momentum:"<<std::endl;
-  std::cout<<mom[0]<<" "<<mom[1]<<" "<<mom[2]<<std::endl;
-  
-  
-  //check
-  fitTrack.checkConsistency();
-
-
-  display->addEvent(&fitTrack);
-
-
   delete fitter;
 
+  /*
+  TBranch *bpt = tr->Branch("rec_mom",&recMom,"pt/F");
+  bpt->Fill();
+  tr->Write();
+  */
+  delete f;
+
+  //main_histo->Draw();
+  
   // open event display
   display->open();
-
+  
 }
 
 

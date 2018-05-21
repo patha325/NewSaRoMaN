@@ -26,9 +26,9 @@
 #
 # 20 events
 #
-/tracking/verbose 0
+#/tracking/verbose 1
 /run/printProgress 5
-/run/beamOn 20
+/run/beamOn 100
 #
 # Magnetic field
 # 

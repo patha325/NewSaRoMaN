@@ -47,16 +47,19 @@ B4PrimaryGeneratorAction::B4PrimaryGeneratorAction()
  : G4VUserPrimaryGeneratorAction(),
    fParticleGun(nullptr)
 {
+  
   G4int nofParticles = 1;
   fParticleGun = new G4ParticleGun(nofParticles);
 
   // default particle kinematic
   //
+  
   auto particleDefinition 
     = G4ParticleTable::GetParticleTable()->FindParticle("mu-");
   fParticleGun->SetParticleDefinition(particleDefinition);
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
   fParticleGun->SetParticleEnergy(3000.*MeV);
+  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -96,12 +99,25 @@ void B4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     G4Exception("B4PrimaryGeneratorAction::GeneratePrimaries()",
       "MyCode0002", JustWarning, msg);
   } 
-  
+  /*
+  G4PrimaryVertex* vertex = new G4PrimaryVertex(G4ThreeVector(0.0,0.0,-.5*worldZHalfLength), 0.0);
+  */
   // Set gun position
   fParticleGun
-    ->SetParticlePosition(G4ThreeVector(0., 0., -2*worldZHalfLength));
+  ->SetParticlePosition(G4ThreeVector(0., 0., -.2*worldZHalfLength));
 
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.0,0.0,1.0));
+  
   fParticleGun->GeneratePrimaryVertex(anEvent);
+  /*
+  G4PrimaryParticle* particle = new G4PrimaryParticle(G4ParticleTable::GetParticleTable()->FindParticle("mu-"), 0.0,0.0,3000.0);
+
+  particle->SetMass(G4ParticleTable::GetParticleTable()->FindParticle("mu-")->GetPDGMass());
+  particle->SetCharge(G4ParticleTable::GetParticleTable()->FindParticle("mu-")->GetPDGCharge());
+  particle->SetPolarization(0.,0.,0.);
+  vertex->SetPrimary(particle);
+  anEvent->AddPrimaryVertex(vertex);
+  */
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
