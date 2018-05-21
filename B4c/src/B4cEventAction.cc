@@ -66,6 +66,7 @@ B4cEventAction::B4cEventAction()
   //
   analysisManager->CreateNtuple("B4", "Edep and TrackL");
   analysisManager->CreateNtupleIColumn("EventID");
+  analysisManager->CreateNtupleIColumn("MCtr_Mom");
   //analysisManager->CreateNtupleDColumn("positionX");
   //analysisManager->CreateNtupleDColumn("positionY");
   //analysisManager->CreateNtupleDColumn("positionZ");
@@ -181,6 +182,15 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   
   // Print per event (modulo n)
   //
+
+
+  //auto currentTrack = G4RunManagerKernel::GetRunManagerKernel()->GetTrackingManager()->GetTrack();
+
+  auto primary = event->GetPrimaryVertex(0)->GetPrimary(0);
+  //G4cout << ">>> Event " << event->GetEventID() << " >>> Simulation truth : "
+  //	 << primary->GetG4code()->GetParticleName()
+  //	 << " " << primary->GetMomentum() << G4endl;
+  
   auto eventID = event->GetEventID();
   auto printModulo = G4RunManager::GetRunManager()->GetPrintProgress();
   if ( ( printModulo > 0 ) && ( eventID % printModulo == 0 ) ) {
@@ -220,6 +230,7 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   // fill ntuple
   //analysisManager->FillNtupleIColumn(0, collectionHit->GetTrackID());
   analysisManager->FillNtupleIColumn(0,eventID);
+  analysisManager->FillNtupleIColumn(1,primary->GetMomentum().z());
   //std::cout<<collectionHit->GetTrackID()<<std::endl;
 
   //aStep->GetTrack()->GetDefinition()->GetParticleName()
