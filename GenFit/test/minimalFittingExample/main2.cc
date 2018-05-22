@@ -27,6 +27,8 @@
 #include <vector>
 #include "TH1.h"
 #include "TCanvas.h"
+#include <fstream>
+#include <GFGbl.h>
 
 int main() {
 
@@ -34,7 +36,7 @@ int main() {
   new TGeoManager("Geometry", "Geane geometry");
   TGeoManager::Import("MIND.gdml");
   genfit::MaterialEffects::getInstance()->init(new genfit::TGeoMaterialInterface());
-  genfit::FieldManager::getInstance()->init(new genfit::ConstField(15.,0., 0.)); // 1.5 T units given in kGauss 1 kGauss = 0.1 T // Over full detector, need to implement field only in IRON and not uniform.
+  genfit::FieldManager::getInstance()->init(new genfit::ConstField(15.,0., 0.)); // 1.5 T units given in kGauss 1 kGauss = 0.1 T // Over full detector, need to implement field only in IRON and not uniform. Has been done in a bad way by changing ConstField.
 
   //gGeoManager->GetListOfVolumes()->Print();
   
@@ -42,13 +44,22 @@ int main() {
   genfit::EventDisplay* display = genfit::EventDisplay::getInstance();
 
 
-  const int nIter = 20; // max number of iterations
-  const double dPVal = 1.E-3; // convergence criterion
-  const genfit::eMultipleMeasurementHandling mmHandling = genfit::unweightedClosestToPredictionWire;
+  const int nIter = 100; // max number of iterations
+  const double dPVal = 1.E-5; // convergence criterion
+  //const genfit::eMultipleMeasurementHandling mmHandling = genfit::unweightedClosestToPredictionWire;
+  //const genfit::eMultipleMeasurementHandling mmHandling = genfit::weightedAverage;
 
+  const genfit::eMultipleMeasurementHandling mmHandling = genfit::unweightedClosestToPrediction;
+
+  std::ofstream myfile;
+  myfile.open ("example.txt");
+
+  
   
   // init fitter
   genfit::AbsKalmanFitter* fitter = new genfit::KalmanFitterRefTrack(nIter,dPVal);
+
+  //genfit::GFGbl* fitter = new genfit::GFGbl();
 
   fitter->setMaxIterations(nIter);
 
@@ -56,26 +67,32 @@ int main() {
   
 
   // reading root
-  TFile *f=new TFile("B4.root","update");
+  //TFile *f=new TFile("B4.root","update");
+  TFile *f=new TFile("B4.root");
   TTree *tr=(TTree*)f->Get("B4");
 
-  TCanvas *c1 = new TCanvas("c1","The HSUM example",200,10,600,400);
+  //TCanvas *c1 = new TCanvas("c1","The HSUM example",200,10,600,400);
   
-  TH1F* main_histo = new TH1F("main_histo","Main contributor",100,-10,10);
+  //TH1F* main_histo = new TH1F("main_histo","Main contributor",100,-10,10);
 
 
-  std::vector<double> recMom;
+  //std::vector<double> recMom;
   // need some initial guess, this is for simulation?
   
   // particle pdg code; pion hypothesis
   const int pdg = 13;
 
-  for (unsigned int iEvent=0; iEvent<5; ++iEvent)
+  //for (unsigned int iEvent=0; iEvent<300; ++iEvent)
+  for (unsigned int iEvent=0; iEvent<1000; ++iEvent)
     {
       std::cout<<"Event Num="<<iEvent<<std::endl;
+
+      if(iEvent==323) continue; // Why does this one break??!?!?!
+      // it has no hits with pdg 13 for some reason??
+      
       // start values for the fit, e.g. from pattern recognition
-      //TVector3 pos(0, 0, -2200);
-      TVector3 pos(0, 0, -400);
+      TVector3 pos(0, 0, -200); // change of units, in cm here
+      //TVector3 pos(0, 0, -400);
       //TVector3 pos(0, 0, 100);
       TVector3 mom(0, 0, 5);
       
@@ -98,7 +115,7 @@ int main() {
       int hitId(0); // hit ID
       
       //double detectorResolution(0.001); // resolution of planar detectors
-      double detectorResolution(3); // resolution of planar detectors
+      double detectorResolution(5); // resolution of planar detectors
       TMatrixDSym hitCov(2);
       hitCov.UnitMatrix();
       hitCov *= detectorResolution*detectorResolution;
@@ -121,16 +138,21 @@ int main() {
       TVectorD hitCoords(2);
       genfit::PlanarMeasurement* measurement;
 
-      std::cout<<"Here"<<std::endl;
+      //std::cout<<"Here "<<tr->GetEntries()<<std::endl;
       
-      int entries= tr->GetEntries();
-      for (int i=0; i<entries; i++)
-	{
-	  tr->GetEntry(i);
+      double lastZ = -999.9;
+
+      //int i = iEvent;
+       
+      //int entries= tr->GetEntries();
+      //for (int i=0; i<entries; i++)
+      //{
+      tr->GetEntry(iEvent);
 	  //std::cout<<"Here "<<eventIDR<<" "<<iEvent<<std::endl;
+	  //std::cout<<vposY->size()<<std::endl;
 	  
-	  if(eventIDR==iEvent)
-	    {
+	  //if(eventIDR==iEvent && check>0)
+	  //{
 	      //std::cout<<"Here2"<<std::endl;
 	      for(unsigned int j=0; j<vposY->size(); j++)
 		{
@@ -138,72 +160,55 @@ int main() {
 		  int pdgR = vPDG->at(j);
 		  if(pdgR==13)
 		    {
+		      //std::cout<<pdgR<<std::endl;
 		      //std::cout<<"Here4"<<std::endl;
 		      double posX = vposX->at(j);
 		      double posY = vposY->at(j);
 		      double posZ = vposZ->at(j);
-		      std::cout<<"Coord="<<posY<<" "<<posZ<<std::endl;
+		      //std::cout<<"Coord="<<posY<<" "<<posZ<<std::endl;
 		      
-		      hitCoords[0] = posX/10.0;
-		      hitCoords[1] = posY/10.0;
-		      measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
-		      measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,posZ/10.0), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
-		      fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
+		      if(posZ>-1800 && fabs(lastZ-posZ)>50)
+			{
+			  lastZ = posZ;
+			  
+			  hitCoords[0] = 0.0;//posX/10.0;
+			  hitCoords[1] = posY/10.0;
+			  measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
+			  measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,posZ/10.0), TVector3(100,0,0), TVector3(0,100,0))), ++planeId);
+			  fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
+			}
 		    }
 		}  
-	    }
-	}
-      
-      // add some planar hits to track with coordinates I just made up
-      /*
-	TVectorD hitCoords(2);
-	hitCoords[0] = 0;
-	hitCoords[1] = 0;
-	genfit::PlanarMeasurement* measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
-	measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,0), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
-	fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
-	
-	hitCoords[0] = -0.15;
-	hitCoords[1] = 0.15;
-	measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
-	measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,100), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
-	fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
-	
-	hitCoords[0] = -0.15;
-	hitCoords[1] = 0.3;
-	measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
-	measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,-100), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
-	fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
-	
-	hitCoords[0] = -0.4;
-	hitCoords[1] = 0.6;
-	measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
-	measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,200), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
-	fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
-
-	hitCoords[0] = -0.4;
-	hitCoords[1] = 0.8;
-	measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
-	measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,-200), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
-	fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
-      */
+	      //}
+	      //}
+  
       
       //check
       fitTrack.checkConsistency();
       
       // do the fit
       fitter->processTrack(&fitTrack);
+
+      if (! fitTrack.getFitStatus(rep)->isFitConverged()) {
+        std::cout << "Track could not be fitted successfully! Fit is not converged! \n";
+      }
       
-      std::cout<<"State?"<<std::endl;
+      //fitTrack.sort();
+      
+      //std::cout<<"State?"<<std::endl;
+
+      //for(unsigned counter = 0; counter<fitTrack.getNumPoints();counter++)
+	//fitTrack.getFittedState(counter).Print();
+	
       // print fit result
-      fitTrack.getFittedState().Print();
-      std::cout<<"End of state"<<std::endl;
-      
+      //fitTrack.getFittedState().Print();
+      //std::cout<<"End of state"<<std::endl;
+      //fitTrack.getFittedState(9).Print();
       TVector3 pos2;
       TVector3 mom2;
       TMatrixDSym cov2;
       fitTrack.getFittedState().getPosMomCov(pos2,mom2,cov2);
-      
+       /*
       //const TVectorD& state = fitTrack.getFittedState();
       //std::cout<<"Momentum rec="<<1.0/state[0]<<std::endl;
       std::cout<<"Rec Momentum:"<<std::endl;
@@ -211,9 +216,18 @@ int main() {
       
       std::cout<<"True Momentum:"<<std::endl;
       std::cout<<mom[0]<<" "<<mom[1]<<" "<<mom[2]<<std::endl;
+       */
 
-
-      main_histo->Fill(mom2[2]);
+      myfile << (mom2[2]-3.0) / sqrt(cov2[0][0])<<"\t"<<fitTrack.getFittedState().getCharge()<<"\t"<<mom2[2]<<"\t"<<sqrt(cov2[0][0])<<"\n";
+      /*
+      std::cout<<"track info"<<std::endl;
+      std::cout<<fitTrack.hasFitStatus()<<std::endl;
+      std::cout<<fitTrack.getNumPoints()<<std::endl;
+      std::cout<<fitTrack.getNumPointsWithMeasurement()<<std::endl;
+      std::cout<<fitTrack.getNumReps()<<std::endl;
+      std::cout<<fitTrack.getTrackLen()<<std::endl; //in cm!
+      */
+      //main_histo->Fill(mom2[2]);
       //std::cout<<"Here"<<std::endl;
       /*
       float pt;
@@ -238,10 +252,10 @@ int main() {
       
       //check
       fitTrack.checkConsistency();
-      display->addEvent(&fitTrack);
+      //display->addEvent(&fitTrack);
 
-      recMom.push_back(mom2[2]);
-      std::cout<<mom2[2]<<"=="<<recMom.back()<<std::endl;
+      //recMom.push_back(mom2[2]);
+      //std::cout<<mom2[2]<<"=="<<recMom.back()<<std::endl;
       
     } // end loop over events
   
@@ -255,10 +269,12 @@ int main() {
   delete f;
 
   //main_histo->Draw();
+
+  myfile.close();
   
   // open event display
   display->open();
-  
+
 }
 
 

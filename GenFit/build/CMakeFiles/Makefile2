@@ -228,8 +228,8 @@ clean: CMakeFiles/generate_rootNewSaRoMaNGenFitbuildeventDisplayRootDict.cc.dir/
 # Target rules for target CMakeFiles/tests.dir
 
 # All Build rule for target.
-CMakeFiles/tests.dir/all: CMakeFiles/fitterTests.dir/all
 CMakeFiles/tests.dir/all: CMakeFiles/minimalFittingExample2.dir/all
+CMakeFiles/tests.dir/all: CMakeFiles/fitterTests.dir/all
 CMakeFiles/tests.dir/all: CMakeFiles/minimalFittingExample.dir/all
 CMakeFiles/tests.dir/all: CMakeFiles/measurementFactoryExample.dir/all
 CMakeFiles/tests.dir/all: CMakeFiles/streamerTest.dir/all

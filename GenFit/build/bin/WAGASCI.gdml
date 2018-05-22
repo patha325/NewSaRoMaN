@@ -138,11 +138,6 @@
   <box name="WAGASCI_solid" x="xBarLength" y="xBarLength" z="2*zBarLength+2*yBarLength"/>
   <box name="DETECTOR_solid2" x="xBarLength" y="xBarLength" z="2*(2*zBarLength+2*yBarLength)"/>
 
-  <define>
-   <quantity type="length" name="sizeoft500" unit="mm" value="500.0"/>
-   <position name="shiftbysizeoft500" x="500.0"/>
-  </define>
-
 <!-- Remove gaps in bar -->
 
   <subtraction name="sub0">
