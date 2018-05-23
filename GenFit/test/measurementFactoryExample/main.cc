@@ -53,6 +53,17 @@ gRandom->SetSeed(14);
   genfit::FieldManager::getInstance()->init(new genfit::ConstField(15.,0., 0.));
   genfit::MaterialEffects::getInstance()->init(new genfit::TGeoMaterialInterface());
 
+  //genfit::MaterialEffects::getInstance()->setDebugLvl();
+  //genfit::MaterialEffects::getInstance()->drawdEdx(13);
+
+  //auto material =new genfit::TGeoMaterialInterface();
+
+  //material->setDebugLvl(2);
+  
+  //genfit::MaterialEffects::getInstance()->init(material);
+
+  //material->setDebugLvl(2);
+  
 
   // init event display
   genfit::EventDisplay* display = genfit::EventDisplay::getInstance();
@@ -77,8 +88,13 @@ gRandom->SetSeed(14);
   myfile.open ("example2.txt");
   
   // main loop
-  for (unsigned int iEvent=0; iEvent<100; ++iEvent){
+  for (unsigned int iEvent=0; iEvent<1000; ++iEvent){
+
+    std::cout<<"Event Num="<<iEvent<<std::endl;
     
+    if(iEvent==483 || iEvent==666) continue; // Why does this one break??!?!?!
+    // it has no hits with pdg 13 for some reason??
+      
     std::vector<double> *vposX=0;
     std::vector<double> *vposY=0;
     std::vector<double> *vposZ=0;
@@ -115,12 +131,13 @@ gRandom->SetSeed(14);
     unsigned int nMeasurements = gRandom->Uniform(5, 15);
     
     // covariance
-    double resolution = 0.01;
+    double resolution = 5.0;//0.01;
     TMatrixDSym cov(3);
     for (int i = 0; i < 3; ++i)
       cov(i,i) = resolution*resolution;
 
-for(unsigned int i=0; i<vposY->size(); i++){
+    //for(unsigned int i=0; i<vposY->size(); i++){
+    for(unsigned int i=vposY->size()-1; i<-1; i--){
 TVector3 currentPos;
   //for (unsigned int i=0; i<nMeasurements; ++i) {
       // "simulate" the detector
@@ -131,16 +148,15 @@ TVector3 currentPos;
       currentPos.SetZ(gRandom->Gaus(currentPos.Z(), resolution));
 */
 
-int pdgR = vPDG->at(i);
-if(pdgR==13)
-  {
+ int pdgR = vPDG->at(i);
  double posX = vposX->at(i);
-		      double posY = vposY->at(i);
-		      double posZ = vposZ->at(i);
-
-currentPos.SetX(posX/10.0);
-currentPos.SetY(posY/10.0);
-currentPos.SetZ(posZ/10.0);
+ double posY = vposY->at(i);
+ double posZ = vposZ->at(i);
+ if(pdgR==13 && posZ>-1800)
+   {
+     currentPos.SetX(posX/10.0);
+     currentPos.SetY(posY/10.0);
+     currentPos.SetZ(posZ/10.0);
 
       // Fill the TClonesArray and the TrackCand
       // In a real experiment, you detector code would deliver mySpacepointDetectorHits and fill the TClonesArray.
@@ -206,10 +222,19 @@ currentPos.SetZ(posZ/10.0);
     TVector3 pos2;
     TVector3 mom2;
     TMatrixDSym cov2;
-    
-    fitTrack.getFittedState().getPosMomCov(pos2,mom2,cov2);
-    myfile << (mom2[2]-3.0) / sqrt(cov2[0][0])<<"\t"<<fitTrack.getFittedState().getCharge()<<"\t"<<mom2[2]<<"\t"<<sqrt(cov2[0][0])<<"\n";
 
+    //fitTrack.getFittedState().Print();
+    /*
+    for(unsigned counter = 0; counter<fitTrack.getNumPoints();counter++)
+      {
+    fitTrack.getFittedState(counter).getPosMomCov(pos2,mom2,cov2);
+    myfile << mom2[2]<<"\t"<<fitTrack.getFittedState(counter).getCharge()<<"\t"<<mom2[2]<<"\t"<<pos2.Z()<<"\n";
+      }
+    */
+    fitTrack.getFittedState().getPosMomCov(pos2,mom2,cov2);
+    myfile << (fabs(mom2[2])-fabs(-3.0)) / sqrt(cov2[0][0])<<"\t"<<fitTrack.getFittedState().getCharge()<<"\t"<<mom2[2]<<"\t"<<sqrt(cov2[0][0])<<"\n";
+     
+    
     if (iEvent < 1000) {
       // add track to event display
       display->addEvent(&fitTrack);
