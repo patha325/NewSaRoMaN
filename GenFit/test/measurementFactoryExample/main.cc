@@ -32,21 +32,25 @@
 #include "TDatabasePDG.h"
 #include <TMath.h>
 
-
+#include "TFile.h"
+#include "TTree.h"
+#include <fstream>
 
 
 int main() {
 
-  gRandom->SetSeed(14);
+gRandom->SetSeed(14);
 
   // init MeasurementCreator
-  genfit::MeasurementCreator measurementCreator;
+  //genfit::MeasurementCreator measurementCreator;
 
 
   // init geometry and mag. field
   new TGeoManager("Geometry", "Geane geometry");
-  TGeoManager::Import("genfitGeom.root");
-  genfit::FieldManager::getInstance()->init(new genfit::ConstField(0.,0., 15.)); // 15 kGauss
+  //TGeoManager::Import("genfitGeom.root");
+  TGeoManager::Import("MIND.gdml");
+  //genfit::FieldManager::getInstance()->init(new genfit::ConstField(0.,0., 15.)); // 15 kGauss
+  genfit::FieldManager::getInstance()->init(new genfit::ConstField(15.,0., 0.));
   genfit::MaterialEffects::getInstance()->init(new genfit::TGeoMaterialInterface());
 
 
@@ -65,45 +69,78 @@ int main() {
   genfit::MeasurementFactory<genfit::AbsMeasurement> factory;
   genfit::MeasurementProducer<genfit::mySpacepointDetectorHit, genfit::mySpacepointMeasurement> myProducer(&myDetectorHitArray);
   factory.addProducer(myDetId, &myProducer);
-
-
+  
+  TFile *f=new TFile("B4.root");
+  TTree *tr=(TTree*)f->Get("B4");
+  
+  std::ofstream myfile;
+  myfile.open ("example2.txt");
+  
   // main loop
   for (unsigned int iEvent=0; iEvent<100; ++iEvent){
+    
+    std::vector<double> *vposX=0;
+    std::vector<double> *vposY=0;
+    std::vector<double> *vposZ=0;
+    std::vector<int> *vPDG=0;
+    int eventIDR = 0;
+    tr->SetBranchAddress("positionX",&vposX);
+    tr->SetBranchAddress("positionY",&vposY);
+    tr->SetBranchAddress("positionZ",&vposZ);
+    tr->SetBranchAddress("pdg",&vPDG);
+    tr->SetBranchAddress("EventID",&eventIDR);
+    
+    tr->GetEntry(iEvent);
 
     myDetectorHitArray.Clear();
-
+    
     //TrackCand
     genfit::TrackCand myCand;
-
+    
     // true start values
-    TVector3 pos(0, 0, 0);
-    TVector3 mom(1.,0,0);
-    mom.SetPhi(gRandom->Uniform(0.,2*TMath::Pi()));
-    mom.SetTheta(gRandom->Uniform(0.4*TMath::Pi(),0.6*TMath::Pi()));
-    mom.SetMag(gRandom->Uniform(0.2, 1.));
-
-
+    TVector3 pos(0, 0, -200);
+    TVector3 mom(0,0,-3.0);
+    //mom.SetPhi(gRandom->Uniform(0.,2*TMath::Pi()));
+    //mom.SetTheta(gRandom->Uniform(0.4*TMath::Pi(),0.6*TMath::Pi()));
+    //mom.SetMag(gRandom->Uniform(0.2, 1.));
+    
+    
     // helix track model
     const int pdg = 13;               // particle pdg code
     const double charge = TDatabasePDG::Instance()->GetParticle(pdg)->Charge()/(3.);
-    genfit::HelixTrackModel* helix = new genfit::HelixTrackModel(pos, mom, charge);
-    measurementCreator.setTrackModel(helix);
-
-
+    //genfit::HelixTrackModel* helix = new genfit::HelixTrackModel(pos, mom, charge);
+    //measurementCreator.setTrackModel(helix);
+    
+    
     unsigned int nMeasurements = gRandom->Uniform(5, 15);
-
+    
     // covariance
     double resolution = 0.01;
     TMatrixDSym cov(3);
     for (int i = 0; i < 3; ++i)
       cov(i,i) = resolution*resolution;
 
-    for (unsigned int i=0; i<nMeasurements; ++i) {
+for(unsigned int i=0; i<vposY->size(); i++){
+TVector3 currentPos;
+  //for (unsigned int i=0; i<nMeasurements; ++i) {
       // "simulate" the detector
-      TVector3 currentPos = helix->getPos(i*2.);
+      //TVector3 currentPos = helix->getPos(i*2.);
+/*
       currentPos.SetX(gRandom->Gaus(currentPos.X(), resolution));
       currentPos.SetY(gRandom->Gaus(currentPos.Y(), resolution));
       currentPos.SetZ(gRandom->Gaus(currentPos.Z(), resolution));
+*/
+
+int pdgR = vPDG->at(i);
+if(pdgR==13)
+  {
+ double posX = vposX->at(i);
+		      double posY = vposY->at(i);
+		      double posZ = vposZ->at(i);
+
+currentPos.SetX(posX/10.0);
+currentPos.SetY(posY/10.0);
+currentPos.SetZ(posZ/10.0);
 
       // Fill the TClonesArray and the TrackCand
       // In a real experiment, you detector code would deliver mySpacepointDetectorHits and fill the TClonesArray.
@@ -111,16 +148,21 @@ int main() {
       new(myDetectorHitArray[i]) genfit::mySpacepointDetectorHit(currentPos, cov);
       myCand.addHit(myDetId, i);
     }
+}
 
 
     // smeared start values (would come from the pattern recognition)
-    const bool smearPosMom = true;   // init the Reps with smeared pos and mom
-    const double posSmear = 0.1;     // cm
-    const double momSmear = 3. /180.*TMath::Pi();     // rad
-    const double momMagSmear = 0.1;   // relative
+    //const bool smearPosMom = true;   // init the Reps with smeared pos and mom
+    //const double posSmear = 0.1;     // cm
+    //const double momSmear = 3. /180.*TMath::Pi();     // rad
+    //const double momMagSmear = 0.1;   // relative
 
     TVector3 posM(pos);
     TVector3 momM(mom);
+    //TVector3 pos(0, 0, -200);
+    //TVector3 mom(0,0,5.0);
+
+    /*
     if (smearPosMom) {
       posM.SetX(gRandom->Gaus(posM.X(),posSmear));
       posM.SetY(gRandom->Gaus(posM.Y(),posSmear));
@@ -130,6 +172,7 @@ int main() {
       momM.SetTheta(gRandom->Gaus(mom.Theta(),momSmear));
       momM.SetMag(gRandom->Gaus(mom.Mag(), momMagSmear*mom.Mag()));
     }
+    */
 
     // initial guess for cov
     TMatrixDSym covSeed(6);
@@ -160,6 +203,12 @@ int main() {
 
     fitTrack.checkConsistency();
 
+    TVector3 pos2;
+    TVector3 mom2;
+    TMatrixDSym cov2;
+    
+    fitTrack.getFittedState().getPosMomCov(pos2,mom2,cov2);
+    myfile << (mom2[2]-3.0) / sqrt(cov2[0][0])<<"\t"<<fitTrack.getFittedState().getCharge()<<"\t"<<mom2[2]<<"\t"<<sqrt(cov2[0][0])<<"\n";
 
     if (iEvent < 1000) {
       // add track to event display
@@ -171,6 +220,8 @@ int main() {
 
   delete fitter;
 
+  myfile.close();
+  
   // open event display
   display->open();
 

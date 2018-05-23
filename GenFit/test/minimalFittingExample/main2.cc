@@ -94,7 +94,7 @@ int main() {
       TVector3 pos(0, 0, -200); // change of units, in cm here
       //TVector3 pos(0, 0, -400);
       //TVector3 pos(0, 0, 100);
-      TVector3 mom(0, 0, 3);
+      TVector3 mom(0, 0, 10);
       
       // need better rep, helix.
       
@@ -115,7 +115,7 @@ int main() {
       int hitId(0); // hit ID
       
       //double detectorResolution(0.001); // resolution of planar detectors
-      double detectorResolution(5); // resolution of planar detectors
+      double detectorResolution(0.01); // resolution of planar detectors
       TMatrixDSym hitCov(2);
       hitCov.UnitMatrix();
       hitCov *= detectorResolution*detectorResolution;
@@ -253,7 +253,7 @@ int main() {
       
       //check
       fitTrack.checkConsistency();
-      //display->addEvent(&fitTrack);
+      display->addEvent(&fitTrack);
 
       //recMom.push_back(mom2[2]);
       //std::cout<<mom2[2]<<"=="<<recMom.back()<<std::endl;

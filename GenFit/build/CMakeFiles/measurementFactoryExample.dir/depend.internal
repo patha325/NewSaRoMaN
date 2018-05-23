@@ -51,12 +51,16 @@ CMakeFiles/measurementFactoryExample.dir/test/measurementFactoryExample/main.cc.
  /root/root-build/include/Math/TRandomEngine.h
  /root/root-build/include/RConfig.h
  /root/root-build/include/RConfigure.h
+ /root/root-build/include/ROOT/TIOFeatures.hxx
+ /root/root-build/include/ROOT/TRWSpinLock.hxx
+ /root/root-build/include/ROOT/TSpinMutex.hxx
  /root/root-build/include/RStringView.h
  /root/root-build/include/RVersion.h
  /root/root-build/include/RWrap_libcpp_string_view.h
  /root/root-build/include/Rtypes.h
  /root/root-build/include/RtypesCore.h
  /root/root-build/include/TArray.h
+ /root/root-build/include/TArrayD.h
  /root/root-build/include/TArrayI.h
  /root/root-build/include/TAtt3D.h
  /root/root-build/include/TAttBBox.h
@@ -65,12 +69,19 @@ CMakeFiles/measurementFactoryExample.dir/test/measurementFactoryExample/main.cc.
  /root/root-build/include/TAttMarker.h
  /root/root-build/include/TAttPad.h
  /root/root-build/include/TAttText.h
+ /root/root-build/include/TBasket.h
+ /root/root-build/include/TBranch.h
+ /root/root-build/include/TBuffer.h
  /root/root-build/include/TClass.h
  /root/root-build/include/TClonesArray.h
  /root/root-build/include/TCollection.h
  /root/root-build/include/TColor.h
+ /root/root-build/include/TDataType.h
  /root/root-build/include/TDatabasePDG.h
+ /root/root-build/include/TDatime.h
  /root/root-build/include/TDictionary.h
+ /root/root-build/include/TDirectory.h
+ /root/root-build/include/TDirectoryFile.h
  /root/root-build/include/TError.h
  /root/root-build/include/TEveBox.h
  /root/root-build/include/TEveElement.h
@@ -79,6 +90,7 @@ CMakeFiles/measurementFactoryExample.dir/test/measurementFactoryExample/main.cc.
  /root/root-build/include/TEveShape.h
  /root/root-build/include/TEveUtil.h
  /root/root-build/include/TEveVector.h
+ /root/root-build/include/TFile.h
  /root/root-build/include/TGButton.h
  /root/root-build/include/TGButtonGroup.h
  /root/root-build/include/TGClient.h
@@ -112,6 +124,7 @@ CMakeFiles/measurementFactoryExample.dir/test/measurementFactoryExample/main.cc.
  /root/root-build/include/TInterpreter.h
  /root/root-build/include/TIsAProxy.h
  /root/root-build/include/TIterator.h
+ /root/root-build/include/TKey.h
  /root/root-build/include/TList.h
  /root/root-build/include/TMap.h
  /root/root-build/include/TMath.h
@@ -154,6 +167,9 @@ CMakeFiles/measurementFactoryExample.dir/test/measurementFactoryExample/main.cc.
  /root/root-build/include/TSysEvtHandler.h
  /root/root-build/include/TTime.h
  /root/root-build/include/TTimer.h
+ /root/root-build/include/TTree.h
+ /root/root-build/include/TUUID.h
+ /root/root-build/include/TUrl.h
  /root/root-build/include/TVector2.h
  /root/root-build/include/TVector3.h
  /root/root-build/include/TVectorD.h
@@ -166,6 +182,7 @@ CMakeFiles/measurementFactoryExample.dir/test/measurementFactoryExample/main.cc.
  /root/root-build/include/TVirtualPad.h
  /root/root-build/include/TVirtualQConnection.h
  /root/root-build/include/TVirtualRWMutex.h
+ /root/root-build/include/TVirtualTreePlayer.h
  /root/root-build/include/TVirtualX.h
  /root/root-build/include/ThreadLocalStorage.h
  /root/root-build/include/WidgetMessageTypes.h
