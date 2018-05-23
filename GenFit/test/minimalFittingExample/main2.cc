@@ -45,7 +45,7 @@ int main() {
 
 
   const int nIter = 100; // max number of iterations
-  const double dPVal = 1.E-5; // convergence criterion
+  const double dPVal = 1.E-3; // convergence criterion
   //const genfit::eMultipleMeasurementHandling mmHandling = genfit::unweightedClosestToPredictionWire;
   //const genfit::eMultipleMeasurementHandling mmHandling = genfit::weightedAverage;
 
@@ -87,14 +87,14 @@ int main() {
     {
       std::cout<<"Event Num="<<iEvent<<std::endl;
 
-      if(iEvent==323) continue; // Why does this one break??!?!?!
+      if(iEvent==483 || iEvent==666) continue; // Why does this one break??!?!?!
       // it has no hits with pdg 13 for some reason??
       
       // start values for the fit, e.g. from pattern recognition
       TVector3 pos(0, 0, -200); // change of units, in cm here
       //TVector3 pos(0, 0, -400);
       //TVector3 pos(0, 0, 100);
-      TVector3 mom(0, 0, 5);
+      TVector3 mom(0, 0, 3);
       
       // need better rep, helix.
       
@@ -167,16 +167,17 @@ int main() {
 		      double posZ = vposZ->at(j);
 		      //std::cout<<"Coord="<<posY<<" "<<posZ<<std::endl;
 		      
-		      if(posZ>-1800 && fabs(lastZ-posZ)>50)
-			{
+		      //if(posZ>-1800 && fabs(lastZ-posZ)>50)
+		      //if(fabs(lastZ-posZ)>50)
+		      //{
 			  lastZ = posZ;
 			  
 			  hitCoords[0] = 0.0;//posX/10.0;
 			  hitCoords[1] = posY/10.0;
 			  measurement = new genfit::PlanarMeasurement(hitCoords, hitCov, detId, ++hitId, nullptr);
-			  measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,posZ/10.0), TVector3(100,0,0), TVector3(0,100,0))), ++planeId);
+			  measurement->setPlane(genfit::SharedPlanePtr(new genfit::DetPlane(TVector3(0,0,posZ/10.0), TVector3(1,0,0), TVector3(0,1,0))), ++planeId);
 			  fitTrack.insertPoint(new genfit::TrackPoint(measurement, &fitTrack));
-			}
+			  //}
 		    }
 		}  
 	      //}

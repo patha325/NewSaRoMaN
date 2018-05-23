@@ -42,9 +42,9 @@ namespace genfit {
       }
     else
       {
-	Bx=0.01*field_.X();
-	By=0.01*field_.Y();
-	Bz=0.01*field_.Z();
+	Bx=0.0;//0.01*field_.X();
+	By=0.0;//0.01*field_.Y();
+	Bz=0.0;//0.01*field_.Z();
       }
     
   }
