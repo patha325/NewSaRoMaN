@@ -47,7 +47,7 @@ B4PrimaryGeneratorAction::B4PrimaryGeneratorAction()
  : G4VUserPrimaryGeneratorAction(),
    fParticleGun(nullptr)
 {
-  
+  /*
   G4int nofParticles = 1;
   fParticleGun = new G4ParticleGun(nofParticles);
 
@@ -58,15 +58,15 @@ B4PrimaryGeneratorAction::B4PrimaryGeneratorAction()
     = G4ParticleTable::GetParticleTable()->FindParticle("mu-");
   fParticleGun->SetParticleDefinition(particleDefinition);
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  fParticleGun->SetParticleEnergy(3000.*MeV);
-  
+  //fParticleGun->SetParticleEnergy(3000.*MeV);
+  */
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 B4PrimaryGeneratorAction::~B4PrimaryGeneratorAction()
 {
-  delete fParticleGun;
+  //delete fParticleGun;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -104,7 +104,24 @@ void B4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   */
   // Set gun position
   //fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., -.2*worldZHalfLength));
-fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., -3000.0));
+
+  G4int nofParticles = 1;
+  
+  fParticleGun = new G4ParticleGun(nofParticles);
+
+  auto particleDefinition 
+    = G4ParticleTable::GetParticleTable()->FindParticle("mu-");
+  fParticleGun->SetParticleDefinition(particleDefinition);
+
+  fParticleGun->SetParticleEnergy(0.0);
+  
+  G4double min = 200. *MeV;
+  G4double max = 10000. *MeV;
+  
+  G4double momentum = (G4UniformRand() * (max - min) + min);
+  fParticleGun->SetParticleMomentum(G4ThreeVector(0.,0.,momentum));
+  
+  fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., -3000.0));
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.0,0.0,1.0));
   
   fParticleGun->GeneratePrimaryVertex(anEvent);
@@ -117,6 +134,7 @@ fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., -3000.0));
   vertex->SetPrimary(particle);
   anEvent->AddPrimaryVertex(vertex);
   */
+  delete fParticleGun;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
