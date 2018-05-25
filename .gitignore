@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+
+# patrik
+*.pcm
+*run1.mac
+*run2.mac
