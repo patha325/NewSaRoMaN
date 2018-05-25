@@ -13,8 +13,9 @@ TFile *rootTest(Int_t get=0, Int_t print=1) {
    hfile = TFile::Open("example2.root","RECREATE");
    TTree *tree = new TTree("T","Reconstruction data");
 
-   tree->ReadFile("example2.txt","mompull:Charge:mom:cov");
+   //tree->ReadFile("example2.txt","mompull:Charge:mom:cov");
 
+   tree->ReadFile("example2.txt","Event:MCtr_Mom:Charge:mom:cov:track_len");
 
    //tree->Print();
    tree->Write();

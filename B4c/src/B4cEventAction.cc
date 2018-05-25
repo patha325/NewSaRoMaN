@@ -66,7 +66,7 @@ B4cEventAction::B4cEventAction()
   //
   analysisManager->CreateNtuple("B4", "Edep and TrackL");
   analysisManager->CreateNtupleIColumn("EventID");
-  analysisManager->CreateNtupleIColumn("MCtr_Mom");
+  analysisManager->CreateNtupleDColumn("MCtr_Mom");
   //analysisManager->CreateNtupleDColumn("positionX");
   //analysisManager->CreateNtupleDColumn("positionY");
   //analysisManager->CreateNtupleDColumn("positionZ");

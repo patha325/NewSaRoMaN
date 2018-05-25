@@ -88,23 +88,26 @@ gRandom->SetSeed(14);
   myfile.open ("example2.txt");
   
   // main loop
-  for (unsigned int iEvent=0; iEvent<1000; ++iEvent){
+  for (unsigned int iEvent=0; iEvent<10000; ++iEvent){
 
     std::cout<<"Event Num="<<iEvent<<std::endl;
     
-    if(iEvent==483 || iEvent==666) continue; // Why does this one break??!?!?!
+    //if(iEvent==34 || iEvent==666) continue; // Why does this one break??!?!?!
     // it has no hits with pdg 13 for some reason??
-      
+
     std::vector<double> *vposX=0;
     std::vector<double> *vposY=0;
     std::vector<double> *vposZ=0;
     std::vector<int> *vPDG=0;
-    int eventIDR = 0;
+    //int eventIDR = 0;
+    int mctr_mom =0.0;
     tr->SetBranchAddress("positionX",&vposX);
     tr->SetBranchAddress("positionY",&vposY);
     tr->SetBranchAddress("positionZ",&vposZ);
     tr->SetBranchAddress("pdg",&vPDG);
-    tr->SetBranchAddress("EventID",&eventIDR);
+    //tr->SetBranchAddress("EventID",&eventIDR);
+    tr->SetBranchAddress("MCtr_Mom",&mctr_mom);
+    
     
     tr->GetEntry(iEvent);
 
@@ -122,8 +125,8 @@ gRandom->SetSeed(14);
     
     
     // helix track model
-    const int pdg = 13;               // particle pdg code
-    const double charge = TDatabasePDG::Instance()->GetParticle(pdg)->Charge()/(3.);
+    const int pdg = 13;// particle pdg code
+    //const double charge = TDatabasePDG::Instance()->GetParticle(pdg)->Charge()/(3.);
     //genfit::HelixTrackModel* helix = new genfit::HelixTrackModel(pos, mom, charge);
     //measurementCreator.setTrackModel(helix);
     
@@ -136,35 +139,42 @@ gRandom->SetSeed(14);
     for (int i = 0; i < 3; ++i)
       cov(i,i) = resolution*resolution;
 
-    //for(unsigned int i=0; i<vposY->size(); i++){
-    for(unsigned int i=vposY->size()-1; i<-1; i--){
-TVector3 currentPos;
-  //for (unsigned int i=0; i<nMeasurements; ++i) {
+    for(unsigned int i=0; i<vposY->size(); i++){
+    //for(unsigned int i=vposY->size()-1; i>0; i--){
+      TVector3 currentPos;
+      //for (unsigned int i=0; i<nMeasurements; ++i) {
       // "simulate" the detector
       //TVector3 currentPos = helix->getPos(i*2.);
-/*
-      currentPos.SetX(gRandom->Gaus(currentPos.X(), resolution));
-      currentPos.SetY(gRandom->Gaus(currentPos.Y(), resolution));
-      currentPos.SetZ(gRandom->Gaus(currentPos.Z(), resolution));
-*/
-
- int pdgR = vPDG->at(i);
- double posX = vposX->at(i);
- double posY = vposY->at(i);
- double posZ = vposZ->at(i);
- if(pdgR==13 && posZ>-1800)
-   {
-     currentPos.SetX(posX/10.0);
-     currentPos.SetY(posY/10.0);
-     currentPos.SetZ(posZ/10.0);
-
-      // Fill the TClonesArray and the TrackCand
-      // In a real experiment, you detector code would deliver mySpacepointDetectorHits and fill the TClonesArray.
-      // The patternRecognition would create the TrackCand.
-      new(myDetectorHitArray[i]) genfit::mySpacepointDetectorHit(currentPos, cov);
-      myCand.addHit(myDetId, i);
+      /*
+	currentPos.SetX(gRandom->Gaus(currentPos.X(), resolution));
+	currentPos.SetY(gRandom->Gaus(currentPos.Y(), resolution));
+	currentPos.SetZ(gRandom->Gaus(currentPos.Z(), resolution));
+      */
+      //std::cout<<i<<std::endl;
+      int pdgR = vPDG->at(i);
+      double posX = vposX->at(i);
+      double posY = vposY->at(i);
+      double posZ = vposZ->at(i);
+      //std::cout<<"passed"<<std::endl;
+      if(pdgR==13)// && posZ>-1800)// && fabs(mctr_mom) >500.0)
+	{
+	  currentPos.SetX(posX/10.0);
+	  currentPos.SetY(posY/10.0);
+	  currentPos.SetZ(posZ/10.0);
+	  
+	  // Fill the TClonesArray and the TrackCand
+	  // In a real experiment, you detector code would deliver mySpacepointDetectorHits and fill the TClonesArray.
+	  // The patternRecognition would create the TrackCand.
+	  new(myDetectorHitArray[i]) genfit::mySpacepointDetectorHit(currentPos, cov);
+	  myCand.addHit(myDetId, i);
+	}
     }
-}
+    if(!myCand.getNHits())
+      {
+	continue;
+      }
+    
+    //std::cout<<"end for"<<std::endl;
 
 
     // smeared start values (would come from the pattern recognition)
@@ -202,27 +212,61 @@ TVector3 currentPos;
     myCand.setPosMomSeedAndPdgCode(posM, momM, pdg);
     myCand.setCovSeed(covSeed);
 
-
+    //std::cout<<"before track"<<std::endl;
+    
     // create track
-    genfit::Track fitTrack(myCand, factory, new genfit::RKTrackRep(pdg));
+    genfit::Track fitTrack(myCand, factory,new genfit::RKTrackRep(pdg));
+
+    fitTrack.reverseTrackPoints(); //provides better fit.
+    
+    //std::cout<<"trying to fit"<<std::endl;
+
+    //std::cout<<myCand.getNHits()<<std::endl;
 
 
+    
     // do the fit
     try{
+      TVector3 pos2;
+      TVector3 mom2;
+      TMatrixDSym cov2;
       fitter->processTrack(&fitTrack);
+      fitTrack.checkConsistency();
+      fitTrack.getFittedState().getPosMomCov(pos2,mom2,cov2);
+      int charge = fitTrack.getFittedState().getCharge();
+      double length = fitTrack.getTrackLen()*10;
+      myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<charge<<"\t"<<mom2[2]<<"\t"<<sqrt(cov2[0][0])<<"\t"<<length<<"\n";
     }
     catch(genfit::Exception& e){
       std::cerr << e.what();
       std::cerr << "Exception, next track" << std::endl;
       continue;
     }
+    catch(...){
+      std::cerr << "Exception, next track" << std::endl;
+      continue;
+    }
 
-    fitTrack.checkConsistency();
+    //std::cout<<"after fit"<<std::endl;
 
+    //fitTrack.checkConsistency();
+
+    /* did not work?
+    std::cout<<"before"<<std::endl;
+    std::cout<<fitTrack.hasFitStatus()<<std::endl;
+    std::cout<<fitTrack.hasFitStatus(rep)<<std::endl;
+    if(!fitTrack.hasFitStatus())
+      {
+	//delete fitter;
+	continue;
+      }
+    */
+    //std::cout<<"after"<<std::endl;
+    /*
     TVector3 pos2;
     TVector3 mom2;
     TMatrixDSym cov2;
-
+    */
     //fitTrack.getFittedState().Print();
     /*
     for(unsigned counter = 0; counter<fitTrack.getNumPoints();counter++)
@@ -231,15 +275,19 @@ TVector3 currentPos;
     myfile << mom2[2]<<"\t"<<fitTrack.getFittedState(counter).getCharge()<<"\t"<<mom2[2]<<"\t"<<pos2.Z()<<"\n";
       }
     */
+    //std::cout<<"before file write"<<std::endl;
+    /*
     fitTrack.getFittedState().getPosMomCov(pos2,mom2,cov2);
-    myfile << (fabs(mom2[2])-fabs(-3.0)) / sqrt(cov2[0][0])<<"\t"<<fitTrack.getFittedState().getCharge()<<"\t"<<mom2[2]<<"\t"<<sqrt(cov2[0][0])<<"\n";
-     
+    myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<fitTrack.getFittedState().getCharge()<<"\t"<<mom2[2]<<"\t"<<sqrt(cov2[0][0])<<fitTrack.getTrackLen()*10<<"\n";
+    */
+    //std::cout<<"display event"<<std::endl;
     
     if (iEvent < 1000) {
       // add track to event display
       display->addEvent(&fitTrack);
     }
 
+    //std::cout<<"ended loop of event"<<std::endl;
 
   }// end loop over events
 

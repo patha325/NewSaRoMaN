@@ -1,0 +1,16 @@
+{
+  T->Draw("MCtr_Mom:track_len","","COLZ");
+  TH2F* a = new TH2F("a","a",100,0,10,100,0,10);
+  T->Draw("abs(MCtr_Mom):abs(mom)>>a","","COLZ");
+
+  T->Draw("abs(MCtr_Mom)>>eff","Charge==-1","COLZ");
+  T->Draw("abs(MCtr_Mom)>>all","","COLZ");
+  eff->Sumw2();
+  all->Sumw2();
+
+
+
+
+
+
+}
