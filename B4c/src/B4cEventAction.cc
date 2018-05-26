@@ -238,7 +238,7 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   analysisManager->FillNtupleIColumn(0,eventID);
 
   if(primary)
-    analysisManager->FillNtupleIColumn(1,primary->GetMomentum().z());
+    analysisManager->FillNtupleDColumn(1,primary->GetMomentum().z());
   else
      analysisManager->FillNtupleIColumn(1,0);
   //std::cout<<collectionHit->GetTrackID()<<std::endl;

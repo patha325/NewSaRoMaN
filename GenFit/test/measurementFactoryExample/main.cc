@@ -48,7 +48,7 @@ gRandom->SetSeed(14);
   // init geometry and mag. field
   new TGeoManager("Geometry", "Geane geometry");
   //TGeoManager::Import("genfitGeom.root");
-  TGeoManager::Import("MIND.gdml");
+  TGeoManager::Import("../../../MIND.gdml");
   //genfit::FieldManager::getInstance()->init(new genfit::ConstField(0.,0., 15.)); // 15 kGauss
   genfit::FieldManager::getInstance()->init(new genfit::ConstField(15.,0., 0.));
   genfit::MaterialEffects::getInstance()->init(new genfit::TGeoMaterialInterface());
@@ -100,7 +100,7 @@ gRandom->SetSeed(14);
     std::vector<double> *vposZ=0;
     std::vector<int> *vPDG=0;
     //int eventIDR = 0;
-    int mctr_mom =0.0;
+    double mctr_mom =0.0;
     tr->SetBranchAddress("positionX",&vposX);
     tr->SetBranchAddress("positionY",&vposY);
     tr->SetBranchAddress("positionZ",&vposZ);
