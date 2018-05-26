@@ -50,7 +50,7 @@ gRandom->SetSeed(14);
   //TGeoManager::Import("genfitGeom.root");
   TGeoManager::Import("../../../MIND.gdml");
   //genfit::FieldManager::getInstance()->init(new genfit::ConstField(0.,0., 15.)); // 15 kGauss
-  genfit::FieldManager::getInstance()->init(new genfit::ConstField(15.,0., 0.));
+  genfit::FieldManager::getInstance()->init(new genfit::ConstField(-15.,0., 0.));
   genfit::MaterialEffects::getInstance()->init(new genfit::TGeoMaterialInterface());
 
   //genfit::MaterialEffects::getInstance()->setDebugLvl();
@@ -66,7 +66,7 @@ gRandom->SetSeed(14);
   
 
   // init event display
-  genfit::EventDisplay* display = genfit::EventDisplay::getInstance();
+  //genfit::EventDisplay* display = genfit::EventDisplay::getInstance();
 
 
   // init fitter
@@ -85,11 +85,11 @@ gRandom->SetSeed(14);
   TTree *tr=(TTree*)f->Get("B4");
   
   std::ofstream myfile;
-  myfile.open ("example2.txt");
+  myfile.open ("example2.txt",std::ofstream::out | std::ofstream::app);
   
   // main loop
-  for (unsigned int iEvent=0; iEvent<10000; ++iEvent){
-
+  //for (unsigned int iEvent=0; iEvent<100000; ++iEvent){
+for (unsigned int iEvent=55655; iEvent<100000; ++iEvent){
     std::cout<<"Event Num="<<iEvent<<std::endl;
     
     //if(iEvent==34 || iEvent==666) continue; // Why does this one break??!?!?!
@@ -126,12 +126,12 @@ gRandom->SetSeed(14);
     
     // helix track model
     const int pdg = 13;// particle pdg code
-    //const double charge = TDatabasePDG::Instance()->GetParticle(pdg)->Charge()/(3.);
+    const int refcharge = TDatabasePDG::Instance()->GetParticle(pdg)->Charge()/3.0;
     //genfit::HelixTrackModel* helix = new genfit::HelixTrackModel(pos, mom, charge);
     //measurementCreator.setTrackModel(helix);
     
     
-    unsigned int nMeasurements = gRandom->Uniform(5, 15);
+    //unsigned int nMeasurements = gRandom->Uniform(5, 15);
     
     // covariance
     double resolution = 5.0;//0.01;
@@ -205,7 +205,7 @@ gRandom->SetSeed(14);
     for (int i = 0; i < 3; ++i)
       covSeed(i,i) = resolution*resolution;
     for (int i = 3; i < 6; ++i)
-      covSeed(i,i) = pow(resolution / nMeasurements / sqrt(3), 2);
+      covSeed(i,i) = pow(resolution / 18 / sqrt(3), 2);
 
 
     // set start values and pdg to cand
@@ -233,17 +233,20 @@ gRandom->SetSeed(14);
       fitter->processTrack(&fitTrack);
       fitTrack.checkConsistency();
       fitTrack.getFittedState().getPosMomCov(pos2,mom2,cov2);
-      int charge = fitTrack.getFittedState().getCharge();
+      int reccharge = refcharge*fitTrack.getFittedState().getCharge();
+      //charge comes back as a true/false value. True given pdg assumption.
       double length = fitTrack.getTrackLen()*10;
-      myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<charge<<"\t"<<mom2[2]<<"\t"<<sqrt(cov2[0][0])<<"\t"<<length<<"\n";
+      myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<reccharge<<"\t"<<mom2[2]<<"\t"<<sqrt(cov2[0][0])<<"\t"<<length<<"\n";
     }
     catch(genfit::Exception& e){
       std::cerr << e.what();
       std::cerr << "Exception, next track" << std::endl;
+      myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\n";
       continue;
     }
     catch(...){
       std::cerr << "Exception, next track" << std::endl;
+      myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\n";
       continue;
     }
 
@@ -281,12 +284,12 @@ gRandom->SetSeed(14);
     myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<fitTrack.getFittedState().getCharge()<<"\t"<<mom2[2]<<"\t"<<sqrt(cov2[0][0])<<fitTrack.getTrackLen()*10<<"\n";
     */
     //std::cout<<"display event"<<std::endl;
-    
+    /*
     if (iEvent < 1000) {
       // add track to event display
       display->addEvent(&fitTrack);
     }
-
+    */
     //std::cout<<"ended loop of event"<<std::endl;
 
   }// end loop over events
@@ -296,7 +299,7 @@ gRandom->SetSeed(14);
   myfile.close();
   
   // open event display
-  display->open();
+  //display->open();
 
 }
 

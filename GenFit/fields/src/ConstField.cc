@@ -27,7 +27,7 @@ namespace genfit {
   }
   
   void ConstField::get(const double& x, const double& y, const double& z, double& Bx, double& By, double& Bz) const {
-    // Handling only field in iron.
+    // Handling only field in iron. Baby MIND field model.
     if(gGeoManager->FindNode(x,y,z)->GetName()[0]=='F')
       {
 	if(fabs(y)>50)
