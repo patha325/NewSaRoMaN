@@ -36,6 +36,8 @@
 #include "TTree.h"
 #include <fstream>
 
+//#include "FitStatus.h"
+
 
 int main() {
 
@@ -236,6 +238,13 @@ for (unsigned int iEvent=55655; iEvent<100000; ++iEvent){
       int reccharge = refcharge*fitTrack.getFittedState().getCharge();
       //charge comes back as a true/false value. True given pdg assumption.
       double length = fitTrack.getTrackLen()*10;
+      genfit::FitStatus* status = fitTrack.getFitStatus();
+      double chi2 = status->getChi2();
+      double ndf = status->getNdf();
+      bool fitted = status->isFitted();
+      bool converged = status->isFitConvergedFully();
+      int failedPoints = status->getNFailedPoints();
+      double Pval = status->getPVal();
       myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<reccharge<<"\t"<<mom2[2]<<"\t"<<sqrt(cov2[0][0])<<"\t"<<length<<"\n";
     }
     catch(genfit::Exception& e){
