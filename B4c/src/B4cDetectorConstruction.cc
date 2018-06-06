@@ -48,6 +48,8 @@
 #include "G4PhysicalConstants.hh"
 #include "G4SystemOfUnits.hh"
 
+#include <Randomize.hh>
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 G4ThreadLocal 
@@ -81,6 +83,7 @@ G4VPhysicalVolume* B4cDetectorConstruction::Construct()
   regionmass["TASD"] = 0;
   regionmass["ACTIVE"] = 0;
   regionmass["PASSIVE"] = 0;
+  regionmass["WAGASCIDetectorMod"] = 0;
   G4String detectorName = "MIND/";
   _detectormass = world_physi->GetLogicalVolume()->GetMass();
   SetVolumeInformation(world_physi, detectorName);
@@ -174,6 +177,11 @@ void B4cDetectorConstruction::SetVolumeInformation(G4VPhysicalVolume* pbase,
       regions["PASSIVE"].push_back(daughter);
       regionmass["PASSIVE"] += myvol->GetMass();
       regionoffset["PASSIVE"].push_back(pbase->GetFrameTranslation());
+    }
+      else if (myvol->GetName().contains("WAGASCIDetectorMod")){
+      regions["WAGASCIDetectorMod"].push_back(daughter);
+      regionmass["WAGASCIDetectorMod"] += myvol->GetMass();
+      regionoffset["WAGASCIDetectorMod"].push_back(pbase->GetFrameTranslation());
       //} else if (myvol->GetName().contains("Detector")){
       //regionoffset["Detector"].push_back(pbase->GetFrameTranslation());
       //cout<<"Here="<<pbase->GetFrameTranslation()<<endl;
@@ -285,6 +293,42 @@ void B4cDetectorConstruction::SetNullField(G4LogicalVolume& detector_logic)
   detector_logic.SetFieldManager( fieldMgr, false );
 }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+G4ThreeVector B4cDetectorConstruction::GetVertex(G4String region_name){
+  
+  G4int nvols = regions[region_name].size();
+
+  std::cout<<"region_name="<<region_name<<std::endl;
+  
+  G4Box* solidBox;
+  G4ThreeVector offset;
+  if ( nvols > 1 ){
+    G4int volselect = int(floor(G4UniformRand() * double(nvols)));
+    // Get the solid definition
+    std::cout<<"volselect="<<volselect<<std::endl;
+    std::cout<<"Vertex in volume "<<regions[region_name][volselect]->GetName()<<std::endl;
+    solidBox = (G4Box*) regions[region_name][volselect]->GetLogicalVolume()->GetSolid();
+    //offset = regionoffset[region_name][volselect];
+    offset = regionoffset[region_name][volselect];
+    std::cout<<"Detector offset at ("<<offset[0]<<", "<<offset[1]<<", "<<offset[2]<<")"<<std::endl;
+  } else if (nvols == 1){
+    std::cout<<regions[region_name][0]->GetName()<<std::endl;
+    solidBox = (G4Box*) regions[region_name][0]->GetLogicalVolume()->GetSolid();
+    //offset = regionoffset[region_name][0];
+    offset = regionoffset[region_name][0];
+    std::cout<<"Detector offset at ("<<offset[0]<<", "<<offset[1]<<", "<<offset[2]<<")"<<std::endl;
+  } else {
+    // give up
+    return G4ThreeVector(0., 0., 0.);
+  }
+  double x = (2*G4UniformRand() - 1)*solidBox->GetXHalfLength();
+  double y = (2*G4UniformRand() - 1)*solidBox->GetYHalfLength();
+  double z = (2*G4UniformRand() - 1)*solidBox->GetZHalfLength();
+  std::cout<<"Vertex at ("<<x<<", "<<y<<", "<<z<<")"<<std::endl;
+  
+  return G4ThreeVector(x - offset[0], y - offset[1], z - offset[2]);
+  
+}
 
 void B4cDetectorConstruction::DefineMaterials()
 { 

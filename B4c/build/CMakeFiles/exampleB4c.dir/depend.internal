@@ -616,7 +616,12 @@ CMakeFiles/exampleB4c.dir/exampleB4c.cc.o
  /root/geant4/geant4-install/include/Geant4/windefs.hh
 CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o
  ../include/B4PrimaryGeneratorAction.hh
+ ../include/B4cDetectorConstruction.hh
+ ../include/MindBarHit.h
+ ../include/MindBarSD.h
+ ../include/MindFieldMapR.hh
  /root/NewSaRoMaN/B4c/src/B4PrimaryGeneratorAction.cc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Evaluator/Evaluator.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Normal3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Plane3D.h
@@ -688,6 +693,8 @@ CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o
  /root/geant4/geant4-install/include/Geant4/CLHEP/Vector/RotationZ.icc
  /root/geant4/geant4-install/include/Geant4/CLHEP/Vector/ThreeVector.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Vector/ThreeVector.icc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Vector/TwoVector.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Vector/TwoVector.icc
  /root/geant4/geant4-install/include/Geant4/G4AffineTransform.hh
  /root/geant4/geant4-install/include/Geant4/G4AffineTransform.icc
  /root/geant4/geant4-install/include/Geant4/G4Allocator.hh
@@ -702,22 +709,61 @@ CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o
  /root/geant4/geant4-install/include/Geant4/G4Box.hh
  /root/geant4/geant4-install/include/Geant4/G4Box.icc
  /root/geant4/geant4-install/include/Geant4/G4CSGSolid.hh
+ /root/geant4/geant4-install/include/Geant4/G4ChargeState.hh
+ /root/geant4/geant4-install/include/Geant4/G4ChordFinder.hh
+ /root/geant4/geant4-install/include/Geant4/G4ChordFinder.icc
  /root/geant4/geant4-install/include/Geant4/G4ClassificationOfNewTrack.hh
+ /root/geant4/geant4-install/include/Geant4/G4CollectionNameVector.hh
+ /root/geant4/geant4-install/include/Geant4/G4Cons.hh
+ /root/geant4/geant4-install/include/Geant4/G4Cons.icc
  /root/geant4/geant4-install/include/Geant4/G4DCofThisEvent.hh
  /root/geant4/geant4-install/include/Geant4/G4DataVector.hh
  /root/geant4/geant4-install/include/Geant4/G4DataVector.icc
  /root/geant4/geant4-install/include/Geant4/G4DynamicParticle.hh
  /root/geant4/geant4-install/include/Geant4/G4DynamicParticle.icc
+ /root/geant4/geant4-install/include/Geant4/G4ElectroMagneticField.hh
  /root/geant4/geant4-install/include/Geant4/G4ElectronOccupancy.hh
  /root/geant4/geant4-install/include/Geant4/G4Element.hh
  /root/geant4/geant4-install/include/Geant4/G4ElementTable.hh
  /root/geant4/geant4-install/include/Geant4/G4ElementVector.hh
+ /root/geant4/geant4-install/include/Geant4/G4Ellipsoid.hh
+ /root/geant4/geant4-install/include/Geant4/G4Ellipsoid.icc
+ /root/geant4/geant4-install/include/Geant4/G4EquationOfMotion.hh
+ /root/geant4/geant4-install/include/Geant4/G4EquationOfMotion.icc
+ /root/geant4/geant4-install/include/Geant4/G4Evaluator.hh
  /root/geant4/geant4-install/include/Geant4/G4Event.hh
  /root/geant4/geant4-install/include/Geant4/G4EventManager.hh
  /root/geant4/geant4-install/include/Geant4/G4ExceptionSeverity.hh
  /root/geant4/geant4-install/include/Geant4/G4Exp.hh
+ /root/geant4/geant4-install/include/Geant4/G4ExtrudedSolid.hh
+ /root/geant4/geant4-install/include/Geant4/G4ExtrudedSolid.icc
  /root/geant4/geant4-install/include/Geant4/G4FastVector.hh
+ /root/geant4/geant4-install/include/Geant4/G4Field.hh
+ /root/geant4/geant4-install/include/Geant4/G4FieldManager.hh
+ /root/geant4/geant4-install/include/Geant4/G4FieldManager.icc
+ /root/geant4/geant4-install/include/Geant4/G4FieldTrack.hh
+ /root/geant4/geant4-install/include/Geant4/G4FieldTrack.icc
  /root/geant4/geant4-install/include/Geant4/G4ForceCondition.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLAuxStructType.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLEvaluator.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLMessenger.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLParameterisation.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLParser.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLParser.icc
+ /root/geant4/geant4-install/include/Geant4/G4GDMLRead.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLReadDefine.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLReadMaterials.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLReadParamvol.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLReadSetup.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLReadSolids.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLReadStructure.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLWrite.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLWriteDefine.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLWriteMaterials.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLWriteParamvol.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLWriteSetup.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLWriteSolids.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLWriteStructure.hh
  /root/geant4/geant4-install/include/Geant4/G4GPILSelection.hh
  /root/geant4/geant4-install/include/Geant4/G4GRSSolid.hh
  /root/geant4/geant4-install/include/Geant4/G4GRSSolid.icc
@@ -725,6 +771,8 @@ CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o
  /root/geant4/geant4-install/include/Geant4/G4GRSVolume.icc
  /root/geant4/geant4-install/include/Geant4/G4GeomSplitter.hh
  /root/geant4/geant4-install/include/Geant4/G4HCofThisEvent.hh
+ /root/geant4/geant4-install/include/Geant4/G4Hype.hh
+ /root/geant4/geant4-install/include/Geant4/G4Hype.icc
  /root/geant4/geant4-install/include/Geant4/G4IonisParamElm.hh
  /root/geant4/geant4-install/include/Geant4/G4IonisParamMat.hh
  /root/geant4/geant4-install/include/Geant4/G4Isotope.hh
@@ -734,12 +782,16 @@ CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o
  /root/geant4/geant4-install/include/Geant4/G4LogicalVolume.icc
  /root/geant4/geant4-install/include/Geant4/G4LogicalVolumeStore.hh
  /root/geant4/geant4-install/include/Geant4/G4LorentzVector.hh
+ /root/geant4/geant4-install/include/Geant4/G4MagIntegratorStepper.hh
+ /root/geant4/geant4-install/include/Geant4/G4MagIntegratorStepper.icc
+ /root/geant4/geant4-install/include/Geant4/G4MagneticField.hh
  /root/geant4/geant4-install/include/Geant4/G4Material.hh
  /root/geant4/geant4-install/include/Geant4/G4MaterialPropertiesIndex.hh
  /root/geant4/geant4-install/include/Geant4/G4MaterialPropertiesTable.hh
  /root/geant4/geant4-install/include/Geant4/G4MaterialPropertiesTable.icc
  /root/geant4/geant4-install/include/Geant4/G4MaterialPropertyVector.hh
  /root/geant4/geant4-install/include/Geant4/G4MaterialTable.hh
+ /root/geant4/geant4-install/include/Geant4/G4MultiUnion.hh
  /root/geant4/geant4-install/include/Geant4/G4NavigationHistory.hh
  /root/geant4/geant4-install/include/Geant4/G4NavigationHistory.icc
  /root/geant4/geant4-install/include/Geant4/G4NavigationHistoryPool.hh
@@ -753,8 +805,12 @@ CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o
  /root/geant4/geant4-install/include/Geant4/G4Normal3D.hh
  /root/geant4/geant4-install/include/Geant4/G4NormalNavigation.hh
  /root/geant4/geant4-install/include/Geant4/G4NormalNavigation.icc
+ /root/geant4/geant4-install/include/Geant4/G4Orb.hh
+ /root/geant4/geant4-install/include/Geant4/G4Orb.icc
  /root/geant4/geant4-install/include/Geant4/G4OrderedTable.hh
  /root/geant4/geant4-install/include/Geant4/G4PDefManager.hh
+ /root/geant4/geant4-install/include/Geant4/G4Para.hh
+ /root/geant4/geant4-install/include/Geant4/G4Para.icc
  /root/geant4/geant4-install/include/Geant4/G4ParameterisedNavigation.hh
  /root/geant4/geant4-install/include/Geant4/G4ParameterisedNavigation.icc
  /root/geant4/geant4-install/include/Geant4/G4ParticleChange.hh
@@ -775,6 +831,14 @@ CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o
  /root/geant4/geant4-install/include/Geant4/G4PhysicsVectorType.hh
  /root/geant4/geant4-install/include/Geant4/G4Plane3D.hh
  /root/geant4/geant4-install/include/Geant4/G4Point3D.hh
+ /root/geant4/geant4-install/include/Geant4/G4Polycone.hh
+ /root/geant4/geant4-install/include/Geant4/G4Polycone.icc
+ /root/geant4/geant4-install/include/Geant4/G4PolyconeHistorical.hh
+ /root/geant4/geant4-install/include/Geant4/G4PolyconeSide.hh
+ /root/geant4/geant4-install/include/Geant4/G4Polyhedra.hh
+ /root/geant4/geant4-install/include/Geant4/G4Polyhedra.icc
+ /root/geant4/geant4-install/include/Geant4/G4PolyhedraHistorical.hh
+ /root/geant4/geant4-install/include/Geant4/G4PolyhedraSide.hh
  /root/geant4/geant4-install/include/Geant4/G4Polyhedron.hh
  /root/geant4/geant4-install/include/Geant4/G4PrimaryParticle.hh
  /root/geant4/geant4-install/include/Geant4/G4PrimaryTransformer.hh
@@ -793,7 +857,10 @@ CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o
  /root/geant4/geant4-install/include/Geant4/G4RotationMatrix.hh
  /root/geant4/geant4-install/include/Geant4/G4RunManager.hh
  /root/geant4/geant4-install/include/Geant4/G4RunManagerKernel.hh
+ /root/geant4/geant4-install/include/Geant4/G4STRead.hh
+ /root/geant4/geant4-install/include/Geant4/G4SafetyHelper.hh
  /root/geant4/geant4-install/include/Geant4/G4SandiaTable.hh
+ /root/geant4/geant4-install/include/Geant4/G4SensitiveVolumeList.hh
  /root/geant4/geant4-install/include/Geant4/G4SmartTrackStack.hh
  /root/geant4/geant4-install/include/Geant4/G4SmartVoxelHeader.hh
  /root/geant4/geant4-install/include/Geant4/G4SmartVoxelHeader.icc
@@ -801,6 +868,8 @@ CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o
  /root/geant4/geant4-install/include/Geant4/G4SmartVoxelNode.icc
  /root/geant4/geant4-install/include/Geant4/G4SmartVoxelProxy.hh
  /root/geant4/geant4-install/include/Geant4/G4SmartVoxelProxy.icc
+ /root/geant4/geant4-install/include/Geant4/G4Sphere.hh
+ /root/geant4/geant4-install/include/Geant4/G4Sphere.icc
  /root/geant4/geant4-install/include/Geant4/G4StackManager.hh
  /root/geant4/geant4-install/include/Geant4/G4StackedTrack.hh
  /root/geant4/geant4-install/include/Geant4/G4Step.hh
@@ -812,9 +881,14 @@ CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o
  /root/geant4/geant4-install/include/Geant4/G4SteppingManager.hh
  /root/geant4/geant4-install/include/Geant4/G4String.hh
  /root/geant4/geant4-install/include/Geant4/G4String.icc
+ /root/geant4/geant4-install/include/Geant4/G4SurfBits.hh
  /root/geant4/geant4-install/include/Geant4/G4SystemOfUnits.hh
+ /root/geant4/geant4-install/include/Geant4/G4THitsCollection.hh
+ /root/geant4/geant4-install/include/Geant4/G4TessellatedSolid.hh
  /root/geant4/geant4-install/include/Geant4/G4Threading.hh
  /root/geant4/geant4-install/include/Geant4/G4ThreeVector.hh
+ /root/geant4/geant4-install/include/Geant4/G4Torus.hh
+ /root/geant4/geant4-install/include/Geant4/G4Torus.icc
  /root/geant4/geant4-install/include/Geant4/G4TouchableHandle.hh
  /root/geant4/geant4-install/include/Geant4/G4TouchableHistory.hh
  /root/geant4/geant4-install/include/Geant4/G4TouchableHistory.icc
@@ -829,20 +903,46 @@ CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o
  /root/geant4/geant4-install/include/Geant4/G4TrackingMessenger.hh
  /root/geant4/geant4-install/include/Geant4/G4TrajectoryContainer.hh
  /root/geant4/geant4-install/include/Geant4/G4Transform3D.hh
+ /root/geant4/geant4-install/include/Geant4/G4TransportationManager.hh
+ /root/geant4/geant4-install/include/Geant4/G4TransportationManager.icc
+ /root/geant4/geant4-install/include/Geant4/G4Trap.hh
+ /root/geant4/geant4-install/include/Geant4/G4Trap.icc
+ /root/geant4/geant4-install/include/Geant4/G4Trd.hh
+ /root/geant4/geant4-install/include/Geant4/G4Trd.icc
+ /root/geant4/geant4-install/include/Geant4/G4Tubs.hh
+ /root/geant4/geant4-install/include/Geant4/G4Tubs.icc
+ /root/geant4/geant4-install/include/Geant4/G4TwoVector.hh
  /root/geant4/geant4-install/include/Geant4/G4Types.hh
  /root/geant4/geant4-install/include/Geant4/G4UAdapter.hh
  /root/geant4/geant4-install/include/Geant4/G4UBox.hh
+ /root/geant4/geant4-install/include/Geant4/G4UCons.hh
+ /root/geant4/geant4-install/include/Geant4/G4UExtrudedSolid.hh
+ /root/geant4/geant4-install/include/Geant4/G4UHype.hh
  /root/geant4/geant4-install/include/Geant4/G4UIcommand.hh
  /root/geant4/geant4-install/include/Geant4/G4UIdirectory.hh
  /root/geant4/geant4-install/include/Geant4/G4UImessenger.hh
  /root/geant4/geant4-install/include/Geant4/G4UIparameter.hh
  /root/geant4/geant4-install/include/Geant4/G4UItokenNum.hh
+ /root/geant4/geant4-install/include/Geant4/G4UOrb.hh
+ /root/geant4/geant4-install/include/Geant4/G4UPara.hh
+ /root/geant4/geant4-install/include/Geant4/G4UPolycone.hh
+ /root/geant4/geant4-install/include/Geant4/G4UPolyhedra.hh
+ /root/geant4/geant4-install/include/Geant4/G4USphere.hh
+ /root/geant4/geant4-install/include/Geant4/G4UTorus.hh
+ /root/geant4/geant4-install/include/Geant4/G4UTrap.hh
+ /root/geant4/geant4-install/include/Geant4/G4UTrd.hh
+ /root/geant4/geant4-install/include/Geant4/G4UTubs.hh
  /root/geant4/geant4-install/include/Geant4/G4UserStackingAction.hh
  /root/geant4/geant4-install/include/Geant4/G4UserSteppingAction.hh
  /root/geant4/geant4-install/include/Geant4/G4UserTrackingAction.hh
+ /root/geant4/geant4-install/include/Geant4/G4VCSGface.hh
+ /root/geant4/geant4-install/include/Geant4/G4VCSGfaceted.hh
  /root/geant4/geant4-install/include/Geant4/G4VDigiCollection.hh
+ /root/geant4/geant4-install/include/Geant4/G4VFacet.hh
  /root/geant4/geant4-install/include/Geant4/G4VGraphicsScene.hh
+ /root/geant4/geant4-install/include/Geant4/G4VHit.hh
  /root/geant4/geant4-install/include/Geant4/G4VHitsCollection.hh
+ /root/geant4/geant4-install/include/Geant4/G4VIntegrationDriver.hh
  /root/geant4/geant4-install/include/Geant4/G4VNotifier.hh
  /root/geant4/geant4-install/include/Geant4/G4VPVParameterisation.hh
  /root/geant4/geant4-install/include/Geant4/G4VParticleChange.hh
@@ -851,6 +951,9 @@ CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o
  /root/geant4/geant4-install/include/Geant4/G4VPhysicalVolume.icc
  /root/geant4/geant4-install/include/Geant4/G4VPrimaryGenerator.hh
  /root/geant4/geant4-install/include/Geant4/G4VProcess.hh
+ /root/geant4/geant4-install/include/Geant4/G4VReadOutGeometry.hh
+ /root/geant4/geant4-install/include/Geant4/G4VSDFilter.hh
+ /root/geant4/geant4-install/include/Geant4/G4VSensitiveDetector.hh
  /root/geant4/geant4-install/include/Geant4/G4VSolid.hh
  /root/geant4/geant4-install/include/Geant4/G4VSolid.icc
  /root/geant4/geant4-install/include/Geant4/G4VSteppingVerbose.hh
@@ -858,10 +961,12 @@ CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o
  /root/geant4/geant4-install/include/Geant4/G4VTouchable.hh
  /root/geant4/geant4-install/include/Geant4/G4VTouchable.icc
  /root/geant4/geant4-install/include/Geant4/G4VTrajectory.hh
+ /root/geant4/geant4-install/include/Geant4/G4VUserDetectorConstruction.hh
  /root/geant4/geant4-install/include/Geant4/G4VUserEventInformation.hh
  /root/geant4/geant4-install/include/Geant4/G4VUserPrimaryGeneratorAction.hh
  /root/geant4/geant4-install/include/Geant4/G4VUserTrackInformation.hh
  /root/geant4/geant4-install/include/Geant4/G4VVolumeMaterialScanner.hh
+ /root/geant4/geant4-install/include/Geant4/G4Vector3D.hh
  /root/geant4/geant4-install/include/Geant4/G4VisExtent.hh
  /root/geant4/geant4-install/include/Geant4/G4Visible.hh
  /root/geant4/geant4-install/include/Geant4/G4Visible.icc
@@ -869,6 +974,8 @@ CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o
  /root/geant4/geant4-install/include/Geant4/G4VoxelLimits.icc
  /root/geant4/geant4-install/include/Geant4/G4VoxelNavigation.hh
  /root/geant4/geant4-install/include/Geant4/G4VoxelNavigation.icc
+ /root/geant4/geant4-install/include/Geant4/G4Voxelizer.hh
+ /root/geant4/geant4-install/include/Geant4/G4Voxelizer.icc
  /root/geant4/geant4-install/include/Geant4/G4ios.hh
  /root/geant4/geant4-install/include/Geant4/HepPolyhedron.h
  /root/geant4/geant4-install/include/Geant4/Randomize.hh
@@ -883,6 +990,118 @@ CMakeFiles/exampleB4c.dir/src/B4PrimaryGeneratorAction.cc.o
  /root/geant4/geant4-install/include/Geant4/trajectoryControl.hh
  /root/geant4/geant4-install/include/Geant4/trkdefs.hh
  /root/geant4/geant4-install/include/Geant4/windefs.hh
+ /root/genie/install/include/GENIE/BaryonResonance/BaryonResonance.h
+ /root/genie/install/include/GENIE/Conventions/GMode.h
+ /root/genie/install/include/GENIE/Conventions/KinePhaseSpace.h
+ /root/genie/install/include/GENIE/Conventions/KineVar.h
+ /root/genie/install/include/GENIE/Conventions/RefFrame.h
+ /root/genie/install/include/GENIE/EVGCore/EventRecord.h
+ /root/genie/install/include/GENIE/GHEP/GHepParticle.h
+ /root/genie/install/include/GENIE/GHEP/GHepRecord.h
+ /root/genie/install/include/GENIE/GHEP/GHepStatus.h
+ /root/genie/install/include/GENIE/Interaction/InitialState.h
+ /root/genie/install/include/GENIE/Interaction/Interaction.h
+ /root/genie/install/include/GENIE/Interaction/InteractionType.h
+ /root/genie/install/include/GENIE/Interaction/KPhaseSpace.h
+ /root/genie/install/include/GENIE/Interaction/Kinematics.h
+ /root/genie/install/include/GENIE/Interaction/ProcessInfo.h
+ /root/genie/install/include/GENIE/Interaction/ScatteringType.h
+ /root/genie/install/include/GENIE/Interaction/Target.h
+ /root/genie/install/include/GENIE/Interaction/XclsTag.h
+ /root/genie/install/include/GENIE/Ntuple/NtpMCDTime.h
+ /root/genie/install/include/GENIE/Ntuple/NtpMCEventRecord.h
+ /root/genie/install/include/GENIE/Ntuple/NtpMCFormat.h
+ /root/genie/install/include/GENIE/Ntuple/NtpMCRecHeader.h
+ /root/genie/install/include/GENIE/Ntuple/NtpMCRecordI.h
+ /root/genie/install/include/GENIE/Ntuple/NtpMCTreeHeader.h
+ /root/genie/install/include/GENIE/Utils/Range1.h
+ /root/root-build/include/DllImport.h
+ /root/root-build/include/ESTLType.h
+ /root/root-build/include/RConfig.h
+ /root/root-build/include/RConfigure.h
+ /root/root-build/include/ROOT/TIOFeatures.hxx
+ /root/root-build/include/ROOT/TRWSpinLock.hxx
+ /root/root-build/include/ROOT/TSpinMutex.hxx
+ /root/root-build/include/RStringView.h
+ /root/root-build/include/RVersion.h
+ /root/root-build/include/RWrap_libcpp_string_view.h
+ /root/root-build/include/Rtypes.h
+ /root/root-build/include/RtypesCore.h
+ /root/root-build/include/TArray.h
+ /root/root-build/include/TArrayD.h
+ /root/root-build/include/TArrayI.h
+ /root/root-build/include/TAttFill.h
+ /root/root-build/include/TAttLine.h
+ /root/root-build/include/TAttMarker.h
+ /root/root-build/include/TBasket.h
+ /root/root-build/include/TBits.h
+ /root/root-build/include/TBranch.h
+ /root/root-build/include/TBuffer.h
+ /root/root-build/include/TClass.h
+ /root/root-build/include/TClonesArray.h
+ /root/root-build/include/TCollection.h
+ /root/root-build/include/TDataType.h
+ /root/root-build/include/TDatime.h
+ /root/root-build/include/TDictionary.h
+ /root/root-build/include/TDirectory.h
+ /root/root-build/include/TDirectoryFile.h
+ /root/root-build/include/TError.h
+ /root/root-build/include/TFile.h
+ /root/root-build/include/TGenericClassInfo.h
+ /root/root-build/include/THashTable.h
+ /root/root-build/include/TInetAddress.h
+ /root/root-build/include/TInterpreter.h
+ /root/root-build/include/TIsAProxy.h
+ /root/root-build/include/TIterator.h
+ /root/root-build/include/TKey.h
+ /root/root-build/include/TList.h
+ /root/root-build/include/TLorentzVector.h
+ /root/root-build/include/TMap.h
+ /root/root-build/include/TMath.h
+ /root/root-build/include/TMathBase.h
+ /root/root-build/include/TMatrix.h
+ /root/root-build/include/TMatrixDBasefwd.h
+ /root/root-build/include/TMatrixF.h
+ /root/root-build/include/TMatrixFBasefwd.h
+ /root/root-build/include/TMatrixFUtils.h
+ /root/root-build/include/TMatrixFUtilsfwd.h
+ /root/root-build/include/TMatrixFfwd.h
+ /root/root-build/include/TMatrixT.h
+ /root/root-build/include/TMatrixTBase.h
+ /root/root-build/include/TMatrixTUtils.h
+ /root/root-build/include/TNamed.h
+ /root/root-build/include/TObjArray.h
+ /root/root-build/include/TObjString.h
+ /root/root-build/include/TObject.h
+ /root/root-build/include/TParticlePDG.h
+ /root/root-build/include/TQClass.h
+ /root/root-build/include/TQObject.h
+ /root/root-build/include/TRotation.h
+ /root/root-build/include/TSchemaHelper.h
+ /root/root-build/include/TSeqCollection.h
+ /root/root-build/include/TStorage.h
+ /root/root-build/include/TString.h
+ /root/root-build/include/TSysEvtHandler.h
+ /root/root-build/include/TSystem.h
+ /root/root-build/include/TTime.h
+ /root/root-build/include/TTimer.h
+ /root/root-build/include/TTree.h
+ /root/root-build/include/TUUID.h
+ /root/root-build/include/TUrl.h
+ /root/root-build/include/TVector2.h
+ /root/root-build/include/TVector3.h
+ /root/root-build/include/TVectorDfwd.h
+ /root/root-build/include/TVectorFfwd.h
+ /root/root-build/include/TVersionCheck.h
+ /root/root-build/include/TVirtualIsAProxy.h
+ /root/root-build/include/TVirtualMutex.h
+ /root/root-build/include/TVirtualQConnection.h
+ /root/root-build/include/TVirtualRWMutex.h
+ /root/root-build/include/TVirtualTreePlayer.h
+ /root/root-build/include/ThreadLocalStorage.h
+ /root/root-build/include/libcpp_string_view.h
+ /root/root-build/include/snprintf.h
+ /root/root-build/include/strlcpy.h
 CMakeFiles/exampleB4c.dir/src/B4RunAction.cc.o
  ../include/B4Analysis.hh
  ../include/B4RunAction.hh
@@ -1285,12 +1504,16 @@ CMakeFiles/exampleB4c.dir/src/B4cActionInitialization.cc.o
  ../include/B4RunAction.hh
  ../include/B4cActionInitialization.hh
  ../include/B4cCalorHit.hh
+ ../include/B4cDetectorConstruction.hh
  ../include/B4cEventAction.hh
  ../include/MindBarHit.h
  ../include/MindBarSD.h
+ ../include/MindFieldMapR.hh
  /root/NewSaRoMaN/B4c/src/B4cActionInitialization.cc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Evaluator/Evaluator.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Normal3D.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Plane3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Point3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Transform3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Transform3D.icc
@@ -1314,24 +1537,79 @@ CMakeFiles/exampleB4c.dir/src/B4cActionInitialization.cc.o
  /root/geant4/geant4-install/include/Geant4/CLHEP/Vector/RotationZ.icc
  /root/geant4/geant4-install/include/Geant4/CLHEP/Vector/ThreeVector.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Vector/ThreeVector.icc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Vector/TwoVector.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Vector/TwoVector.icc
  /root/geant4/geant4-install/include/Geant4/G4AffineTransform.hh
  /root/geant4/geant4-install/include/Geant4/G4AffineTransform.icc
  /root/geant4/geant4-install/include/Geant4/G4Allocator.hh
  /root/geant4/geant4-install/include/Geant4/G4AllocatorPool.hh
+ /root/geant4/geant4-install/include/Geant4/G4ApplicationState.hh
  /root/geant4/geant4-install/include/Geant4/G4AutoLock.hh
+ /root/geant4/geant4-install/include/Geant4/G4AuxiliaryNavServices.hh
+ /root/geant4/geant4-install/include/Geant4/G4AuxiliaryNavServices.icc
+ /root/geant4/geant4-install/include/Geant4/G4BlockingList.hh
+ /root/geant4/geant4-install/include/Geant4/G4BlockingList.icc
+ /root/geant4/geant4-install/include/Geant4/G4BoundingEnvelope.hh
+ /root/geant4/geant4-install/include/Geant4/G4Box.hh
+ /root/geant4/geant4-install/include/Geant4/G4Box.icc
+ /root/geant4/geant4-install/include/Geant4/G4CSGSolid.hh
+ /root/geant4/geant4-install/include/Geant4/G4ChargeState.hh
+ /root/geant4/geant4-install/include/Geant4/G4ChordFinder.hh
+ /root/geant4/geant4-install/include/Geant4/G4ChordFinder.icc
  /root/geant4/geant4-install/include/Geant4/G4CollectionNameVector.hh
+ /root/geant4/geant4-install/include/Geant4/G4Cons.hh
+ /root/geant4/geant4-install/include/Geant4/G4Cons.icc
  /root/geant4/geant4-install/include/Geant4/G4DataVector.hh
  /root/geant4/geant4-install/include/Geant4/G4DataVector.icc
  /root/geant4/geant4-install/include/Geant4/G4DynamicParticle.hh
  /root/geant4/geant4-install/include/Geant4/G4DynamicParticle.icc
+ /root/geant4/geant4-install/include/Geant4/G4ElectroMagneticField.hh
  /root/geant4/geant4-install/include/Geant4/G4ElectronOccupancy.hh
  /root/geant4/geant4-install/include/Geant4/G4Element.hh
  /root/geant4/geant4-install/include/Geant4/G4ElementTable.hh
  /root/geant4/geant4-install/include/Geant4/G4ElementVector.hh
+ /root/geant4/geant4-install/include/Geant4/G4Ellipsoid.hh
+ /root/geant4/geant4-install/include/Geant4/G4Ellipsoid.icc
+ /root/geant4/geant4-install/include/Geant4/G4EquationOfMotion.hh
+ /root/geant4/geant4-install/include/Geant4/G4EquationOfMotion.icc
+ /root/geant4/geant4-install/include/Geant4/G4Evaluator.hh
  /root/geant4/geant4-install/include/Geant4/G4ExceptionSeverity.hh
  /root/geant4/geant4-install/include/Geant4/G4Exp.hh
+ /root/geant4/geant4-install/include/Geant4/G4ExtrudedSolid.hh
+ /root/geant4/geant4-install/include/Geant4/G4ExtrudedSolid.icc
+ /root/geant4/geant4-install/include/Geant4/G4Field.hh
+ /root/geant4/geant4-install/include/Geant4/G4FieldManager.hh
+ /root/geant4/geant4-install/include/Geant4/G4FieldManager.icc
+ /root/geant4/geant4-install/include/Geant4/G4FieldTrack.hh
+ /root/geant4/geant4-install/include/Geant4/G4FieldTrack.icc
+ /root/geant4/geant4-install/include/Geant4/G4GDMLAuxStructType.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLEvaluator.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLMessenger.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLParameterisation.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLParser.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLParser.icc
+ /root/geant4/geant4-install/include/Geant4/G4GDMLRead.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLReadDefine.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLReadMaterials.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLReadParamvol.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLReadSetup.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLReadSolids.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLReadStructure.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLWrite.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLWriteDefine.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLWriteMaterials.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLWriteParamvol.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLWriteSetup.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLWriteSolids.hh
+ /root/geant4/geant4-install/include/Geant4/G4GDMLWriteStructure.hh
+ /root/geant4/geant4-install/include/Geant4/G4GRSSolid.hh
+ /root/geant4/geant4-install/include/Geant4/G4GRSSolid.icc
+ /root/geant4/geant4-install/include/Geant4/G4GRSVolume.hh
+ /root/geant4/geant4-install/include/Geant4/G4GRSVolume.icc
  /root/geant4/geant4-install/include/Geant4/G4GeomSplitter.hh
  /root/geant4/geant4-install/include/Geant4/G4HCofThisEvent.hh
+ /root/geant4/geant4-install/include/Geant4/G4Hype.hh
+ /root/geant4/geant4-install/include/Geant4/G4Hype.icc
  /root/geant4/geant4-install/include/Geant4/G4IonisParamElm.hh
  /root/geant4/geant4-install/include/Geant4/G4IonisParamMat.hh
  /root/geant4/geant4-install/include/Geant4/G4Isotope.hh
@@ -1340,12 +1618,16 @@ CMakeFiles/exampleB4c.dir/src/B4cActionInitialization.cc.o
  /root/geant4/geant4-install/include/Geant4/G4LogicalVolume.hh
  /root/geant4/geant4-install/include/Geant4/G4LogicalVolume.icc
  /root/geant4/geant4-install/include/Geant4/G4LorentzVector.hh
+ /root/geant4/geant4-install/include/Geant4/G4MagIntegratorStepper.hh
+ /root/geant4/geant4-install/include/Geant4/G4MagIntegratorStepper.icc
+ /root/geant4/geant4-install/include/Geant4/G4MagneticField.hh
  /root/geant4/geant4-install/include/Geant4/G4Material.hh
  /root/geant4/geant4-install/include/Geant4/G4MaterialPropertiesIndex.hh
  /root/geant4/geant4-install/include/Geant4/G4MaterialPropertiesTable.hh
  /root/geant4/geant4-install/include/Geant4/G4MaterialPropertiesTable.icc
  /root/geant4/geant4-install/include/Geant4/G4MaterialPropertyVector.hh
  /root/geant4/geant4-install/include/Geant4/G4MaterialTable.hh
+ /root/geant4/geant4-install/include/Geant4/G4MultiUnion.hh
  /root/geant4/geant4-install/include/Geant4/G4NavigationHistory.hh
  /root/geant4/geant4-install/include/Geant4/G4NavigationHistory.icc
  /root/geant4/geant4-install/include/Geant4/G4NavigationHistoryPool.hh
@@ -1353,8 +1635,20 @@ CMakeFiles/exampleB4c.dir/src/B4cActionInitialization.cc.o
  /root/geant4/geant4-install/include/Geant4/G4NavigationLevel.icc
  /root/geant4/geant4-install/include/Geant4/G4NavigationLevelRep.hh
  /root/geant4/geant4-install/include/Geant4/G4NavigationLevelRep.icc
+ /root/geant4/geant4-install/include/Geant4/G4NavigationLogger.hh
+ /root/geant4/geant4-install/include/Geant4/G4Navigator.hh
+ /root/geant4/geant4-install/include/Geant4/G4Navigator.icc
+ /root/geant4/geant4-install/include/Geant4/G4Normal3D.hh
+ /root/geant4/geant4-install/include/Geant4/G4NormalNavigation.hh
+ /root/geant4/geant4-install/include/Geant4/G4NormalNavigation.icc
+ /root/geant4/geant4-install/include/Geant4/G4Orb.hh
+ /root/geant4/geant4-install/include/Geant4/G4Orb.icc
  /root/geant4/geant4-install/include/Geant4/G4OrderedTable.hh
  /root/geant4/geant4-install/include/Geant4/G4PDefManager.hh
+ /root/geant4/geant4-install/include/Geant4/G4Para.hh
+ /root/geant4/geant4-install/include/Geant4/G4Para.icc
+ /root/geant4/geant4-install/include/Geant4/G4ParameterisedNavigation.hh
+ /root/geant4/geant4-install/include/Geant4/G4ParameterisedNavigation.icc
  /root/geant4/geant4-install/include/Geant4/G4ParticleDefinition.hh
  /root/geant4/geant4-install/include/Geant4/G4ParticleDefinition.icc
  /root/geant4/geant4-install/include/Geant4/G4ParticleMomentum.hh
@@ -1363,12 +1657,36 @@ CMakeFiles/exampleB4c.dir/src/B4cActionInitialization.cc.o
  /root/geant4/geant4-install/include/Geant4/G4PhysicsVector.hh
  /root/geant4/geant4-install/include/Geant4/G4PhysicsVector.icc
  /root/geant4/geant4-install/include/Geant4/G4PhysicsVectorType.hh
+ /root/geant4/geant4-install/include/Geant4/G4Plane3D.hh
+ /root/geant4/geant4-install/include/Geant4/G4Point3D.hh
+ /root/geant4/geant4-install/include/Geant4/G4Polycone.hh
+ /root/geant4/geant4-install/include/Geant4/G4Polycone.icc
+ /root/geant4/geant4-install/include/Geant4/G4PolyconeHistorical.hh
+ /root/geant4/geant4-install/include/Geant4/G4PolyconeSide.hh
+ /root/geant4/geant4-install/include/Geant4/G4Polyhedra.hh
+ /root/geant4/geant4-install/include/Geant4/G4Polyhedra.icc
+ /root/geant4/geant4-install/include/Geant4/G4PolyhedraHistorical.hh
+ /root/geant4/geant4-install/include/Geant4/G4PolyhedraSide.hh
+ /root/geant4/geant4-install/include/Geant4/G4Polyhedron.hh
  /root/geant4/geant4-install/include/Geant4/G4ReferenceCountedHandle.hh
  /root/geant4/geant4-install/include/Geant4/G4Region.hh
  /root/geant4/geant4-install/include/Geant4/G4Region.icc
+ /root/geant4/geant4-install/include/Geant4/G4RegularNavigation.hh
+ /root/geant4/geant4-install/include/Geant4/G4ReplicaNavigation.hh
+ /root/geant4/geant4-install/include/Geant4/G4ReplicaNavigation.icc
  /root/geant4/geant4-install/include/Geant4/G4RotationMatrix.hh
+ /root/geant4/geant4-install/include/Geant4/G4STRead.hh
+ /root/geant4/geant4-install/include/Geant4/G4SafetyHelper.hh
  /root/geant4/geant4-install/include/Geant4/G4SandiaTable.hh
  /root/geant4/geant4-install/include/Geant4/G4SensitiveVolumeList.hh
+ /root/geant4/geant4-install/include/Geant4/G4SmartVoxelHeader.hh
+ /root/geant4/geant4-install/include/Geant4/G4SmartVoxelHeader.icc
+ /root/geant4/geant4-install/include/Geant4/G4SmartVoxelNode.hh
+ /root/geant4/geant4-install/include/Geant4/G4SmartVoxelNode.icc
+ /root/geant4/geant4-install/include/Geant4/G4SmartVoxelProxy.hh
+ /root/geant4/geant4-install/include/Geant4/G4SmartVoxelProxy.icc
+ /root/geant4/geant4-install/include/Geant4/G4Sphere.hh
+ /root/geant4/geant4-install/include/Geant4/G4Sphere.icc
  /root/geant4/geant4-install/include/Geant4/G4Step.hh
  /root/geant4/geant4-install/include/Geant4/G4Step.icc
  /root/geant4/geant4-install/include/Geant4/G4StepPoint.hh
@@ -1377,33 +1695,87 @@ CMakeFiles/exampleB4c.dir/src/B4cActionInitialization.cc.o
  /root/geant4/geant4-install/include/Geant4/G4SteppingControl.hh
  /root/geant4/geant4-install/include/Geant4/G4String.hh
  /root/geant4/geant4-install/include/Geant4/G4String.icc
+ /root/geant4/geant4-install/include/Geant4/G4SurfBits.hh
  /root/geant4/geant4-install/include/Geant4/G4THitsCollection.hh
+ /root/geant4/geant4-install/include/Geant4/G4TessellatedSolid.hh
  /root/geant4/geant4-install/include/Geant4/G4Threading.hh
  /root/geant4/geant4-install/include/Geant4/G4ThreeVector.hh
+ /root/geant4/geant4-install/include/Geant4/G4Torus.hh
+ /root/geant4/geant4-install/include/Geant4/G4Torus.icc
  /root/geant4/geant4-install/include/Geant4/G4TouchableHandle.hh
  /root/geant4/geant4-install/include/Geant4/G4TouchableHistory.hh
  /root/geant4/geant4-install/include/Geant4/G4TouchableHistory.icc
+ /root/geant4/geant4-install/include/Geant4/G4TouchableHistoryHandle.hh
  /root/geant4/geant4-install/include/Geant4/G4Track.hh
  /root/geant4/geant4-install/include/Geant4/G4Track.icc
  /root/geant4/geant4-install/include/Geant4/G4TrackStatus.hh
  /root/geant4/geant4-install/include/Geant4/G4TrackVector.hh
  /root/geant4/geant4-install/include/Geant4/G4Transform3D.hh
+ /root/geant4/geant4-install/include/Geant4/G4TransportationManager.hh
+ /root/geant4/geant4-install/include/Geant4/G4TransportationManager.icc
+ /root/geant4/geant4-install/include/Geant4/G4Trap.hh
+ /root/geant4/geant4-install/include/Geant4/G4Trap.icc
+ /root/geant4/geant4-install/include/Geant4/G4Trd.hh
+ /root/geant4/geant4-install/include/Geant4/G4Trd.icc
+ /root/geant4/geant4-install/include/Geant4/G4Tubs.hh
+ /root/geant4/geant4-install/include/Geant4/G4Tubs.icc
+ /root/geant4/geant4-install/include/Geant4/G4TwoVector.hh
  /root/geant4/geant4-install/include/Geant4/G4Types.hh
+ /root/geant4/geant4-install/include/Geant4/G4UAdapter.hh
+ /root/geant4/geant4-install/include/Geant4/G4UBox.hh
+ /root/geant4/geant4-install/include/Geant4/G4UCons.hh
+ /root/geant4/geant4-install/include/Geant4/G4UExtrudedSolid.hh
+ /root/geant4/geant4-install/include/Geant4/G4UHype.hh
+ /root/geant4/geant4-install/include/Geant4/G4UIcommand.hh
+ /root/geant4/geant4-install/include/Geant4/G4UIdirectory.hh
+ /root/geant4/geant4-install/include/Geant4/G4UImessenger.hh
+ /root/geant4/geant4-install/include/Geant4/G4UIparameter.hh
+ /root/geant4/geant4-install/include/Geant4/G4UItokenNum.hh
+ /root/geant4/geant4-install/include/Geant4/G4UOrb.hh
+ /root/geant4/geant4-install/include/Geant4/G4UPara.hh
+ /root/geant4/geant4-install/include/Geant4/G4UPolycone.hh
+ /root/geant4/geant4-install/include/Geant4/G4UPolyhedra.hh
+ /root/geant4/geant4-install/include/Geant4/G4USphere.hh
+ /root/geant4/geant4-install/include/Geant4/G4UTorus.hh
+ /root/geant4/geant4-install/include/Geant4/G4UTrap.hh
+ /root/geant4/geant4-install/include/Geant4/G4UTrd.hh
+ /root/geant4/geant4-install/include/Geant4/G4UTubs.hh
  /root/geant4/geant4-install/include/Geant4/G4UserEventAction.hh
  /root/geant4/geant4-install/include/Geant4/G4UserRunAction.hh
+ /root/geant4/geant4-install/include/Geant4/G4VCSGface.hh
+ /root/geant4/geant4-install/include/Geant4/G4VCSGfaceted.hh
+ /root/geant4/geant4-install/include/Geant4/G4VFacet.hh
+ /root/geant4/geant4-install/include/Geant4/G4VGraphicsScene.hh
  /root/geant4/geant4-install/include/Geant4/G4VHit.hh
  /root/geant4/geant4-install/include/Geant4/G4VHitsCollection.hh
+ /root/geant4/geant4-install/include/Geant4/G4VIntegrationDriver.hh
+ /root/geant4/geant4-install/include/Geant4/G4VPVParameterisation.hh
  /root/geant4/geant4-install/include/Geant4/G4VPhysicalVolume.hh
  /root/geant4/geant4-install/include/Geant4/G4VPhysicalVolume.icc
  /root/geant4/geant4-install/include/Geant4/G4VReadOutGeometry.hh
  /root/geant4/geant4-install/include/Geant4/G4VSDFilter.hh
  /root/geant4/geant4-install/include/Geant4/G4VSensitiveDetector.hh
+ /root/geant4/geant4-install/include/Geant4/G4VSolid.hh
+ /root/geant4/geant4-install/include/Geant4/G4VSolid.icc
  /root/geant4/geant4-install/include/Geant4/G4VTouchable.hh
  /root/geant4/geant4-install/include/Geant4/G4VTouchable.icc
  /root/geant4/geant4-install/include/Geant4/G4VUserActionInitialization.hh
+ /root/geant4/geant4-install/include/Geant4/G4VUserDetectorConstruction.hh
  /root/geant4/geant4-install/include/Geant4/G4VUserPrimaryGeneratorAction.hh
  /root/geant4/geant4-install/include/Geant4/G4VUserTrackInformation.hh
+ /root/geant4/geant4-install/include/Geant4/G4VVolumeMaterialScanner.hh
+ /root/geant4/geant4-install/include/Geant4/G4Vector3D.hh
+ /root/geant4/geant4-install/include/Geant4/G4VisExtent.hh
+ /root/geant4/geant4-install/include/Geant4/G4Visible.hh
+ /root/geant4/geant4-install/include/Geant4/G4Visible.icc
+ /root/geant4/geant4-install/include/Geant4/G4VoxelLimits.hh
+ /root/geant4/geant4-install/include/Geant4/G4VoxelLimits.icc
+ /root/geant4/geant4-install/include/Geant4/G4VoxelNavigation.hh
+ /root/geant4/geant4-install/include/Geant4/G4VoxelNavigation.icc
+ /root/geant4/geant4-install/include/Geant4/G4Voxelizer.hh
+ /root/geant4/geant4-install/include/Geant4/G4Voxelizer.icc
  /root/geant4/geant4-install/include/Geant4/G4ios.hh
+ /root/geant4/geant4-install/include/Geant4/HepPolyhedron.h
  /root/geant4/geant4-install/include/Geant4/geomdefs.hh
  /root/geant4/geant4-install/include/Geant4/geomwdefs.hh
  /root/geant4/geant4-install/include/Geant4/globals.hh
@@ -1412,6 +1784,118 @@ CMakeFiles/exampleB4c.dir/src/B4cActionInitialization.cc.o
  /root/geant4/geant4-install/include/Geant4/tls.hh
  /root/geant4/geant4-install/include/Geant4/trkdefs.hh
  /root/geant4/geant4-install/include/Geant4/windefs.hh
+ /root/genie/install/include/GENIE/BaryonResonance/BaryonResonance.h
+ /root/genie/install/include/GENIE/Conventions/GMode.h
+ /root/genie/install/include/GENIE/Conventions/KinePhaseSpace.h
+ /root/genie/install/include/GENIE/Conventions/KineVar.h
+ /root/genie/install/include/GENIE/Conventions/RefFrame.h
+ /root/genie/install/include/GENIE/EVGCore/EventRecord.h
+ /root/genie/install/include/GENIE/GHEP/GHepParticle.h
+ /root/genie/install/include/GENIE/GHEP/GHepRecord.h
+ /root/genie/install/include/GENIE/GHEP/GHepStatus.h
+ /root/genie/install/include/GENIE/Interaction/InitialState.h
+ /root/genie/install/include/GENIE/Interaction/Interaction.h
+ /root/genie/install/include/GENIE/Interaction/InteractionType.h
+ /root/genie/install/include/GENIE/Interaction/KPhaseSpace.h
+ /root/genie/install/include/GENIE/Interaction/Kinematics.h
+ /root/genie/install/include/GENIE/Interaction/ProcessInfo.h
+ /root/genie/install/include/GENIE/Interaction/ScatteringType.h
+ /root/genie/install/include/GENIE/Interaction/Target.h
+ /root/genie/install/include/GENIE/Interaction/XclsTag.h
+ /root/genie/install/include/GENIE/Ntuple/NtpMCDTime.h
+ /root/genie/install/include/GENIE/Ntuple/NtpMCEventRecord.h
+ /root/genie/install/include/GENIE/Ntuple/NtpMCFormat.h
+ /root/genie/install/include/GENIE/Ntuple/NtpMCRecHeader.h
+ /root/genie/install/include/GENIE/Ntuple/NtpMCRecordI.h
+ /root/genie/install/include/GENIE/Ntuple/NtpMCTreeHeader.h
+ /root/genie/install/include/GENIE/Utils/Range1.h
+ /root/root-build/include/DllImport.h
+ /root/root-build/include/ESTLType.h
+ /root/root-build/include/RConfig.h
+ /root/root-build/include/RConfigure.h
+ /root/root-build/include/ROOT/TIOFeatures.hxx
+ /root/root-build/include/ROOT/TRWSpinLock.hxx
+ /root/root-build/include/ROOT/TSpinMutex.hxx
+ /root/root-build/include/RStringView.h
+ /root/root-build/include/RVersion.h
+ /root/root-build/include/RWrap_libcpp_string_view.h
+ /root/root-build/include/Rtypes.h
+ /root/root-build/include/RtypesCore.h
+ /root/root-build/include/TArray.h
+ /root/root-build/include/TArrayD.h
+ /root/root-build/include/TArrayI.h
+ /root/root-build/include/TAttFill.h
+ /root/root-build/include/TAttLine.h
+ /root/root-build/include/TAttMarker.h
+ /root/root-build/include/TBasket.h
+ /root/root-build/include/TBits.h
+ /root/root-build/include/TBranch.h
+ /root/root-build/include/TBuffer.h
+ /root/root-build/include/TClass.h
+ /root/root-build/include/TClonesArray.h
+ /root/root-build/include/TCollection.h
+ /root/root-build/include/TDataType.h
+ /root/root-build/include/TDatime.h
+ /root/root-build/include/TDictionary.h
+ /root/root-build/include/TDirectory.h
+ /root/root-build/include/TDirectoryFile.h
+ /root/root-build/include/TError.h
+ /root/root-build/include/TFile.h
+ /root/root-build/include/TGenericClassInfo.h
+ /root/root-build/include/THashTable.h
+ /root/root-build/include/TInetAddress.h
+ /root/root-build/include/TInterpreter.h
+ /root/root-build/include/TIsAProxy.h
+ /root/root-build/include/TIterator.h
+ /root/root-build/include/TKey.h
+ /root/root-build/include/TList.h
+ /root/root-build/include/TLorentzVector.h
+ /root/root-build/include/TMap.h
+ /root/root-build/include/TMath.h
+ /root/root-build/include/TMathBase.h
+ /root/root-build/include/TMatrix.h
+ /root/root-build/include/TMatrixDBasefwd.h
+ /root/root-build/include/TMatrixF.h
+ /root/root-build/include/TMatrixFBasefwd.h
+ /root/root-build/include/TMatrixFUtils.h
+ /root/root-build/include/TMatrixFUtilsfwd.h
+ /root/root-build/include/TMatrixFfwd.h
+ /root/root-build/include/TMatrixT.h
+ /root/root-build/include/TMatrixTBase.h
+ /root/root-build/include/TMatrixTUtils.h
+ /root/root-build/include/TNamed.h
+ /root/root-build/include/TObjArray.h
+ /root/root-build/include/TObjString.h
+ /root/root-build/include/TObject.h
+ /root/root-build/include/TParticlePDG.h
+ /root/root-build/include/TQClass.h
+ /root/root-build/include/TQObject.h
+ /root/root-build/include/TRotation.h
+ /root/root-build/include/TSchemaHelper.h
+ /root/root-build/include/TSeqCollection.h
+ /root/root-build/include/TStorage.h
+ /root/root-build/include/TString.h
+ /root/root-build/include/TSysEvtHandler.h
+ /root/root-build/include/TSystem.h
+ /root/root-build/include/TTime.h
+ /root/root-build/include/TTimer.h
+ /root/root-build/include/TTree.h
+ /root/root-build/include/TUUID.h
+ /root/root-build/include/TUrl.h
+ /root/root-build/include/TVector2.h
+ /root/root-build/include/TVector3.h
+ /root/root-build/include/TVectorDfwd.h
+ /root/root-build/include/TVectorFfwd.h
+ /root/root-build/include/TVersionCheck.h
+ /root/root-build/include/TVirtualIsAProxy.h
+ /root/root-build/include/TVirtualMutex.h
+ /root/root-build/include/TVirtualQConnection.h
+ /root/root-build/include/TVirtualRWMutex.h
+ /root/root-build/include/TVirtualTreePlayer.h
+ /root/root-build/include/ThreadLocalStorage.h
+ /root/root-build/include/libcpp_string_view.h
+ /root/root-build/include/snprintf.h
+ /root/root-build/include/strlcpy.h
 CMakeFiles/exampleB4c.dir/src/B4cCalorHit.cc.o
  ../include/B4cCalorHit.hh
  /root/NewSaRoMaN/B4c/src/B4cCalorHit.cc
@@ -1613,9 +2097,54 @@ CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Transform3D.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Transform3D.icc
  /root/geant4/geant4-install/include/Geant4/CLHEP/Geometry/Vector3D.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/DualRand.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/JamesRandom.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/MTwistEngine.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/MixMaxRng.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandBinomial.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandBinomial.icc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandBit.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandBit.icc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandBreitWigner.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandBreitWigner.icc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandChiSquare.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandChiSquare.icc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandExpZiggurat.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandExponential.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandExponential.icc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandFlat.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandFlat.icc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandGamma.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandGamma.icc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandGauss.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandGauss.icc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandGaussQ.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandGaussQ.icc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandGaussZiggurat.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandGeneral.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandGeneral.icc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandLandau.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandLandau.icc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandPoisson.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandPoisson.icc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandPoissonQ.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandPoissonQ.icc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandStudentT.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandStudentT.icc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/Random.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/Random.icc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandomEngine.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RandomEngine.icc
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/Randomize.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RanecuEngine.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/Ranlux64Engine.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RanluxEngine.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Random/RanshiEngine.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Units/PhysicalConstants.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Units/SystemOfUnits.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Utility/defs.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Utility/memory.h
+ /root/geant4/geant4-install/include/Geant4/CLHEP/Utility/thread_local.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Vector/AxisAngle.h
  /root/geant4/geant4-install/include/Geant4/CLHEP/Vector/AxisAngle.icc
  /root/geant4/geant4-install/include/Geant4/CLHEP/Vector/LorentzVector.h
@@ -1887,6 +2416,7 @@ CMakeFiles/exampleB4c.dir/src/B4cDetectorConstruction.cc.o
  /root/geant4/geant4-install/include/Geant4/G4Voxelizer.icc
  /root/geant4/geant4-install/include/Geant4/G4ios.hh
  /root/geant4/geant4-install/include/Geant4/HepPolyhedron.h
+ /root/geant4/geant4-install/include/Geant4/Randomize.hh
  /root/geant4/geant4-install/include/Geant4/geomdefs.hh
  /root/geant4/geant4-install/include/Geant4/geomwdefs.hh
  /root/geant4/geant4-install/include/Geant4/globals.hh

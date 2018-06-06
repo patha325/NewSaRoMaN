@@ -24,6 +24,8 @@ endif()
 #
 include(${Geant4_USE_FILE})
 include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(/root/genie/install/include/GENIE)
+include_directories(/root/root-build/include)
 
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
@@ -35,8 +37,27 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
+link_directories(/root/root-build/lib)
+link_directories(/root/genie/install/lib)
+link_directories(/root/pythia6/v6_428/lib)
+link_directories(/root/genie/lib)
+
 add_executable(exampleB4c exampleB4c.cc ${sources} ${headers})
 target_link_libraries(exampleB4c ${Geant4_LIBRARIES})
+
+#target_link_libraries(exampleB4c Core RIO Net Hist Graf Graf3d Gpad Tree TreePlayer Rint Postscript Matrix Physics MathCore Thread MultiProc m dl)
+
+#target_link_libraries(exampleB4c GHEP GEVGCore GNtuple GPDG Core RIO Net Hist Graf Graf3d Gpad Tree TreePlayer Rint Postscript Matrix Physics MathCore Thread MultiProc m dl )
+
+set(dummy Core RIO Net Hist Graf Graf3d Gpad Tree TreePlayer Rint Postscript Matrix Physics MathCore Thread EG MultiProc m dl GMessenger GRegistry GAlgorithm GInteraction GHEP GBase GNumerical GUtils GPDG GBaryonResonance GEVGCore GEVGDrivers GNtuple GGeo GFluxDrivers GPDF GElFF GDecay GFragmentation GNuclear GLlewellynSmith GCrossSections GCharm GElas GGiBUU GReinSehgal GQPM GBodekYang GEVGModules GQEL GRES GDIS GCoh GDfrc GMEC GNuE GNuGamma GHadronTransp GAlvarezRuso GBergerSehgal GSingleKaon GMuELoss log4cpp xml2 EGPythia6)
+
+target_link_libraries(exampleB4c ${dummy} ${dummy} GBase)
+
+#target_link_libraries(exampleB4c Core RIO Net Hist Graf Graf3d Gpad Tree TreePlayer Rint Postscript Matrix Physics MathCore Thread MultiProc m dl GMessenger GRegistry GAlgorithm GInteraction GHEP GBase GNumerical GUtils GPDG GBaryonResonance GEVGCore GEVGDrivers GNtuple GGeo GFluxDrivers GPDF GElFF GDecay GFragmentation GNuclear GLlewellynSmith GCrossSections GCharm GElas GGiBUU GReinSehgal GQPM GBodekYang GEVGModules GQEL GRES GDIS GCoh GDfrc GMEC GNuE GNuGamma GHadronTransp GAlvarezRuso GBergerSehgal GSingleKaon GMuELoss )
+
+link_libraries("--discard-none")
+
+#SET(CMAKE_EXE_LINKER_FLAGS "-ldiscard-none")
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we

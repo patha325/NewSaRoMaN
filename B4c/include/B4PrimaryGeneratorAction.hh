@@ -34,8 +34,23 @@
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "globals.hh"
 
+#include <TSystem.h>
+#include <TFile.h>
+#include <TTree.h>
+#include <TIterator.h>
+
+#include "B4cDetectorConstruction.hh"
+
+#include "EVGCore/EventRecord.h"
+#include "GHEP/GHepParticle.h"
+#include "Ntuple/NtpMCFormat.h"
+#include "Ntuple/NtpMCTreeHeader.h"
+#include "Ntuple/NtpMCEventRecord.h"
+
 class G4ParticleGun;
 class G4Event;
+
+using namespace genie;
 
 /// The primary generator action class with particle gum.
 ///
@@ -57,6 +72,18 @@ public:
 
 private:
   G4ParticleGun*  fParticleGun; // G4 particle gun
+
+// for neutrino mode
+  TFile* _genieFiles[2]; ///< Genie input data files
+  TTree* _genieData[2]; ///< Data trees
+  /* NtpMCTreeHeader* _genieHeader[2]; ///<genie headers. */
+  NtpMCEventRecord* _mcrec[2];
+
+  G4int _evCount[2]; //< Event counter.
+
+  G4int _tasd; //< a tasd detector?
+
+
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
