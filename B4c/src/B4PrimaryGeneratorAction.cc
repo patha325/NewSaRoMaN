@@ -175,10 +175,10 @@ void B4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
        
        particle->SetCharge( part->Charge() );
        
-       if ( part == fsl ){
+       //if ( part == fsl ){
 	 // G4cout<<part->Pdg()<<"\t"<<part->E()<<G4endl;
 	 vertex->SetPrimary(particle);
-       }
+	 //}
      }  
      
      part = dynamic_cast<GHepParticle *>(iter.Next());
