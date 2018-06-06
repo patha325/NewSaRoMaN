@@ -83,15 +83,27 @@ gRandom->SetSeed(14);
   genfit::MeasurementProducer<genfit::mySpacepointDetectorHit, genfit::mySpacepointMeasurement> myProducer(&myDetectorHitArray);
   factory.addProducer(myDetId, &myProducer);
   
-  TFile *f=new TFile("B4.root");
-  TTree *tr=(TTree*)f->Get("B4");
+  TFile *inFile=new TFile("B4.root","READONLY");
+  TTree *tr=(TTree*)inFile->Get("B4");
+
+  TFile outFile("out.root","recreate");
+  TTree* tree = new TTree("tree","A ROOT TREE");
+
+  //std::vector<double> *f1=0;
+  //std::vector<double> *f2=0;
+
+  double f1 = 2.0;
+  
+  tree->Branch("Float1",&f1);
+  //tree->Branch("Float2",&f2,"float2");
+  //tree->GetBranch("Float1")->SetFile("out.root");
   
   std::ofstream myfile;
   myfile.open ("example2.txt",std::ofstream::out | std::ofstream::app);
   
   // main loop
-  //for (unsigned int iEvent=0; iEvent<100000; ++iEvent){
-for (unsigned int iEvent=55655; iEvent<100000; ++iEvent){
+  for (unsigned int iEvent=0; iEvent<10; ++iEvent){
+  //for (unsigned int iEvent=55655; iEvent<100000; ++iEvent){
     std::cout<<"Event Num="<<iEvent<<std::endl;
     
     //if(iEvent==34 || iEvent==666) continue; // Why does this one break??!?!?!
@@ -109,10 +121,15 @@ for (unsigned int iEvent=55655; iEvent<100000; ++iEvent){
     tr->SetBranchAddress("pdg",&vPDG);
     //tr->SetBranchAddress("EventID",&eventIDR);
     tr->SetBranchAddress("MCtr_Mom",&mctr_mom);
-    
-    
+
     tr->GetEntry(iEvent);
 
+    //std::cout<<mctr_mom<<std::endl;
+    
+    f1=mctr_mom;
+
+    //std::cout<<f1<<std::endl;
+    
     myDetectorHitArray.Clear();
     
     //TrackCand
@@ -301,10 +318,16 @@ for (unsigned int iEvent=55655; iEvent<100000; ++iEvent){
     */
     //std::cout<<"ended loop of event"<<std::endl;
 
+    tree->Fill();
+    
   }// end loop over events
 
   delete fitter;
 
+  //tree->Write();
+  outFile.Write();
+  //outFile.close();
+  
   myfile.close();
   
   // open event display
