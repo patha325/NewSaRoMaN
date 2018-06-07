@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+    
+<define>
+ <constant name="HALFPI" value="pi/2."/>
+ <constant name="PI" value="1.*pi"/>
+ <constant name="TWOPI" value="2.*pi"/>
+ <position name="center"/>
+
+ <constant name="xBarLength" value="1060"/>
+ <constant name="yBarLength" value="50"/>
+ <constant name="zBarLength" value="2.5"/>
+ <constant name="cutLength" value="2.5"/>
+ <constant name="cutDiff" value="yBarLength+cutLength"/>
+
+ <position name="py0" y="-xBarLength/2+yBarLength/2+cutLength/2"/>
+ <position name="py1" y="-xBarLength/2+yBarLength/2+cutLength/2+cutDiff"/>
+ <position name="py2"
+ y="-xBarLength/2+yBarLength/2+cutLength/2+2*cutDiff"/>
+ <position name="py3"
+ y="-xBarLength/2+yBarLength/2+cutLength/2+3*cutDiff"/>
+ <position name="py4"
+ y="-xBarLength/2+yBarLength/2+cutLength/2+4*cutDiff"/>
+ <position name="py5"
+ y="-xBarLength/2+yBarLength/2+cutLength/2+5*cutDiff"/>
+ <position name="py6"
+ y="-xBarLength/2+yBarLength/2+cutLength/2+6*cutDiff"/>
+ <position name="py7"
+ y="-xBarLength/2+yBarLength/2+cutLength/2+7*cutDiff"/>
+ <position name="py8"
+ y="-xBarLength/2+yBarLength/2+cutLength/2+8*cutDiff"/>
+ <position name="py9"
+ y="-xBarLength/2+yBarLength/2+cutLength/2+9*cutDiff"/>
+ <position name="py10"
+ y="-xBarLength/2+yBarLength/2+cutLength/2+10*cutDiff"/>
+ <position name="py11"
+ y="-xBarLength/2+yBarLength/2+cutLength/2+11*cutDiff"/>
+ <position name="py12"
+ y="-xBarLength/2+yBarLength/2+cutLength/2+12*cutDiff"/>
+ <position name="py13"
+ y="-xBarLength/2+yBarLength/2+cutLength/2+13*cutDiff"/>
+ <position name="py14"
+ y="-xBarLength/2+yBarLength/2+cutLength/2+14*cutDiff"/>
+ <position name="py15"
+ y="-xBarLength/2+yBarLength/2+cutLength/2+15*cutDiff"/>
+ <position name="py16"
+ y="-xBarLength/2+yBarLength/2+cutLength/2+16*cutDiff"/>
+ <position name="py17"
+ y="-xBarLength/2+yBarLength/2+cutLength/2+17*cutDiff"/>
+ <position name="py18"
+ y="-xBarLength/2+yBarLength/2+cutLength/2+18*cutDiff"/>
+ <position name="py19"
+ y="-xBarLength/2+yBarLength/2+cutLength/2+19*cutDiff"/>
+
+
+ <position name="px0" x="-xBarLength/2+yBarLength/2+cutLength/2" y="yBarLength/4"/>
+ <position name="px1"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+cutDiff" y="yBarLength/4"/>
+ <position name="px2"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+2*cutDiff" y="yBarLength/4"/>
+ <position name="px3"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+3*cutDiff" y="yBarLength/4"/>
+ <position name="px4"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+4*cutDiff" y="yBarLength/4"/>
+ <position name="px5"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+5*cutDiff" y="yBarLength/4"/>
+ <position name="px6"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+6*cutDiff" y="yBarLength/4"/>
+ <position name="px7"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+7*cutDiff" y="yBarLength/4"/>
+ <position name="px8"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+8*cutDiff" y="yBarLength/4"/>
+ <position name="px9"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+9*cutDiff" y="yBarLength/4"/>
+ <position name="px10"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+10*cutDiff" y="yBarLength/4"/>
+ <position name="px11"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+11*cutDiff" y="yBarLength/4"/>
+ <position name="px12"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+12*cutDiff" y="yBarLength/4"/>
+ <position name="px13"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+13*cutDiff" y="yBarLength/4"/>
+ <position name="px14"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+14*cutDiff" y="yBarLength/4"/>
+ <position name="px15"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+15*cutDiff" y="yBarLength/4"/>
+ <position name="px16"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+16*cutDiff" y="yBarLength/4"/>
+ <position name="px17"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+17*cutDiff" y="yBarLength/4"/>
+ <position name="px18"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+18*cutDiff" y="yBarLength/4"/>
+ <position name="px19"
+ x="-xBarLength/2+yBarLength/2+cutLength/2+19*cutDiff" y="yBarLength/4"/>
+
+ <rotation name="identity"/>
+ <position name="shiftbyx" x="20.0"/>
+ <position name="pxp10" x="10.0"/>
+ <position name="px250" x="250.0"/>
+ <position name="px200" x="200.0"/>
+ <rotation name="rotatebyx" x="HALFPI"/>
+ <rotation name="rotatebyy" y="HALFPI"/>
+ <rotation name="rotatebyz" z="HALFPI"/>
+ <rotation name="rotatebyxy" x="PI" y="HALFPI"/>
+ <rotation name="rotatebyall" x="HALFPI" y="PI" z="TWOPI"/>
+</define>
+
+<materials>
+  <element name="Hydrogen" formula="H" Z="1."> <atom value="1.01"/>
+  </element>
+  <element name="Oxygen" formula="O" Z="8."> <atom value="16.0"/>
+  </element>
+  <element name="Nitrogen" formula="N" Z="7."> <atom value="14.01"/>
+  </element>
+  <material name="Al" Z="13.0">
+   <D value="2.70"/> <atom value="26.98"/>
+  </material>
+  <material name="Water" formula="H20">
+   <D value="1.0"/>
+   <composite n="2" ref="Hydrogen"/>
+   <composite n="1" ref="Oxygen"/>
+  </material>
+  <material name="Air">
+   <D value="1.290" unit="mg/cm3"/>
+   <fraction n="0.7" ref="Nitrogen"/>
+   <fraction n="0.3" ref="Oxygen"/>
+  </material>
+ </materials>
+
+<solids>
+  <!-- x ->, y ^ z out -->
+  <box name="WorldBox" x="10000.0" y="10000.0" z="10000.0"/>
+  <box name="WBar_solid" x="xBarLength" y="yBarLength" z="zBarLength"/>
+  <box name="WBarO_solid" x="xBarLength" y="xBarLength/6" z="zBarLength"/>
+  <box name="WCut" x="cutLength" y="yBarLength/2" z="zBarLength"/>
+  <box name="WGrid_solid" x="xBarLength" y="xBarLength" z="yBarLength"/>
+  <box name="WBars_solid" x="xBarLength" y="xBarLength" z="zBarLength"/>
+  <box name="WAGASCI_solid" x="xBarLength" y="xBarLength" z="2*zBarLength+2*yBarLength"/>
+  <box name="DETECTOR_solid2" x="xBarLength" y="xBarLength" z="2*(2*zBarLength+2*yBarLength)"/>
+
+<!-- Remove gaps in bar -->
+
+  <subtraction name="sub0">
+    <first ref="WBar_solid"/> <second ref="WCut"/>
+    <positionref ref="px0"/> <rotationref ref="identity"/>
+  </subtraction>
+  <subtraction name="sub1">
+    <first ref="sub0"/> <second ref="WCut"/>
+    <positionref ref="px1"/> <rotationref ref="identity"/>
+  </subtraction>
+  <subtraction name="sub2">
+    <first ref="sub1"/> <second ref="WCut"/>
+    <positionref ref="px2"/> <rotationref ref="identity"/>
+  </subtraction>
+  <subtraction name="sub3">
+    <first ref="sub2"/> <second ref="WCut"/>
+    <positionref ref="px3"/> <rotationref ref="identity"/>
+  </subtraction>
+  <subtraction name="sub4">
+    <first ref="sub3"/> <second ref="WCut"/>
+    <positionref ref="px4"/> <rotationref ref="identity"/>
+  </subtraction>
+  <subtraction name="sub5">
+    <first ref="sub4"/> <second ref="WCut"/>
+    <positionref ref="px5"/> <rotationref ref="identity"/>
+  </subtraction>
+  <subtraction name="sub6">
+    <first ref="sub5"/> <second ref="WCut"/>
+    <positionref ref="px6"/> <rotationref ref="identity"/>
+  </subtraction>
+  <subtraction name="sub7">
+    <first ref="sub6"/> <second ref="WCut"/>
+    <positionref ref="px7"/> <rotationref ref="identity"/>
+  </subtraction>
+  <subtraction name="sub8">
+    <first ref="sub7"/> <second ref="WCut"/>
+    <positionref ref="px8"/> <rotationref ref="identity"/>
+  </subtraction>
+  <subtraction name="sub9">
+    <first ref="sub8"/> <second ref="WCut"/>
+    <positionref ref="px9"/> <rotationref ref="identity"/>
+  </subtraction>
+  <subtraction name="sub10">
+    <first ref="sub9"/> <second ref="WCut"/>
+    <positionref ref="px10"/> <rotationref ref="identity"/>
+  </subtraction>
+  <subtraction name="sub11">
+    <first ref="sub10"/> <second ref="WCut"/>
+    <positionref ref="px11"/> <rotationref ref="identity"/>
+  </subtraction>
+  <subtraction name="sub12">
+    <first ref="sub11"/> <second ref="WCut"/>
+    <positionref ref="px12"/> <rotationref ref="identity"/>
+  </subtraction>
+ <subtraction name="sub13">
+    <first ref="sub12"/> <second ref="WCut"/>
+    <positionref ref="px13"/> <rotationref ref="identity"/>
+  </subtraction>
+ <subtraction name="sub14">
+    <first ref="sub13"/> <second ref="WCut"/>
+    <positionref ref="px14"/> <rotationref ref="identity"/>
+  </subtraction>
+ <subtraction name="sub15">
+    <first ref="sub14"/> <second ref="WCut"/>
+    <positionref ref="px15"/> <rotationref ref="identity"/>
+  </subtraction>
+ <subtraction name="sub16">
+    <first ref="sub15"/> <second ref="WCut"/>
+    <positionref ref="px16"/> <rotationref ref="identity"/>
+  </subtraction>
+ <subtraction name="sub17">
+    <first ref="sub16"/> <second ref="WCut"/>
+    <positionref ref="px17"/> <rotationref ref="identity"/>
+  </subtraction>
+ <subtraction name="sub18">
+    <first ref="sub17"/> <second ref="WCut"/>
+    <positionref ref="px18"/> <rotationref ref="identity"/>
+  </subtraction>
+ <subtraction name="sub19">
+    <first ref="sub18"/> <second ref="WCut"/>
+    <positionref ref="px19"/> <rotationref ref="identity"/>
+  </subtraction>
+
+ </solids>
+
+<structure>
+ <volume name="WBar_volume">
+   <materialref ref="Al"/> <solidref ref="sub19"/>
+   <auxiliary auxtype="SD" auxvalue="Bar"/>
+  <auxiliary auxtype="EMField" auxvalue="NULL"/>
+  <auxiliary auxtype="Color" auxvalue="Red"/>
+  </volume>
+ <volume name="WBarO_volume">
+   <materialref ref="Al"/> <solidref ref="WBarO_solid"/>
+   <auxiliary auxtype="SD" auxvalue="Bar"/>
+  <auxiliary auxtype="EMField" auxvalue="NULL"/>
+  <auxiliary auxtype="Color" auxvalue="Blue"/>
+  </volume>
+
+<volume name="WGrid">
+  <solidref ref="WGrid_solid"/>
+  <materialref ref="Air" />
+  <paramvol ncopies="20">
+    <volumeref ref="WBar_volume"/>
+       <parameterised_position_size>
+       <parameters number="1">
+<position name="positionCopy1" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2"/>
+         <box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/>
+       </parameters>
+<parameters number="2">
+<position name="positionCopy2" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+<parameters number="3">
+<position name="positionCopy3" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+2*cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+<parameters number="4">
+<position name="positionCopy4" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+3*cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+<parameters number="5">
+<position name="positionCopy5" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+4*cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+<parameters number="6">
+<position name="positionCopy6" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+5*cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+<parameters number="7">
+<position name="positionCopy7" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+6*cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+<parameters number="8">
+<position name="positionCopy8" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+7*cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+<parameters number="9">
+<position name="positionCopy9" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+8*cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+<parameters number="10">
+<position name="positionCopy10" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+9*cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+<parameters number="11">
+<position name="positionCopy11" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+10*cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+<parameters number="12">
+<position name="positionCopy12" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+11*cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+<parameters number="13">
+<position name="positionCopy13" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+12*cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+<parameters number="14">
+<position name="positionCopy14" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+13*cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+<parameters number="15">
+<position name="positionCopy15" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+14*cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+<parameters number="16">
+<position name="positionCopy16" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+15*cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+<parameters number="17">
+<position name="positionCopy17" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+16*cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+<parameters number="18">
+<position name="positionCopy18" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+17*cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+<parameters number="19">
+<position name="positionCopy19" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+18*cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+<parameters number="20">
+<position name="positionCopy20" x="0" z="0" y="-xBarLength/2+yBarLength/2+cutLength/2+19*cutDiff"/>
+<box_dimensions x="xBarLength" y="yBarLength" z="zBarLength"/> 
+       </parameters>
+      </parameterised_position_size>
+  </paramvol>
+</volume>
+
+<volume name="WBars">
+  <solidref ref="WBars_solid"/>
+  <materialref ref="Air" />
+  <paramvol ncopies="6">
+    <volumeref ref="WBarO_volume"/>
+       <parameterised_position_size>
+       <parameters number="1">
+<position name="positionCopy1" x="0" z="0" y="-xBarLength/2+xBarLength/6/2"/>
+         <box_dimensions x="xBarLength" y="xBarLength/6" z="zBarLength"/>
+       </parameters>
+<parameters number="2">
+<position name="positionCopy2" x="0" z="0" y="-xBarLength/2+3*xBarLength/6/2"/>
+<box_dimensions x="xBarLength" y="xBarLength/6" z="zBarLength"/> 
+       </parameters>
+<parameters number="3">
+<position name="positionCopy3" x="0" z="0" y="-xBarLength/2+5*xBarLength/6/2"/>
+<box_dimensions x="xBarLength" y="xBarLength/6" z="zBarLength"/> 
+       </parameters>
+<parameters number="4">
+<position name="positionCopy4" x="0" z="0" y="-xBarLength/2+7*xBarLength/6/2"/>
+<box_dimensions x="xBarLength" y="xBarLength/6" z="zBarLength"/> 
+       </parameters>
+<parameters number="5">
+<position name="positionCopy5" x="0" z="0" y="-xBarLength/2+9*xBarLength/6/2"/>
+<box_dimensions x="xBarLength" y="xBarLength/6" z="zBarLength"/> 
+       </parameters>
+<parameters number="6">
+<position name="positionCopy6" x="0" z="0" y="-xBarLength/2+11*xBarLength/6/2"/>
+<box_dimensions x="xBarLength" y="xBarLength/6" z="zBarLength"/> 
+       </parameters>
+      </parameterised_position_size>
+  </paramvol>
+</volume>
+
+<volume name="WGrid3D">
+  <materialref ref="Water"/>
+  <solidref ref="WGrid_solid"/>
+  <physvol name="TASD_phys">
+    <volumeref ref="WGrid"/>
+    <position name="WGrid_pos" unit="mm"
+                  x="0.0" y="0.0" z="0.0"/>
+  </physvol>
+  <physvol name="TASD_phys2">
+    <volumeref ref="WGrid"/>
+    <position name="WGrid_pos" unit="mm"
+                  x="0.0" y="0.0" z="0.0"/>
+    <rotationref ref="rotatebyz"/>
+  </physvol>
+  <auxiliary auxtype="EMField" auxvalue="NULL"/>
+  <auxiliary auxtype="Color" auxvalue="Red"/>
+</volume>
+
+<volume name="WAGASCIDetectorMod">
+  <materialref ref="Air"/>
+  <solidref ref="WAGASCI_solid"/>
+  <physvol name="TASD_WBars_phys">
+    <volumeref ref="WBars"/>
+    <position name="WBars_pos" unit="mm"
+                  x="0.0" y="0.0" z="-2*(yBarLength+zBarLength)/2+zBarLength/2"/>
+  </physvol>
+  <physvol name="WGrid3D_phys">
+    <volumeref ref="WGrid3D"/>
+    <position name="WGrid3D_pos" unit="mm"
+                  x="0.0" y="0.0" z="-2*(yBarLength+zBarLength)/2+zBarLength+yBarLength/2"/>
+  </physvol>
+  <physvol name="TASD_WBars_phys2">
+    <volumeref ref="WBars"/>
+    <position name="WBars_pos2" unit="mm"
+                  x="0.0" y="0.0" z="-2*(yBarLength+zBarLength)/2+zBarLength+yBarLength+zBarLength/2"/>
+    <rotationref ref="rotatebyz"/>
+  </physvol>
+    <physvol name="WGrid3D_phys2">
+    <volumeref ref="WGrid3D"/>
+    <position name="WGrid3D_pos2" unit="mm"
+                  x="0.0" y="0.0" z="-2*(yBarLength+zBarLength)/2+zBarLength+yBarLength+zBarLength+yBarLength/2"/>
+  </physvol>
+  <auxiliary auxtype="EMField" auxvalue="NULL"/>
+  <auxiliary auxtype="Invisible" auxvalue="1"/>
+</volume>
+
+  <volume name="WW">
+    <materialref ref="Air"/> 
+    <solidref ref="DETECTOR_solid2"/>
+    <!--solidref ref="WorldBox"/-->
+    <physvol name="WAGASCIDetectorMod_physi">
+        <volumeref ref="WAGASCIDetectorMod"/>
+        <position name="WAGASCIDetectorMod_pos" unit="mm"
+                  x="0.0" y="0.0" z="-(2*zBarLength+2*yBarLength)/2"/>
+    </physvol>
+        <physvol name="WAGASCIDetectorMod_physi2">
+        <volumeref ref="WAGASCIDetectorMod"/>
+        <position name="WAGASCIDetectorMod_pos2" unit="mm"
+                  x="0.0" y="0.0" z="+(2*zBarLength+2*yBarLength)/2"/>
+    </physvol>
+    <auxiliary auxtype="EMField" auxvalue="NULL"/>
+    <auxiliary auxtype="Invisible" auxvalue="1"/>
+  </volume>
+ </structure>
+
+<setup name="Default" version="1.0">
+  <world ref="WW"/>
+ </setup>
+
+ </gdml>

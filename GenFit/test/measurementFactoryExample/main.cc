@@ -35,12 +35,19 @@
 #include "TFile.h"
 #include "TTree.h"
 #include <fstream>
+#include <cstdlib>
 
 //#include "FitStatus.h"
 
 
-int main() {
+int main(int argc, char* argv[]) {
 
+  //std::cout << argv[0] << std::endl;
+  //std::cout << argv[1] << std::endl;
+
+int lowerEventNum = atoi(argv[1]);
+int higherEventNum = atoi(argv[2]);
+  
 gRandom->SetSeed(14);
 
   // init MeasurementCreator
@@ -83,7 +90,7 @@ gRandom->SetSeed(14);
   genfit::MeasurementProducer<genfit::mySpacepointDetectorHit, genfit::mySpacepointMeasurement> myProducer(&myDetectorHitArray);
   factory.addProducer(myDetId, &myProducer);
   
-  TFile *inFile=new TFile("B4.root","READONLY");
+  TFile *inFile=new TFile("in.root","READONLY");
   TTree *tr=(TTree*)inFile->Get("B4");
 
   // Create the out root file and fix all branches
@@ -121,7 +128,8 @@ gRandom->SetSeed(14);
   //myfile.open ("example2.txt",std::ofstream::out | std::ofstream::app);
   
   // main loop
-  for (unsigned int iEvent=0; iEvent<10; ++iEvent){
+  for (unsigned int iEvent=lowerEventNum; iEvent<higherEventNum; ++iEvent){
+  //for (unsigned int iEvent=0; iEvent<10; ++iEvent){
   //for (unsigned int iEvent=55655; iEvent<100000; ++iEvent){
     std::cout<<"Event Num="<<iEvent<<std::endl;
     
@@ -246,7 +254,6 @@ gRandom->SetSeed(14);
     for (int i = 3; i < 6; ++i)
       covSeed(i,i) = pow(resolution / 18 / sqrt(3), 2);
 
-
     // set start values and pdg to cand
     myCand.setPosMomSeedAndPdgCode(posM, momM, pdg);
     myCand.setCovSeed(covSeed);
@@ -255,15 +262,11 @@ gRandom->SetSeed(14);
     
     // create track
     genfit::Track fitTrack(myCand, factory,new genfit::RKTrackRep(pdg));
-
     fitTrack.reverseTrackPoints(); //provides better fit.
     
     //std::cout<<"trying to fit"<<std::endl;
-
     //std::cout<<myCand.getNHits()<<std::endl;
 
-
-    
     // do the fit
     try{
       TVector3 pos2;
@@ -274,7 +277,7 @@ gRandom->SetSeed(14);
       fitTrack.getFittedState().getPosMomCov(pos2,mom2,cov2);
       int reccharge = refcharge*fitTrack.getFittedState().getCharge();
       //charge comes back as a true/false value. True given pdg assumption.
-      double length = fitTrack.getTrackLen()*10;
+      double length = 0.0;//fitTrack.getTrackLen()*10;
       genfit::FitStatus* status = fitTrack.getFitStatus();
       double chi2 = status->getChi2();
       double ndf = status->getNdf();
@@ -376,6 +379,7 @@ gRandom->SetSeed(14);
   // open event display
   //display->open();
 
+  return 0;
 }
 
 

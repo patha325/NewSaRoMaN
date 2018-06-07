@@ -45,7 +45,7 @@ MindFieldMapR::MindFieldMapR(G4String Bmap, double fieldScaling,
     // if(entries.size() != 6) G4err
     double x = atof(entries.at(0).c_str())*m;
     double y = atof(entries[1].c_str())*m;
-    double z = atof(entries[2].c_str())*m;
+    //double z = atof(entries[2].c_str())*m;
     double Bx = atof(entries[3].c_str())*tesla;
     double By = atof(entries[4].c_str())*tesla;
     double Bz = atof(entries[5].c_str())*tesla;

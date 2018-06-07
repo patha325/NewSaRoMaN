@@ -85,7 +85,7 @@ G4bool MindBarSD::ProcessHits(G4Step* step, G4TouchableHistory*)
   G4int copyNo = theTouchable->GetCopyNumber();
   hit->SetPDG(step->GetTrack()->GetDefinition()->GetPDGEncoding());
   
-  G4double barOffset = 0;
+  //G4double barOffset = 0;
 
   hit->SetMomentum(mom);
  
@@ -130,6 +130,8 @@ G4bool MindBarSD::ProcessHits(G4Step* step, G4TouchableHistory*)
   */
   
   _MHCollection->insert(hit);
+
+  return true;
 }
 
 // void MindSD::EndOfEvent(G4HCofThisEvent*)

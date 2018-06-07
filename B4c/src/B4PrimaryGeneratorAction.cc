@@ -134,7 +134,7 @@ void B4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     G4String region_name = "WAGASCIDetectorMod";//"PASSIVE";//"ACTIVE","TASD"
     G4int region_code = region_name.contains("PASSIVE") ? 1 : 0;
 
-  G4int catcher = _genieData[region_code]->GetEntry( _evCount[region_code] );
+    (void) _genieData[region_code]->GetEntry( _evCount[region_code] );
    _genieData[region_code]->Show(_evCount[region_code]);
 
    // find some vertex position for the volume. TASD, randomly inside. Passive, random module random pos inside. For now just 0. Ask the geometry for positions!
@@ -152,12 +152,12 @@ void B4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
    EventRecord & gEvent = *(_mcrec[region_code]->event);
    
    //Event information.
-   Interaction* gInt = gEvent.Summary();
-   GHepParticle* fsl = gEvent.FinalStatePrimaryLepton();
+   //Interaction* gInt = gEvent.Summary();
+   //GHepParticle* fsl = gEvent.FinalStatePrimaryLepton();
 
    TObjArrayIter iter(&gEvent);
    GHepParticle *part = dynamic_cast<GHepParticle *>(iter.Next());//0;
-   int pStatus, pdg, fslcount=0;
+   int pStatus, pdg;// fslcount=0;
 
    while ( part != NULL ){
      //Get particle status.
@@ -191,64 +191,66 @@ void B4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 }
    
   // end of neutrino mode
-   else{
-  G4double worldZHalfLength = 0.;
-  auto worldLV = G4LogicalVolumeStore::GetInstance()->GetVolume("World");
-
-  // Check that the world volume has box shape
-  G4Box* worldBox = nullptr;
-  if (  worldLV ) {
-    worldBox = dynamic_cast<G4Box*>(worldLV->GetSolid());
-  }
-
-  if ( worldBox ) {
-    worldZHalfLength = worldBox->GetZHalfLength();  
-  }
-  else  {
+  else{
+    //G4double worldZHalfLength = 0.;
+    //auto worldLV = G4LogicalVolumeStore::GetInstance()->GetVolume("World");
+    
+    // Check that the world volume has box shape
+    /*
+      G4Box* worldBox = nullptr;
+      if (  worldLV ) {
+      worldBox = dynamic_cast<G4Box*>(worldLV->GetSolid());
+      }
+      
+      if ( worldBox ) {
+      worldZHalfLength = worldBox->GetZHalfLength();  
+      }
+      else  {
     G4ExceptionDescription msg;
     msg << "World volume of box shape not found." << G4endl;
     msg << "Perhaps you have changed geometry." << G4endl;
     msg << "The gun will be place in the center.";
     G4Exception("B4PrimaryGeneratorAction::GeneratePrimaries()",
-      "MyCode0002", JustWarning, msg);
-  } 
-  /*
-  G4PrimaryVertex* vertex = new G4PrimaryVertex(G4ThreeVector(0.0,0.0,-.5*worldZHalfLength), 0.0);
-  */
+    "MyCode0002", JustWarning, msg);
+    } 
+    */
+    /*
+      G4PrimaryVertex* vertex = new G4PrimaryVertex(G4ThreeVector(0.0,0.0,-.5*worldZHalfLength), 0.0);
+    */
   // Set gun position
   //fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., -.2*worldZHalfLength));
-
-  G4int nofParticles = 1;
-  
-  fParticleGun = new G4ParticleGun(nofParticles);
-
-  auto particleDefinition 
+    
+    G4int nofParticles = 1;
+    
+    fParticleGun = new G4ParticleGun(nofParticles);
+    
+    auto particleDefinition 
     = G4ParticleTable::GetParticleTable()->FindParticle("mu-");
-  fParticleGun->SetParticleDefinition(particleDefinition);
-
-  fParticleGun->SetParticleEnergy(0.0);
-  
-  G4double min = 200. *MeV;
-  G4double max = 10000. *MeV;
-  
-  G4double momentum = (G4UniformRand() * (max - min) + min);
-  fParticleGun->SetParticleMomentum(G4ThreeVector(0.,0.,momentum));
-  
-  fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., -3000.0));
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.0,0.0,1.0));
-  
-  fParticleGun->GeneratePrimaryVertex(anEvent);
+    fParticleGun->SetParticleDefinition(particleDefinition);
+    
+    fParticleGun->SetParticleEnergy(0.0);
+    
+    G4double min = 200. *MeV;
+    G4double max = 10000. *MeV;
+    
+    G4double momentum = (G4UniformRand() * (max - min) + min);
+    fParticleGun->SetParticleMomentum(G4ThreeVector(0.,0.,momentum));
+    
+    fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., -3000.0));
+    fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.0,0.0,1.0));
+    
+    fParticleGun->GeneratePrimaryVertex(anEvent);
   /*
-  G4PrimaryParticle* particle = new G4PrimaryParticle(G4ParticleTable::GetParticleTable()->FindParticle("mu-"), 0.0,0.0,3000.0);
-
-  particle->SetMass(G4ParticleTable::GetParticleTable()->FindParticle("mu-")->GetPDGMass());
-  particle->SetCharge(G4ParticleTable::GetParticleTable()->FindParticle("mu-")->GetPDGCharge());
-  particle->SetPolarization(0.,0.,0.);
-  vertex->SetPrimary(particle);
-  anEvent->AddPrimaryVertex(vertex);
+    G4PrimaryParticle* particle = new G4PrimaryParticle(G4ParticleTable::GetParticleTable()->FindParticle("mu-"), 0.0,0.0,3000.0);
+    
+    particle->SetMass(G4ParticleTable::GetParticleTable()->FindParticle("mu-")->GetPDGMass());
+    particle->SetCharge(G4ParticleTable::GetParticleTable()->FindParticle("mu-")->GetPDGCharge());
+    particle->SetPolarization(0.,0.,0.);
+    vertex->SetPrimary(particle);
+    anEvent->AddPrimaryVertex(vertex);
   */
-  delete fParticleGun;
-   }
+    delete fParticleGun;
+  }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
