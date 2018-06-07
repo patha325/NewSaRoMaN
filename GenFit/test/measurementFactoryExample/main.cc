@@ -86,20 +86,39 @@ gRandom->SetSeed(14);
   TFile *inFile=new TFile("B4.root","READONLY");
   TTree *tr=(TTree*)inFile->Get("B4");
 
+  // Create the out root file and fix all branches
   TFile outFile("out.root","recreate");
   TTree* tree = new TTree("tree","A ROOT TREE");
 
-  //std::vector<double> *f1=0;
-  //std::vector<double> *f2=0;
+  double o_mctr_mom = 0.0;
+  int o_event = 0;
+  int o_charge = 0;
+  double o_mom = 0.0;
+  double o_cov = 0.0;
+  double o_track_len = 0.0;
+  std::vector<double> *o_vposX=0;
+  std::vector<double> *o_vposY=0;
+  std::vector<double> *o_vposZ=0;
+  std::vector<double> *o_recvposX=0;
+  std::vector<double> *o_recvposY=0;
+  std::vector<double> *o_recvposZ=0;
+  std::vector<int> *o_vPDG=0;
 
-  double f1 = 2.0;
-  
-  tree->Branch("Float1",&f1);
-  //tree->Branch("Float2",&f2,"float2");
-  //tree->GetBranch("Float1")->SetFile("out.root");
-  
-  std::ofstream myfile;
-  myfile.open ("example2.txt",std::ofstream::out | std::ofstream::app);
+  tree->Branch("MC_positionX",&o_vposX);
+  tree->Branch("MC_positionY",&o_vposY);
+  tree->Branch("MC_positionZ",&o_vposZ);
+  tree->Branch("pdg",&o_vPDG);
+  tree->Branch("MCtr_Mom",&o_mctr_mom);
+  tree->Branch("Event",&o_event);
+  tree->Branch("Rec_Charge",&o_charge);
+  tree->Branch("Rec_mom",&o_mom);
+  tree->Branch("Rec_cov",&o_cov);
+  tree->Branch("Rec_track_len",&o_track_len);
+  tree->Branch("Rec_positionX",&o_recvposX);
+  tree->Branch("Rec_positionY",&o_recvposY);
+  tree->Branch("Rec_positionZ",&o_recvposZ);
+  //std::ofstream myfile;
+  //myfile.open ("example2.txt",std::ofstream::out | std::ofstream::app);
   
   // main loop
   for (unsigned int iEvent=0; iEvent<10; ++iEvent){
@@ -121,21 +140,22 @@ gRandom->SetSeed(14);
     tr->SetBranchAddress("pdg",&vPDG);
     //tr->SetBranchAddress("EventID",&eventIDR);
     tr->SetBranchAddress("MCtr_Mom",&mctr_mom);
-
+    
     tr->GetEntry(iEvent);
 
-    //std::cout<<mctr_mom<<std::endl;
-    
-    f1=mctr_mom;
-
-    //std::cout<<f1<<std::endl;
+    //Fill the out root file with simulation parameters.
+    o_vposX=vposX;
+    o_vposY=vposY;
+    o_vposZ=vposZ;
+    o_vPDG=vPDG;
+    o_mctr_mom=mctr_mom;
     
     myDetectorHitArray.Clear();
     
     //TrackCand
     genfit::TrackCand myCand;
     
-    // true start values
+    // Provide the fitter with an initial guess.
     TVector3 pos(0, 0, -200);
     TVector3 mom(0,0,-3.0);
     //mom.SetPhi(gRandom->Uniform(0.,2*TMath::Pi()));
@@ -143,7 +163,7 @@ gRandom->SetSeed(14);
     //mom.SetMag(gRandom->Uniform(0.2, 1.));
     
     
-    // helix track model
+    // track model
     const int pdg = 13;// particle pdg code
     const int refcharge = TDatabasePDG::Instance()->GetParticle(pdg)->Charge()/3.0;
     //genfit::HelixTrackModel* helix = new genfit::HelixTrackModel(pos, mom, charge);
@@ -262,17 +282,40 @@ gRandom->SetSeed(14);
       bool converged = status->isFitConvergedFully();
       int failedPoints = status->getNFailedPoints();
       double Pval = status->getPVal();
-      myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<reccharge<<"\t"<<mom2[2]<<"\t"<<sqrt(cov2[0][0])<<"\t"<<length<<"\n";
+
+      //Fill the out root file with rec parameters.
+      o_event = iEvent;
+      o_charge = reccharge;
+      o_mom = mom2[2]*1000.0;
+      o_cov = sqrt(cov2[0][0]*1000.0);
+      o_track_len = length;
+
+      o_recvposX->clear();
+      o_recvposY->clear();
+      o_recvposZ->clear();
+
+      for(unsigned counter = 0; counter<fitTrack.getNumPoints();counter++)
+	{
+	  fitTrack.getFittedState(counter).getPosMomCov(pos2,mom2,cov2);
+	  o_recvposX->push_back(pos2[0]*10.0);
+	  o_recvposY->push_back(pos2[1]*10.0);
+	  o_recvposZ->push_back(pos2[2]*10.0);
+	  
+	  //myfile << mom2[2]<<"\t"<<fitTrack.getFittedState(counter).getCharge()<<"\t"<<mom2[2]<<"\t"<<pos2.Z()<<"\n";
+	}
+
+      
+      //myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<reccharge<<"\t"<<mom2[2]<<"\t"<<sqrt(cov2[0][0])<<"\t"<<length<<"\n";
     }
     catch(genfit::Exception& e){
       std::cerr << e.what();
       std::cerr << "Exception, next track" << std::endl;
-      myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\n";
+      //myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\n";
       continue;
     }
     catch(...){
       std::cerr << "Exception, next track" << std::endl;
-      myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\n";
+      //myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\n";
       continue;
     }
 
@@ -328,7 +371,7 @@ gRandom->SetSeed(14);
   outFile.Write();
   //outFile.close();
   
-  myfile.close();
+  //myfile.close();
   
   // open event display
   //display->open();
