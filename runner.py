@@ -55,7 +55,7 @@ class Runner:
         
         with open("/root/NewSaRoMaN/B4c/build/macro.mac", "w") as text_file:
             text_file.write("/run/initialize\n")
-            text_file.write("/run/printProgress 100\n")
+            text_file.write("/run/printProgress 10000\n")
             text_file.write("/run/beamOn %s" % self.numberOfEvents)
         
         #Geant
