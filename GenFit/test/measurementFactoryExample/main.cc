@@ -37,8 +37,25 @@
 #include <fstream>
 #include <cstdlib>
 
-//#include "FitStatus.h"
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <setjmp.h>
 
+//Declaring global jmp_buf variable to be used by both main and signal handler
+jmp_buf buf;
+
+void magic_handler(int s)
+{
+    switch(s)
+    {
+        case SIGSEGV:
+        printf("\nSegmentation fault signal caught! Attempting recovery..");
+        longjmp(buf, 1);
+        break;
+    }
+}
 
 int main(int argc, char* argv[]) {
 
@@ -98,6 +115,7 @@ gRandom->SetSeed(14);
   TTree* tree = new TTree("tree","A ROOT TREE");
 
   double o_mctr_mom = 0.0;
+  double o_mctr_eng = 0.0;
   int o_event = 0;
   int o_charge = 0;
   double o_mom = 0.0;
@@ -116,6 +134,7 @@ gRandom->SetSeed(14);
   tree->Branch("MC_positionZ",&o_vposZ);
   tree->Branch("pdg",&o_vPDG);
   tree->Branch("MCtr_Mom",&o_mctr_mom);
+  tree->Branch("MCtr_Energy",&o_mctr_eng);
   tree->Branch("Event",&o_event);
   tree->Branch("Rec_Charge",&o_charge);
   tree->Branch("Rec_mom",&o_mom);
@@ -126,7 +145,8 @@ gRandom->SetSeed(14);
   tree->Branch("Rec_positionZ",&o_recvposZ);
   //std::ofstream myfile;
   //myfile.open ("example2.txt",std::ofstream::out | std::ofstream::app);
-  
+
+
   // main loop
   for (unsigned int iEvent=lowerEventNum; iEvent<higherEventNum; ++iEvent){
   //for (unsigned int iEvent=0; iEvent<10; ++iEvent){
@@ -142,12 +162,14 @@ gRandom->SetSeed(14);
     std::vector<int> *vPDG=0;
     //int eventIDR = 0;
     double mctr_mom =0.0;
+    double mctr_eng =0.0;
     tr->SetBranchAddress("positionX",&vposX);
     tr->SetBranchAddress("positionY",&vposY);
     tr->SetBranchAddress("positionZ",&vposZ);
     tr->SetBranchAddress("pdg",&vPDG);
     //tr->SetBranchAddress("EventID",&eventIDR);
     tr->SetBranchAddress("MCtr_Mom",&mctr_mom);
+    tr->SetBranchAddress("MCtr_Energy",&mctr_eng);
     
     tr->GetEntry(iEvent);
 
@@ -157,6 +179,7 @@ gRandom->SetSeed(14);
     o_vposZ=vposZ;
     o_vPDG=vPDG;
     o_mctr_mom=mctr_mom;
+    o_mctr_eng=mctr_eng;
     
     myDetectorHitArray.Clear();
     
@@ -267,6 +290,11 @@ gRandom->SetSeed(14);
     //std::cout<<"trying to fit"<<std::endl;
     //std::cout<<myCand.getNHits()<<std::endl;
 
+    signal(SIGSEGV, magic_handler); // prepare segfault handler
+
+    if(!setjmp(buf)) // handle the strange segfault error.
+      {
+    
     // do the fit
     try{
       TVector3 pos2;
@@ -311,16 +339,24 @@ gRandom->SetSeed(14);
       //myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<reccharge<<"\t"<<mom2[2]<<"\t"<<sqrt(cov2[0][0])<<"\t"<<length<<"\n";
     }
     catch(genfit::Exception& e){
-      std::cerr << e.what();
-      std::cerr << "Exception, next track" << std::endl;
+      //cerr ->cout
+      std::cout << e.what();
+      std::cout << "Exception, next track" << std::endl;
       //myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\n";
       continue;
     }
     catch(...){
-      std::cerr << "Exception, next track" << std::endl;
+      std::cout << "Exception, next track" << std::endl;
       //myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\n";
       continue;
     }
+
+      }
+    else
+      {
+	printf("\nSuccessfully recovered! Welcome back in main!!\n\n");
+	continue;
+      }
 
     //std::cout<<"after fit"<<std::endl;
 
