@@ -66,6 +66,7 @@ B4cEventAction::B4cEventAction()
   //
   analysisManager->CreateNtuple("B4", "Edep and TrackL");
   analysisManager->CreateNtupleIColumn("EventID");
+  analysisManager->CreateNtupleDColumn("MCtr_Energy");
   analysisManager->CreateNtupleDColumn("MCtr_Mom");
   analysisManager->CreateNtupleDColumn("MCtr_Charge");
   //analysisManager->CreateNtupleDColumn("positionX");
@@ -240,13 +241,15 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
 
   if(primary)
     {
-      analysisManager->FillNtupleDColumn(1,primary->GetMomentum().z());
-      analysisManager->FillNtupleDColumn(2,primary->GetCharge()/3.0);
+      analysisManager->FillNtupleDColumn(1,primary->GetTotalEnergy());
+      analysisManager->FillNtupleDColumn(2,primary->GetMomentum().z());
+      analysisManager->FillNtupleDColumn(3,primary->GetCharge()/3.0);
     }
   else
     {
       analysisManager->FillNtupleDColumn(1,0.0);
       analysisManager->FillNtupleDColumn(2,0.0);
+      analysisManager->FillNtupleDColumn(3,0.0);
     }
   //std::cout<<collectionHit->GetTrackID()<<std::endl;
 
