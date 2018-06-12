@@ -28,23 +28,25 @@ namespace genfit {
   
   void ConstField::get(const double& x, const double& y, const double& z, double& Bx, double& By, double& Bz) const {
     // Handling only field in iron. Baby MIND field model.
-    if(gGeoManager->FindNode(x,y,z)->GetName()[0]=='F')
+
+    Bx=0.0;//0.01*field_.X();
+    By=0.0;//0.01*field_.Y();
+    Bz=0.0;//0.01*field_.Z();
+    
+    if(gGeoManager->FindNode(x,y,z))
       {
-	if(fabs(y)>50)
-	  Bx = -field_.X();
-	else
-	  Bx = field_.X();
-	//std::cout<<true<<std::endl;
-	//std::cout<<gGeoManager->FindNode(x,y,z)->GetName()<<std::endl;
-	//Bx = field_.X();
-	By = field_.Y();
-	Bz = field_.Z();
-      }
-    else
-      {
-	Bx=0.0;//0.01*field_.X();
-	By=0.0;//0.01*field_.Y();
-	Bz=0.0;//0.01*field_.Z();
+	if(gGeoManager->FindNode(x,y,z)->GetName()[0]=='F')
+	  {
+	    if(fabs(y)>50)
+	      Bx = -field_.X();
+	    else
+	      Bx = field_.X();
+	    //std::cout<<true<<std::endl;
+	    //std::cout<<gGeoManager->FindNode(x,y,z)->GetName()<<std::endl;
+	    //Bx = field_.X();
+	    By = field_.Y();
+	    Bz = field_.Z();
+	  }
       }
     
   }
