@@ -126,12 +126,16 @@ void B4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   // for neutrino mode
 
-  bool neutrinoMode = true;
+  bool neutrinoMode = false;//true;
+
+  // When not in neutrino mode, use fix energy or spectrum.
+  
+  bool energySpectrum = true;
   
   if(neutrinoMode)
   {
   
-    G4String region_name = "WAGASCIDetectorMod";//"PASSIVE";//"ACTIVE","TASD"
+    G4String region_name = "TASD";//"WAGASCIDetectorMod";//"PASSIVE";//"ACTIVE","TASD"
     G4int region_code = region_name.contains("PASSIVE") ? 1 : 0;
 
     (void) _genieData[region_code]->GetEntry( _evCount[region_code] );
@@ -233,7 +237,12 @@ void B4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     G4double min = 200. *MeV;
     G4double max = 10000. *MeV;
     
-    G4double momentum = (G4UniformRand() * (max - min) + min);
+    G4double momentum = 3000. * MeV;
+
+    if(energySpectrum)
+      momentum = (G4UniformRand() * (max - min) + min);
+
+    
     fParticleGun->SetParticleMomentum(G4ThreeVector(0.,0.,momentum));
     
     fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., -3000.0));
