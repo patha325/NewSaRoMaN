@@ -74,7 +74,7 @@ gRandom->SetSeed(14);
   // init geometry and mag. field
   new TGeoManager("Geometry", "Geane geometry");
   //TGeoManager::Import("genfitGeom.root");
-  TGeoManager::Import("../../../MIND.gdml");
+  TGeoManager::Import("../../../MIND_aida.gdml");
   //genfit::FieldManager::getInstance()->init(new genfit::ConstField(0.,0., 15.)); // 15 kGauss
   genfit::FieldManager::getInstance()->init(new genfit::ConstField(-15.,0., 0.));
   genfit::MaterialEffects::getInstance()->init(new genfit::TGeoMaterialInterface());
@@ -97,6 +97,9 @@ gRandom->SetSeed(14);
 
   // init fitter
   genfit::AbsKalmanFitter* fitter = new genfit::KalmanFitterRefTrack();
+
+  const genfit::eMultipleMeasurementHandling mmHandling = genfit::unweightedClosestToPrediction;
+  fitter->setMultipleMeasurementHandling(mmHandling);
 
 
   TClonesArray myDetectorHitArray("genfit::mySpacepointDetectorHit");
@@ -121,6 +124,7 @@ gRandom->SetSeed(14);
   double o_mom = 0.0;
   double o_cov = 0.0;
   double o_track_len = 0.0;
+  double o_true_track_len = 0.0;
   std::vector<double> *o_vposX=0;
   std::vector<double> *o_vposY=0;
   std::vector<double> *o_vposZ=0;
@@ -128,6 +132,13 @@ gRandom->SetSeed(14);
   std::vector<double> *o_recvposY=0;
   std::vector<double> *o_recvposZ=0;
   std::vector<int> *o_vPDG=0;
+  int o_fitted = 0;
+  double o_chi2=0.0;
+  double o_ndf =0.0;
+  int o_converged=0;
+  int o_failedPoints=0;
+  double o_pval=0.0;
+  double o_angle=0.0;
 
   tree->Branch("MC_positionX",&o_vposX);
   tree->Branch("MC_positionY",&o_vposY);
@@ -140,9 +151,18 @@ gRandom->SetSeed(14);
   tree->Branch("Rec_mom",&o_mom);
   tree->Branch("Rec_cov",&o_cov);
   tree->Branch("Rec_track_len",&o_track_len);
+  tree->Branch("MC_track_len",&o_true_track_len);
   tree->Branch("Rec_positionX",&o_recvposX);
   tree->Branch("Rec_positionY",&o_recvposY);
   tree->Branch("Rec_positionZ",&o_recvposZ);
+  tree->Branch("Fitted",&o_fitted);
+  tree->Branch("Chi2",&o_chi2);
+  tree->Branch("NDF",&o_ndf);
+  tree->Branch("Converged",&o_converged);
+  tree->Branch("failedPoints",&o_failedPoints);
+  tree->Branch("Pval",&o_pval);
+  tree->Branch("angle",&o_angle);
+  
   //std::ofstream myfile;
   //myfile.open ("example2.txt",std::ofstream::out | std::ofstream::app);
 
@@ -192,6 +212,9 @@ gRandom->SetSeed(14);
     //mom.SetPhi(gRandom->Uniform(0.,2*TMath::Pi()));
     //mom.SetTheta(gRandom->Uniform(0.4*TMath::Pi(),0.6*TMath::Pi()));
     //mom.SetMag(gRandom->Uniform(0.2, 1.));
+
+    double maxZ = - 9000;
+    double minZ = 9000;
     
     
     // track model
@@ -226,23 +249,40 @@ gRandom->SetSeed(14);
       double posY = vposY->at(i);
       double posZ = vposZ->at(i);
       //std::cout<<"passed"<<std::endl;
+
+      // split proton and muon tracks? Need the angle... Use angle from muon assuming neutrino straight in.
+      // same way as before, find track in MIND and find best hits that fit in track?
+
+      //instead of pattern rec, just artificially use only muon hits. (Not perfect)
+      // For us, enough with cuts on energy dep, checking that hit lines up with track parts.
+      
       if(pdgR==13)// && posZ>-1800)// && fabs(mctr_mom) >500.0)
-	{
+	  {
 	  currentPos.SetX(posX/10.0);
 	  currentPos.SetY(posY/10.0);
 	  currentPos.SetZ(posZ/10.0);
+
+	  if(posZ>maxZ) maxZ = posZ;
+
+	  if(posZ<minZ) minZ = posZ;
+	  
 	  
 	  // Fill the TClonesArray and the TrackCand
 	  // In a real experiment, you detector code would deliver mySpacepointDetectorHits and fill the TClonesArray.
 	  // The patternRecognition would create the TrackCand.
 	  new(myDetectorHitArray[i]) genfit::mySpacepointDetectorHit(currentPos, cov);
 	  myCand.addHit(myDetId, i);
-	}
+
+	  }
     }
     if(!myCand.getNHits())
       {
+	tree->Fill();
 	continue;
       }
+
+
+    o_true_track_len = maxZ-minZ;
     
     //std::cout<<"end for"<<std::endl;
 
@@ -303,20 +343,21 @@ gRandom->SetSeed(14);
       fitter->processTrack(&fitTrack);
       fitTrack.checkConsistency();
       fitTrack.getFittedState().getPosMomCov(pos2,mom2,cov2);
-      int reccharge = refcharge*fitTrack.getFittedState().getCharge();
+      //int reccharge = refcharge*fitTrack.getFittedState().getCharge();
       //charge comes back as a true/false value. True given pdg assumption.
-      double length = 0.0;//fitTrack.getTrackLen()*10;
+      double length = fitTrack.getTrackLen()*10;
       genfit::FitStatus* status = fitTrack.getFitStatus();
-      double chi2 = status->getChi2();
-      double ndf = status->getNdf();
-      bool fitted = status->isFitted();
-      bool converged = status->isFitConvergedFully();
-      int failedPoints = status->getNFailedPoints();
-      double Pval = status->getPVal();
+      o_charge = status->getCharge();
+      o_chi2 = status->getChi2();
+      o_ndf = status->getNdf();
+      o_fitted = status->isFitted();
+      o_converged = status->isFitConvergedFully();
+      o_failedPoints = status->getNFailedPoints();
+      o_pval = status->getPVal();
 
       //Fill the out root file with rec parameters.
       o_event = iEvent;
-      o_charge = reccharge;
+      //o_charge = reccharge;
       o_mom = mom2[2]*1000.0;
       o_cov = sqrt(cov2[0][0]*1000.0);
       o_track_len = length;
@@ -331,9 +372,35 @@ gRandom->SetSeed(14);
 	  o_recvposX->push_back(pos2[0]*10.0);
 	  o_recvposY->push_back(pos2[1]*10.0);
 	  o_recvposZ->push_back(pos2[2]*10.0);
+	  //std::cout<<pos2[2]*10.0<<std::endl;
 	  
 	  //myfile << mom2[2]<<"\t"<<fitTrack.getFittedState(counter).getCharge()<<"\t"<<mom2[2]<<"\t"<<pos2.Z()<<"\n";
 	}
+
+      // Angle calculation
+      //fitTrack.reverseTrackPoints();// Back to normal order
+
+      if(fitTrack.getNumPoints()>1)
+	{
+	  // Angle from muon track
+	  TVector3 pos0;
+	  TVector3 pos1;
+	  TVector3 dummyV;
+	  TMatrixDSym dummyM;
+	  
+	  fitTrack.getFittedState(fitTrack.getNumPoints()-1).getPosMomCov(pos0,dummyV,dummyM);
+	  fitTrack.getFittedState(fitTrack.getNumPoints()-2).getPosMomCov(pos1,dummyV,dummyM);
+
+	  TVector3 diff = pos1-pos0;
+
+	// Angle from initial neutrino
+	  TVector3 neutrino(0,0,1);
+
+	  o_angle = diff.Angle(neutrino);
+
+	  //std::cout<<angle<<std::endl;
+	}
+      
 
       
       //myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<reccharge<<"\t"<<mom2[2]<<"\t"<<sqrt(cov2[0][0])<<"\t"<<length<<"\n";
@@ -343,11 +410,13 @@ gRandom->SetSeed(14);
       std::cout << e.what();
       std::cout << "Exception, next track" << std::endl;
       //myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\n";
+      tree->Fill();
       continue;
     }
     catch(...){
       std::cout << "Exception, next track" << std::endl;
       //myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\n";
+      tree->Fill();
       continue;
     }
 
@@ -355,6 +424,7 @@ gRandom->SetSeed(14);
     else
       {
 	printf("\nSuccessfully recovered! Welcome back in main!!\n\n");
+	tree->Fill();
 	continue;
       }
 
