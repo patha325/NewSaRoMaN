@@ -261,7 +261,7 @@ gRandom->SetSeed(14);
       //instead of pattern rec, just artificially use only muon hits. (Not perfect)
       // For us, enough with cuts on energy dep, checking that hit lines up with track parts.
       
-      if(pdgR==13)// && posZ>-1800)// && fabs(mctr_mom) >500.0)
+      if(pdgR==-13)// && posZ>-1800)// && fabs(mctr_mom) >500.0)
 	  {
 	  currentPos.SetX(posX/10.0);
 	  currentPos.SetY(posY/10.0);
@@ -350,8 +350,14 @@ gRandom->SetSeed(14);
       fitTrack.getFittedState().getPosMomCov(pos2,mom2,cov2);
       //int reccharge = refcharge*fitTrack.getFittedState().getCharge();
       //charge comes back as a true/false value. True given pdg assumption.
+      
+      double length = fitTrack.getTrackLen()*10;
+      genfit::FitStatus* status = fitTrack.getFitStatus();
 
-      if(fitTrack.getFittedState().getCharge())
+      //std::cout<<refcharge<<"\t"<<status->getCharge()<<std::endl;
+      
+      //if(fitTrack.getFittedState().getCharge())
+      if(status->getCharge()==1)
 	{
 	  o_charge = refcharge;
 	}
@@ -359,9 +365,8 @@ gRandom->SetSeed(14);
 	{
 	  o_charge = -refcharge;
 	}
+
       
-      double length = fitTrack.getTrackLen()*10;
-      genfit::FitStatus* status = fitTrack.getFitStatus();
       //o_charge = status->getCharge();
       o_chi2 = status->getChi2();
       o_ndf = status->getNdf();
