@@ -243,7 +243,7 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
     {
       analysisManager->FillNtupleDColumn(1,primary->GetTotalEnergy());
       analysisManager->FillNtupleDColumn(2,primary->GetMomentum().z());
-      analysisManager->FillNtupleDColumn(3,primary->GetCharge()/3.0);
+      analysisManager->FillNtupleDColumn(3,primary->GetCharge());
     }
   else
     {

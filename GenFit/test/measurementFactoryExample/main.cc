@@ -118,6 +118,7 @@ gRandom->SetSeed(14);
   TTree* tree = new TTree("tree","A ROOT TREE");
 
   double o_mctr_mom = 0.0;
+  double o_mctr_charge = 0.0;
   double o_mctr_eng = 0.0;
   int o_event = 0;
   int o_charge = 0;
@@ -145,6 +146,7 @@ gRandom->SetSeed(14);
   tree->Branch("MC_positionZ",&o_vposZ);
   tree->Branch("pdg",&o_vPDG);
   tree->Branch("MCtr_Mom",&o_mctr_mom);
+  tree->Branch("MCtr_Charge",&o_mctr_charge);
   tree->Branch("MCtr_Energy",&o_mctr_eng);
   tree->Branch("Event",&o_event);
   tree->Branch("Rec_Charge",&o_charge);
@@ -182,6 +184,7 @@ gRandom->SetSeed(14);
     std::vector<int> *vPDG=0;
     //int eventIDR = 0;
     double mctr_mom =0.0;
+    double mctr_charge =0.0;
     double mctr_eng =0.0;
     tr->SetBranchAddress("positionX",&vposX);
     tr->SetBranchAddress("positionY",&vposY);
@@ -189,6 +192,7 @@ gRandom->SetSeed(14);
     tr->SetBranchAddress("pdg",&vPDG);
     //tr->SetBranchAddress("EventID",&eventIDR);
     tr->SetBranchAddress("MCtr_Mom",&mctr_mom);
+     tr->SetBranchAddress("MCtr_Charge",&mctr_charge);
     tr->SetBranchAddress("MCtr_Energy",&mctr_eng);
     
     tr->GetEntry(iEvent);
@@ -200,6 +204,7 @@ gRandom->SetSeed(14);
     o_vPDG=vPDG;
     o_mctr_mom=mctr_mom;
     o_mctr_eng=mctr_eng;
+    o_mctr_charge=mctr_charge;
     
     myDetectorHitArray.Clear();
     
@@ -345,9 +350,19 @@ gRandom->SetSeed(14);
       fitTrack.getFittedState().getPosMomCov(pos2,mom2,cov2);
       //int reccharge = refcharge*fitTrack.getFittedState().getCharge();
       //charge comes back as a true/false value. True given pdg assumption.
+
+      if(fitTrack.getFittedState().getCharge())
+	{
+	  o_charge = refcharge;
+	}
+      else
+	{
+	  o_charge = -refcharge;
+	}
+      
       double length = fitTrack.getTrackLen()*10;
       genfit::FitStatus* status = fitTrack.getFitStatus();
-      o_charge = status->getCharge();
+      //o_charge = status->getCharge();
       o_chi2 = status->getChi2();
       o_ndf = status->getNdf();
       o_fitted = status->isFitted();
