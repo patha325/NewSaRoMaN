@@ -46,6 +46,14 @@
 //Declaring global jmp_buf variable to be used by both main and signal handler
 jmp_buf buf;
 
+struct sortByZ
+{
+    inline bool operator() (const TVector3& struct1, const TVector3& struct2)
+    {
+        return (struct1[2] < struct2[2]);
+    }
+};
+
 void magic_handler(int s)
 {
     switch(s)
@@ -74,7 +82,7 @@ gRandom->SetSeed(14);
   // init geometry and mag. field
   new TGeoManager("Geometry", "Geane geometry");
   //TGeoManager::Import("genfitGeom.root");
-  TGeoManager::Import("../../../MIND_aida.gdml");
+  TGeoManager::Import("../../../MIND.gdml");
   //genfit::FieldManager::getInstance()->init(new genfit::ConstField(0.,0., 15.)); // 15 kGauss
   genfit::FieldManager::getInstance()->init(new genfit::ConstField(-15.,0., 0.));
   genfit::MaterialEffects::getInstance()->init(new genfit::TGeoMaterialInterface());
@@ -139,7 +147,8 @@ gRandom->SetSeed(14);
   int o_converged=0;
   int o_failedPoints=0;
   double o_pval=0.0;
-  double o_angle=0.0;
+  double o_rec_angle=0.0;
+  double o_mc_angle=0.0;
 
   tree->Branch("MC_positionX",&o_vposX);
   tree->Branch("MC_positionY",&o_vposY);
@@ -163,20 +172,23 @@ gRandom->SetSeed(14);
   tree->Branch("Converged",&o_converged);
   tree->Branch("failedPoints",&o_failedPoints);
   tree->Branch("Pval",&o_pval);
-  tree->Branch("angle",&o_angle);
+  tree->Branch("MC_angle",&o_mc_angle);
+  tree->Branch("Rec_angle",&o_rec_angle);
   
   //std::ofstream myfile;
   //myfile.open ("example2.txt",std::ofstream::out | std::ofstream::app);
 
 
   // main loop
-  for (unsigned int iEvent=lowerEventNum; iEvent<higherEventNum; ++iEvent){
+  for (int iEvent=lowerEventNum; iEvent<higherEventNum; ++iEvent){
   //for (unsigned int iEvent=0; iEvent<10; ++iEvent){
   //for (unsigned int iEvent=55655; iEvent<100000; ++iEvent){
     std::cout<<"Event Num="<<iEvent<<std::endl;
     
     //if(iEvent==34 || iEvent==666) continue; // Why does this one break??!?!?!
     // it has no hits with pdg 13 for some reason??
+
+    std::vector<TVector3> eventHits;
 
     std::vector<double> *vposX=0;
     std::vector<double> *vposY=0;
@@ -261,7 +273,7 @@ gRandom->SetSeed(14);
       //instead of pattern rec, just artificially use only muon hits. (Not perfect)
       // For us, enough with cuts on energy dep, checking that hit lines up with track parts.
       
-      if(pdgR==-13)// && posZ>-1800)// && fabs(mctr_mom) >500.0)
+      if(pdgR==13)// && posZ>-1800)// && fabs(mctr_mom) >500.0)
 	  {
 	  currentPos.SetX(posX/10.0);
 	  currentPos.SetY(posY/10.0);
@@ -270,6 +282,8 @@ gRandom->SetSeed(14);
 	  if(posZ>maxZ) maxZ = posZ;
 
 	  if(posZ<minZ) minZ = posZ;
+
+	  eventHits.push_back(currentPos);
 	  
 	  
 	  // Fill the TClonesArray and the TrackCand
@@ -279,11 +293,23 @@ gRandom->SetSeed(14);
 	  myCand.addHit(myDetId, i);
 
 	  }
-    }
-    if(!myCand.getNHits())
+    } // End of for loop
+    if(myCand.getNHits()<2)
       {
 	tree->Fill();
 	continue;
+      }
+    else
+      {
+	std::sort(eventHits.begin(),eventHits.end(),sortByZ());
+	
+	TVector3 diff = eventHits[1]-eventHits[0];
+	
+	// Angle from initial neutrino
+	TVector3 neutrino(0,0,1);
+	
+	o_mc_angle = diff.Angle(neutrino);
+	    
       }
 
 
@@ -416,7 +442,7 @@ gRandom->SetSeed(14);
 	// Angle from initial neutrino
 	  TVector3 neutrino(0,0,1);
 
-	  o_angle = diff.Angle(neutrino);
+	  o_rec_angle = diff.Angle(neutrino);
 
 	  //std::cout<<angle<<std::endl;
 	}
