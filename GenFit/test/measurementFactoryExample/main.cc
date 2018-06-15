@@ -84,7 +84,7 @@ gRandom->SetSeed(14);
   //TGeoManager::Import("genfitGeom.root");
   TGeoManager::Import("../../../MIND.gdml");
   //genfit::FieldManager::getInstance()->init(new genfit::ConstField(0.,0., 15.)); // 15 kGauss
-  genfit::FieldManager::getInstance()->init(new genfit::ConstField(-15.,0., 0.));
+  genfit::FieldManager::getInstance()->init(new genfit::ConstField(-15.,0., 0.)); //1.5 Tesla.
   genfit::MaterialEffects::getInstance()->init(new genfit::TGeoMaterialInterface());
 
   //genfit::MaterialEffects::getInstance()->setDebugLvl();
@@ -102,8 +102,11 @@ gRandom->SetSeed(14);
   // init event display
   //genfit::EventDisplay* display = genfit::EventDisplay::getInstance();
 
+  //const int nIter = 100; // max number of iterations // randomly chosen number.
+  //const double dPVal = 1.E-6; // convergence criterion // random low number
 
   // init fitter
+  //genfit::AbsKalmanFitter* fitter = new genfit::KalmanFitterRefTrack(nIter,dPVal);
   genfit::AbsKalmanFitter* fitter = new genfit::KalmanFitterRefTrack();
 
   const genfit::eMultipleMeasurementHandling mmHandling = genfit::unweightedClosestToPrediction;
@@ -131,6 +134,7 @@ gRandom->SetSeed(14);
   int o_event = 0;
   int o_charge = 0;
   double o_mom = 0.0;
+  double o_mom_range = 0.0;
   double o_cov = 0.0;
   double o_track_len = 0.0;
   double o_true_track_len = 0.0;
@@ -149,6 +153,7 @@ gRandom->SetSeed(14);
   double o_pval=0.0;
   double o_rec_angle=0.0;
   double o_mc_angle=0.0;
+  int o_failCode = 0;
 
   tree->Branch("MC_positionX",&o_vposX);
   tree->Branch("MC_positionY",&o_vposY);
@@ -160,6 +165,7 @@ gRandom->SetSeed(14);
   tree->Branch("Event",&o_event);
   tree->Branch("Rec_Charge",&o_charge);
   tree->Branch("Rec_mom",&o_mom);
+  tree->Branch("Rec_mom_range",&o_mom_range);
   tree->Branch("Rec_cov",&o_cov);
   tree->Branch("Rec_track_len",&o_track_len);
   tree->Branch("MC_track_len",&o_true_track_len);
@@ -174,6 +180,7 @@ gRandom->SetSeed(14);
   tree->Branch("Pval",&o_pval);
   tree->Branch("MC_angle",&o_mc_angle);
   tree->Branch("Rec_angle",&o_rec_angle);
+  tree->Branch("FailCode",&o_failCode);
   
   //std::ofstream myfile;
   //myfile.open ("example2.txt",std::ofstream::out | std::ofstream::app);
@@ -204,7 +211,7 @@ gRandom->SetSeed(14);
     tr->SetBranchAddress("pdg",&vPDG);
     //tr->SetBranchAddress("EventID",&eventIDR);
     tr->SetBranchAddress("MCtr_Mom",&mctr_mom);
-     tr->SetBranchAddress("MCtr_Charge",&mctr_charge);
+    tr->SetBranchAddress("MCtr_Charge",&mctr_charge);
     tr->SetBranchAddress("MCtr_Energy",&mctr_eng);
     
     tr->GetEntry(iEvent);
@@ -224,14 +231,14 @@ gRandom->SetSeed(14);
     genfit::TrackCand myCand;
     
     // Provide the fitter with an initial guess.
-    TVector3 pos(0, 0, -200);
-    TVector3 mom(0,0,-3.0);
+    TVector3 pos(0, 0, -200); //cm random low number
+    TVector3 mom(0,0,-3.0); // GeV random number
     //mom.SetPhi(gRandom->Uniform(0.,2*TMath::Pi()));
     //mom.SetTheta(gRandom->Uniform(0.4*TMath::Pi(),0.6*TMath::Pi()));
     //mom.SetMag(gRandom->Uniform(0.2, 1.));
 
-    double maxZ = - 9000;
-    double minZ = 9000;
+    double maxZ = - 9000; //random small
+    double minZ = 9000; // random large
     
     
     // track model
@@ -244,7 +251,7 @@ gRandom->SetSeed(14);
     //unsigned int nMeasurements = gRandom->Uniform(5, 15);
     
     // covariance
-    double resolution = 5.0;//0.01;
+    double resolution = 1.0;//0.01; //cm
     TMatrixDSym cov(3);
     for (int i = 0; i < 3; ++i)
       cov(i,i) = resolution*resolution;
@@ -296,6 +303,8 @@ gRandom->SetSeed(14);
     } // End of for loop
     if(myCand.getNHits()<2)
       {
+	o_fitted = 0;
+	o_failCode = 1;
 	tree->Fill();
 	continue;
       }
@@ -405,8 +414,11 @@ gRandom->SetSeed(14);
       o_event = iEvent;
       //o_charge = reccharge;
       o_mom = mom2[2]*1000.0;
-      o_cov = sqrt(cov2[0][0]*1000.0);
+      o_cov = sqrt(cov2[0][0])*1000;
       o_track_len = length;
+
+      // Formula from fitting true length to Momentum
+      o_mom_range = 49.4328 + 0.5473 * length;
 
       o_recvposX->clear();
       o_recvposY->clear();
@@ -456,12 +468,16 @@ gRandom->SetSeed(14);
       std::cout << e.what();
       std::cout << "Exception, next track" << std::endl;
       //myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\n";
+      o_fitted = 0;
+      o_failCode = 2;
       tree->Fill();
       continue;
     }
     catch(...){
       std::cout << "Exception, next track" << std::endl;
       //myfile << iEvent <<"\t"<< mctr_mom/1000.0 <<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\t"<<0<<"\n";
+      o_fitted = 0;
+      o_failCode = 3;
       tree->Fill();
       continue;
     }
@@ -470,6 +486,8 @@ gRandom->SetSeed(14);
     else
       {
 	printf("\nSuccessfully recovered! Welcome back in main!!\n\n");
+	o_fitted = 0;
+	o_failCode = 4;
 	tree->Fill();
 	continue;
       }
@@ -516,6 +534,7 @@ gRandom->SetSeed(14);
     */
     //std::cout<<"ended loop of event"<<std::endl;
 
+    o_failCode = 0;
     tree->Fill();
     
   }// end loop over events
