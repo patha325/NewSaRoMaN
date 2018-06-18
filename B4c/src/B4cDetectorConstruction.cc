@@ -77,7 +77,7 @@ B4cDetectorConstruction::~B4cDetectorConstruction()
 G4VPhysicalVolume* B4cDetectorConstruction::Construct()
 {
   G4PVPlacement* world_physi;
-  _gdml.Read("../../MIND_aida.gdml",0);
+  _gdml.Read("../../MIND.gdml",0);
   world_physi = dynamic_cast<G4PVPlacement*>(_gdml.GetWorldVolume());
   // SetNullField(*world_physi->GetLogicalVolume());
   regionmass["TASD"] = 0;
@@ -149,19 +149,25 @@ void B4cDetectorConstruction::SetVolumeInformation(G4VPhysicalVolume* pbase,
   G4LogicalVolume* base = pbase->GetLogicalVolume();
   // G4VPhysicalVolume* world = _parser.GetWorldVolume();
   G4int nDaughters = base->GetNoDaughters();
- 
+  //G4ThreeVector tmp3(0,0,0);
+
+  
   for ( int i = 0; i < nDaughters; i++ ) {
-    //cout<<"DetectorName="<<detectorName<<endl;
-    //cout<<"pbase->GetFrameTranslation()"<<pbase->GetFrameTranslation()<<endl;
+    //std::cout<<"DetectorName="<<detectorName<<std::endl;
+    //std::cout<<"pbase->GetFrameTranslation()"<<pbase->GetFrameTranslation()<<std::endl;
 
 
     G4VPhysicalVolume* daughter = base->GetDaughter(i);
     G4LogicalVolume* myvol = daughter->GetLogicalVolume();
     G4String volumename = detectorName;
+    G4String modulename = "MIND/Detector/SFFFS0/";
+    G4String passiveInModule = modulename+"PASSIVE/";
+    //G4ThreeVector tmp3;
     volumename += myvol->GetName();
     volumename += "/";
     // first check if there are auxiliary objects
     std::cout<<volumename.c_str()<<std::endl;
+    
     //cout<<myvol->GetName().contains("TASD")<<endl;
     //cout<<myvol->GetName().contains("Detector")<<endl;
     // If this name corresponds to one of the three regions add them to the map.
@@ -178,6 +184,14 @@ void B4cDetectorConstruction::SetVolumeInformation(G4VPhysicalVolume* pbase,
       regionmass["PASSIVE"] += myvol->GetMass();
       regionoffset["PASSIVE"].push_back(pbase->GetFrameTranslation());
     }
+    //special bad written code.
+    else if (volumename.contains(modulename)){
+      //std::cout<<"here"<<std::endl;
+      regions["SFFFS0"].push_back(daughter);
+      regionmass["SFFFS0"] += myvol->GetMass();
+      regionoffset["SFFFS0"].push_back(pbase->GetFrameTranslation()+moduleOffset);
+      //regionoffset["SFFFS0"].push_back(tmp3);
+    }
       else if (myvol->GetName().contains("WAGASCIDetectorMod")){
       regions["WAGASCIDetectorMod"].push_back(daughter);
       regionmass["WAGASCIDetectorMod"] += myvol->GetMass();
@@ -190,7 +204,7 @@ void B4cDetectorConstruction::SetVolumeInformation(G4VPhysicalVolume* pbase,
     //For ND.
     if(detectorName == "MIND/Detector/") regionoffset["Detector"].push_back(pbase->GetFrameTranslation());
 
-
+    if(detectorName == modulename && fabs(moduleOffset.z())==0) moduleOffset=pbase->GetFrameTranslation();
     
     const G4GDMLAuxListType auxlist = 
       _gdml.GetVolumeAuxiliaryInformation(myvol);

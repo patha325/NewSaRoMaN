@@ -93,6 +93,7 @@ private:
   std::map<G4String, double> regionmass;
   std::ofstream _myfile;
   std::vector<MindBarSD*> sensDetList;
+  G4ThreeVector moduleOffset;
   
   // data members
   //

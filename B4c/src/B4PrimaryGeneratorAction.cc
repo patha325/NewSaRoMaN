@@ -126,7 +126,7 @@ void B4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   // for neutrino mode
 
-  bool neutrinoMode = false;//true;
+  bool neutrinoMode = true;//true;
 
   // When not in neutrino mode, use fix energy or spectrum.
   
@@ -135,7 +135,7 @@ void B4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   if(neutrinoMode)
   {
   
-    G4String region_name = "TASD";//"WAGASCIDetectorMod";//"PASSIVE";//"ACTIVE","TASD"
+    G4String region_name = "SFFFS0";//"TASD";//"WAGASCIDetectorMod";//"PASSIVE";//"ACTIVE","TASD"
     G4int region_code = region_name.contains("PASSIVE") ? 1 : 0;
 
     (void) _genieData[region_code]->GetEntry( _evCount[region_code] );
