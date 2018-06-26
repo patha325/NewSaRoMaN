@@ -47,6 +47,8 @@
 
 #include "G4PhysicalConstants.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4UniformMagField.hh"
+#include "G4SystemOfUnits.hh"
 
 #include <Randomize.hh>
 
@@ -77,7 +79,7 @@ B4cDetectorConstruction::~B4cDetectorConstruction()
 G4VPhysicalVolume* B4cDetectorConstruction::Construct()
 {
   G4PVPlacement* world_physi;
-  _gdml.Read("../../MIND.gdml",0);
+  _gdml.Read("../../MIND_aida.gdml",0);
   world_physi = dynamic_cast<G4PVPlacement*>(_gdml.GetWorldVolume());
   // SetNullField(*world_physi->GetLogicalVolume());
   regionmass["TASD"] = 0;
@@ -285,7 +287,9 @@ void B4cDetectorConstruction::SetMagneticField(G4LogicalVolume& vol) {
   double fieldScaling = +1.0;
   G4String Bmap = "CenterPlate.table";
   // Declaration of the magnetic field map object
-  MindFieldMapR* magField = new MindFieldMapR(Bmap, fieldScaling, 30.0, 4, 30.0);
+  //MindFieldMapR* magField = new MindFieldMapR(Bmap, fieldScaling, 30.0, 4, 30.0);
+  G4ThreeVector tmp(1.5*tesla,0,0);
+  G4UniformMagField* magField = new G4UniformMagField(tmp);
   // Now to embed the field in the detector geometry
   fieldMgr->SetDetectorField(magField);
   fieldMgr->CreateChordFinder(magField);
