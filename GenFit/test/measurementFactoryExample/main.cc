@@ -88,7 +88,7 @@ gRandom->SetSeed(14);
   // init geometry and mag. field
   new TGeoManager("Geometry", "Geane geometry");
   //TGeoManager::Import("genfitGeom.root");
-  TGeoManager::Import("../../../MIND.gdml");
+  TGeoManager::Import("../../../MIND_aida.gdml");
   //genfit::FieldManager::getInstance()->init(new genfit::ConstField(0.,0., 15.)); // 15 kGauss
   genfit::FieldManager::getInstance()->init(new genfit::ConstField(-15.,0., 0.)); //1.5 Tesla.
   //genfit::FieldManager::getInstance()->init(new genfit::ConstField(15.,0., 0.)); //1.5 Tesla.
@@ -434,9 +434,10 @@ gRandom->SetSeed(14);
       double length = fitTrack.getTrackLen()*10;
       genfit::FitStatus* status = fitTrack.getFitStatus();
 
-      //std::cout<<refcharge<<"\t"<<status->getCharge()<<std::endl;
+      std::cout<<refcharge<<"\t"<<status->getCharge()<<std::endl;
       
       //if(fitTrack.getFittedState().getCharge())
+      /*
       if(status->getCharge()==1)
 	{
 	  o_charge = refcharge;
@@ -445,9 +446,9 @@ gRandom->SetSeed(14);
 	{
 	  o_charge = -refcharge;
 	}
-
+      */
       
-      //o_charge = status->getCharge();
+      o_charge = status->getCharge();
       o_chi2 = status->getChi2();
       o_ndf = status->getNdf();
       o_fitted = status->isFitted(); //fitter->isTrackFitted(track, rep);

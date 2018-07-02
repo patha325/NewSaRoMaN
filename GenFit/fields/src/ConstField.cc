@@ -54,12 +54,11 @@ namespace genfit {
       {
 	if(gGeoManager->FindNode(x,y,z)->GetName()[0]=='F')
 	  {
-	    /*
 	    Bx = field_.X();
 	    By = field_.Y();
 	    Bz = field_.Z();
-	    */
 	    
+	    /*
 	    if(fabs(y)>50)
 	      Bx = -field_.X();
 	    else
@@ -69,6 +68,7 @@ namespace genfit {
 	    //Bx = field_.X();
 	    By = field_.Y();
 	    Bz = field_.Z();
+	    */
 	  }
       }
   }
