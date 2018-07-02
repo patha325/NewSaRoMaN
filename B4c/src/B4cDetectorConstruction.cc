@@ -47,6 +47,8 @@
 
 #include "G4PhysicalConstants.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4UniformMagField.hh"
+#include "G4SystemOfUnits.hh"
 
 #include <Randomize.hh>
 
@@ -283,9 +285,12 @@ void B4cDetectorConstruction::SetMagneticField(G4LogicalVolume& vol) {
   G4FieldManager* fieldMgr = new G4FieldManager(); 
  
   double fieldScaling = +1.0;
+  //G4String Bmap = "field_map_test.table";
   G4String Bmap = "CenterPlate.table";
   // Declaration of the magnetic field map object
   MindFieldMapR* magField = new MindFieldMapR(Bmap, fieldScaling, 30.0, 4, 30.0);
+  //G4ThreeVector tmp(1.5*tesla,0,0);
+  //G4UniformMagField* magField = new G4UniformMagField(tmp);
   // Now to embed the field in the detector geometry
   fieldMgr->SetDetectorField(magField);
   fieldMgr->CreateChordFinder(magField);
@@ -335,8 +340,9 @@ G4ThreeVector B4cDetectorConstruction::GetVertex(G4String region_name){
     // give up
     return G4ThreeVector(0., 0., 0.);
   }
-  double x = (2*G4UniformRand() - 1)*solidBox->GetXHalfLength();
-  double y = (2*G4UniformRand() - 1)*solidBox->GetYHalfLength();
+  // Made the box 10x10 cm
+  double x = (2*G4UniformRand() - 1)*5.0*cm;//(2*G4UniformRand() - 1)*solidBox->GetXHalfLength();
+  double y = (2*G4UniformRand() - 1)*5.0*cm;//(2*G4UniformRand() - 1)*solidBox->GetYHalfLength();
   double z = (2*G4UniformRand() - 1)*solidBox->GetZHalfLength();
   std::cout<<"Vertex at ("<<x<<", "<<y<<", "<<z<<")"<<std::endl;
   

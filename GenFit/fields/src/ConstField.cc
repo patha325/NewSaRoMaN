@@ -22,8 +22,25 @@
 
 namespace genfit {
   
-  TVector3 ConstField::get(const TVector3&) const {
-    return field_;
+  TVector3 ConstField::get(const TVector3& in) const {
+    TVector3 tmp(0,0,0);
+
+    if(gGeoManager->FindNode(in[0],in[1],in[2]))
+      {
+	if(gGeoManager->FindNode(in[0],in[1],in[2])->GetName()[0]=='F')
+	  {
+	    if(fabs(in[1])>50)
+	      tmp[0] = -field_.X();
+	    else
+	      tmp[0] = field_.X();
+	    
+	    tmp[1] = field_.Y();
+	    tmp[2] = field_.Z();
+	  }
+      }
+
+    return tmp;
+    //return field_;
   }
   
   void ConstField::get(const double& x, const double& y, const double& z, double& Bx, double& By, double& Bz) const {
@@ -37,6 +54,12 @@ namespace genfit {
       {
 	if(gGeoManager->FindNode(x,y,z)->GetName()[0]=='F')
 	  {
+	    /*
+	    Bx = field_.X();
+	    By = field_.Y();
+	    Bz = field_.Z();
+	    */
+	    
 	    if(fabs(y)>50)
 	      Bx = -field_.X();
 	    else
@@ -48,7 +71,6 @@ namespace genfit {
 	    Bz = field_.Z();
 	  }
       }
-    
   }
   /* End of namespace genfit */
 }

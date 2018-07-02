@@ -43,6 +43,12 @@
 #include <string.h>
 #include <setjmp.h>
 
+#include <KalmanFittedStateOnPlane.h>
+#include <KalmanFitterInfo.h>
+#include <AbsKalmanFitter.h>
+#include <KalmanFitter.h>
+#include <DAF.h>
+
 //Declaring global jmp_buf variable to be used by both main and signal handler
 jmp_buf buf;
 
@@ -85,8 +91,11 @@ gRandom->SetSeed(14);
   TGeoManager::Import("../../../MIND.gdml");
   //genfit::FieldManager::getInstance()->init(new genfit::ConstField(0.,0., 15.)); // 15 kGauss
   genfit::FieldManager::getInstance()->init(new genfit::ConstField(-15.,0., 0.)); //1.5 Tesla.
+  //genfit::FieldManager::getInstance()->init(new genfit::ConstField(15.,0., 0.)); //1.5 Tesla.
   genfit::MaterialEffects::getInstance()->init(new genfit::TGeoMaterialInterface());
 
+  genfit::MaterialEffects::getInstance()->setMscModel("Highland");
+  
   //genfit::MaterialEffects::getInstance()->setDebugLvl();
   //genfit::MaterialEffects::getInstance()->drawdEdx(13);
 
@@ -107,7 +116,11 @@ gRandom->SetSeed(14);
 
   // init fitter
   //genfit::AbsKalmanFitter* fitter = new genfit::KalmanFitterRefTrack(nIter,dPVal);
-  genfit::AbsKalmanFitter* fitter = new genfit::KalmanFitterRefTrack();
+  //genfit::AbsKalmanFitter* fitter = new genfit::KalmanFitterRefTrack();
+
+  genfit::AbsKalmanFitter* fitter = new genfit::KalmanFitter();//new genfit::KalmanFitterRefTrack();
+  fitter->setMaxIterations(8); //10
+  fitter->setMinIterations(4); //8
 
   const genfit::eMultipleMeasurementHandling mmHandling = genfit::unweightedClosestToPrediction;
   fitter->setMultipleMeasurementHandling(mmHandling);
@@ -131,6 +144,9 @@ gRandom->SetSeed(14);
   double o_mctr_mom = 0.0;
   double o_mctr_charge = 0.0;
   double o_mctr_eng = 0.0;
+  double o_vertPosX = 0.0;
+  double o_vertPosY = 0.0;
+  double o_vertPosZ = 0.0;
   int o_event = 0;
   int o_charge = 0;
   double o_mom = 0.0;
@@ -141,10 +157,12 @@ gRandom->SetSeed(14);
   std::vector<double> *o_vposX=0;
   std::vector<double> *o_vposY=0;
   std::vector<double> *o_vposZ=0;
+  std::vector<double> *o_vmomZ=0;
   std::vector<double> *o_recvposX=0;
   std::vector<double> *o_recvposY=0;
   std::vector<double> *o_recvposZ=0;
   std::vector<int> *o_vPDG=0;
+  std::vector<double> *o_mom_pos=0;
   int o_fitted = 0;
   double o_chi2=0.0;
   double o_ndf =0.0;
@@ -158,6 +176,10 @@ gRandom->SetSeed(14);
   tree->Branch("MC_positionX",&o_vposX);
   tree->Branch("MC_positionY",&o_vposY);
   tree->Branch("MC_positionZ",&o_vposZ);
+  tree->Branch("MC_VertexX",&o_vertPosX);
+  tree->Branch("MC_VertexY",&o_vertPosY);
+  tree->Branch("MC_VertexZ",&o_vertPosZ);
+  tree->Branch("MC_momentumZ",&o_vmomZ);
   tree->Branch("pdg",&o_vPDG);
   tree->Branch("MCtr_Mom",&o_mctr_mom);
   tree->Branch("MCtr_Charge",&o_mctr_charge);
@@ -165,6 +187,7 @@ gRandom->SetSeed(14);
   tree->Branch("Event",&o_event);
   tree->Branch("Rec_Charge",&o_charge);
   tree->Branch("Rec_mom",&o_mom);
+  tree->Branch("Rec_mom_pos",&o_mom_pos);
   tree->Branch("Rec_mom_range",&o_mom_range);
   tree->Branch("Rec_cov",&o_cov);
   tree->Branch("Rec_track_len",&o_track_len);
@@ -200,19 +223,28 @@ gRandom->SetSeed(14);
     std::vector<double> *vposX=0;
     std::vector<double> *vposY=0;
     std::vector<double> *vposZ=0;
+    std::vector<double> *vmomZ=0;
     std::vector<int> *vPDG=0;
     //int eventIDR = 0;
     double mctr_mom =0.0;
     double mctr_charge =0.0;
     double mctr_eng =0.0;
+    double vert_X =0.0;
+    double vert_Y =0.0;
+    double vert_Z =0.0;
+    
     tr->SetBranchAddress("positionX",&vposX);
     tr->SetBranchAddress("positionY",&vposY);
     tr->SetBranchAddress("positionZ",&vposZ);
+    tr->SetBranchAddress("momentumZ",&vmomZ);
     tr->SetBranchAddress("pdg",&vPDG);
     //tr->SetBranchAddress("EventID",&eventIDR);
     tr->SetBranchAddress("MCtr_Mom",&mctr_mom);
     tr->SetBranchAddress("MCtr_Charge",&mctr_charge);
     tr->SetBranchAddress("MCtr_Energy",&mctr_eng);
+    tr->SetBranchAddress("MCtr_VertexX",&vert_X);
+    tr->SetBranchAddress("MCtr_VertexY",&vert_Y);
+    tr->SetBranchAddress("MCtr_VertexZ",&vert_Z);
     
     tr->GetEntry(iEvent);
 
@@ -220,10 +252,14 @@ gRandom->SetSeed(14);
     o_vposX=vposX;
     o_vposY=vposY;
     o_vposZ=vposZ;
+    o_vmomZ=vmomZ;
     o_vPDG=vPDG;
     o_mctr_mom=mctr_mom;
     o_mctr_eng=mctr_eng;
     o_mctr_charge=mctr_charge;
+    o_vertPosX=vert_X;
+    o_vertPosY=vert_Y;
+    o_vertPosZ=vert_Z;
     
     myDetectorHitArray.Clear();
     
@@ -231,8 +267,8 @@ gRandom->SetSeed(14);
     genfit::TrackCand myCand;
     
     // Provide the fitter with an initial guess.
-    TVector3 pos(0, 0, -200); //cm random low number
-    TVector3 mom(0,0,-3.0); // GeV random number
+    TVector3 pos(0, 0, -300); //cm random low number
+    TVector3 mom(0,0,2.0); // GeV random number
     //mom.SetPhi(gRandom->Uniform(0.,2*TMath::Pi()));
     //mom.SetTheta(gRandom->Uniform(0.4*TMath::Pi(),0.6*TMath::Pi()));
     //mom.SetMag(gRandom->Uniform(0.2, 1.));
@@ -280,7 +316,7 @@ gRandom->SetSeed(14);
       //instead of pattern rec, just artificially use only muon hits. (Not perfect)
       // For us, enough with cuts on energy dep, checking that hit lines up with track parts.
       
-      if(pdgR==13)// && posZ>-1800)// && fabs(mctr_mom) >500.0)
+      if(pdgR==pdg)// && posZ>-2400)// && fabs(mctr_mom) >500.0)
 	  {
 	  currentPos.SetX(posX/10.0);
 	  currentPos.SetY(posY/10.0);
@@ -362,10 +398,11 @@ gRandom->SetSeed(14);
     myCand.setCovSeed(covSeed);
 
     //std::cout<<"before track"<<std::endl;
-    
+    genfit::AbsTrackRep* rep = new genfit::RKTrackRep(pdg);
     // create track
-    genfit::Track fitTrack(myCand, factory,new genfit::RKTrackRep(pdg));
-    fitTrack.reverseTrackPoints(); //provides better fit.
+    //genfit::Track fitTrack(myCand, factory,new genfit::RKTrackRep(pdg));
+    genfit::Track fitTrack(myCand, factory,rep);
+    //fitTrack.reverseTrackPoints(); //provides better fit.
     
     //std::cout<<"trying to fit"<<std::endl;
     //std::cout<<myCand.getNHits()<<std::endl;
@@ -383,6 +420,14 @@ gRandom->SetSeed(14);
       fitter->processTrack(&fitTrack);
       fitTrack.checkConsistency();
       fitTrack.getFittedState().getPosMomCov(pos2,mom2,cov2);
+      /*
+      genfit::TrackPoint* tp = fitTrack.getPointWithMeasurementAndFitterInfo(fitTrack.getNumPoints()-1, rep);
+      genfit::KalmanFittedStateOnPlane kfsop(*(static_cast<genfit::KalmanFitterInfo*>(tp->getFitterInfo(rep))->getBackwardUpdate()));
+      rep->extrapolateToPlane(kfsop, fitTrack.getFittedState().getPlane());
+      const TVectorD& state = kfsop.getState();
+      */
+      //fitTrack.getCardinalRep()->getPosMomCov(fitTrack.getFittedState(),pos2,mom2,cov2);
+      //fitTrack.getFittedState(fitTrack.getNumPoints()-1).getPosMomCov(pos2,mom2,cov2);
       //int reccharge = refcharge*fitTrack.getFittedState().getCharge();
       //charge comes back as a true/false value. True given pdg assumption.
       
@@ -405,7 +450,7 @@ gRandom->SetSeed(14);
       //o_charge = status->getCharge();
       o_chi2 = status->getChi2();
       o_ndf = status->getNdf();
-      o_fitted = status->isFitted();
+      o_fitted = status->isFitted(); //fitter->isTrackFitted(track, rep);
       o_converged = status->isFitConvergedFully();
       o_failedPoints = status->getNFailedPoints();
       o_pval = status->getPVal();
@@ -413,6 +458,7 @@ gRandom->SetSeed(14);
       //Fill the out root file with rec parameters.
       o_event = iEvent;
       //o_charge = reccharge;
+      //o_mom = 1000.0/state[0];//
       o_mom = mom2[2]*1000.0;
       o_cov = sqrt(cov2[0][0])*1000;
       o_track_len = length;
@@ -423,6 +469,7 @@ gRandom->SetSeed(14);
       o_recvposX->clear();
       o_recvposY->clear();
       o_recvposZ->clear();
+      o_mom_pos->clear();
 
       for(unsigned counter = 0; counter<fitTrack.getNumPoints();counter++)
 	{
@@ -430,6 +477,7 @@ gRandom->SetSeed(14);
 	  o_recvposX->push_back(pos2[0]*10.0);
 	  o_recvposY->push_back(pos2[1]*10.0);
 	  o_recvposZ->push_back(pos2[2]*10.0);
+	  o_mom_pos->push_back(mom2[2]*1000.0);
 	  //std::cout<<pos2[2]*10.0<<std::endl;
 	  
 	  //myfile << mom2[2]<<"\t"<<fitTrack.getFittedState(counter).getCharge()<<"\t"<<mom2[2]<<"\t"<<pos2.Z()<<"\n";
@@ -445,9 +493,10 @@ gRandom->SetSeed(14);
 	  TVector3 pos1;
 	  TVector3 dummyV;
 	  TMatrixDSym dummyM;
-	  
-	  fitTrack.getFittedState(fitTrack.getNumPoints()-1).getPosMomCov(pos0,dummyV,dummyM);
-	  fitTrack.getFittedState(fitTrack.getNumPoints()-2).getPosMomCov(pos1,dummyV,dummyM);
+	  fitTrack.getFittedState(0).getPosMomCov(pos0,dummyV,dummyM);
+	  //fitTrack.getFittedState(fitTrack.getNumPoints()-1).getPosMomCov(pos0,dummyV,dummyM);
+	  //fitTrack.getFittedState(fitTrack.getNumPoints()-2).getPosMomCov(pos1,dummyV,dummyM);
+	  fitTrack.getFittedState(1).getPosMomCov(pos1,dummyV,dummyM);
 
 	  TVector3 diff = pos1-pos0;
 

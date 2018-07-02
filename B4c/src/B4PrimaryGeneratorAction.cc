@@ -130,7 +130,7 @@ void B4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   // When not in neutrino mode, use fix energy or spectrum.
   
-  bool energySpectrum = true;
+  bool energySpectrum = true;//true;
   
   if(neutrinoMode)
   {
@@ -235,9 +235,10 @@ void B4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     fParticleGun->SetParticleEnergy(0.0);
     
     G4double min = 200. *MeV;
-    G4double max = 10000. *MeV;
+    //G4double max = 10000. *MeV;
+    G4double max = 5000. *MeV;
     
-    G4double momentum = 3000. * MeV;
+    G4double momentum = 2000. * MeV;
 
     if(energySpectrum)
       momentum = (G4UniformRand() * (max - min) + min);

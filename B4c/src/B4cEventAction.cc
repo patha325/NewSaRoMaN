@@ -69,6 +69,9 @@ B4cEventAction::B4cEventAction()
   analysisManager->CreateNtupleDColumn("MCtr_Energy");
   analysisManager->CreateNtupleDColumn("MCtr_Mom");
   analysisManager->CreateNtupleDColumn("MCtr_Charge");
+  analysisManager->CreateNtupleDColumn("MCtr_VertexX");
+  analysisManager->CreateNtupleDColumn("MCtr_VertexY");
+  analysisManager->CreateNtupleDColumn("MCtr_VertexZ");
   //analysisManager->CreateNtupleDColumn("positionX");
   //analysisManager->CreateNtupleDColumn("positionY");
   //analysisManager->CreateNtupleDColumn("positionZ");
@@ -188,7 +191,7 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
 
   //auto currentTrack = G4RunManagerKernel::GetRunManagerKernel()->GetTrackingManager()->GetTrack();
 
-  auto vertex = event->GetPrimaryVertex(0);
+  G4PrimaryVertex* vertex = event->GetPrimaryVertex(0);
 
   G4PrimaryParticle* primary;
   
@@ -241,15 +244,22 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
 
   if(primary)
     {
+      G4ThreeVector tmp = vertex->GetPosition();
       analysisManager->FillNtupleDColumn(1,primary->GetTotalEnergy());
       analysisManager->FillNtupleDColumn(2,primary->GetMomentum().z());
       analysisManager->FillNtupleDColumn(3,primary->GetCharge());
+      analysisManager->FillNtupleDColumn(4,tmp[0]);
+      analysisManager->FillNtupleDColumn(5,tmp[1]);
+      analysisManager->FillNtupleDColumn(6,tmp[2]);
     }
   else
     {
       analysisManager->FillNtupleDColumn(1,0.0);
       analysisManager->FillNtupleDColumn(2,0.0);
       analysisManager->FillNtupleDColumn(3,0.0);
+      analysisManager->FillNtupleDColumn(4,0.0);
+      analysisManager->FillNtupleDColumn(5,0.0);
+      analysisManager->FillNtupleDColumn(6,0.0);
     }
   //std::cout<<collectionHit->GetTrackID()<<std::endl;
 
