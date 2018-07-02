@@ -88,7 +88,7 @@ gRandom->SetSeed(14);
   // init geometry and mag. field
   new TGeoManager("Geometry", "Geane geometry");
   //TGeoManager::Import("genfitGeom.root");
-  TGeoManager::Import("../../../MIND_aida.gdml");
+  TGeoManager::Import("../../../MIND.gdml");
   //genfit::FieldManager::getInstance()->init(new genfit::ConstField(0.,0., 15.)); // 15 kGauss
   genfit::FieldManager::getInstance()->init(new genfit::ConstField(-15.,0., 0.)); //1.5 Tesla.
   //genfit::FieldManager::getInstance()->init(new genfit::ConstField(15.,0., 0.)); //1.5 Tesla.
@@ -278,7 +278,7 @@ gRandom->SetSeed(14);
     
     
     // track model
-    const int pdg = 13;// particle pdg code
+    const int pdg = -13;// particle pdg code
     const int refcharge = TDatabasePDG::Instance()->GetParticle(pdg)->Charge()/3.0;
     //genfit::HelixTrackModel* helix = new genfit::HelixTrackModel(pos, mom, charge);
     //measurementCreator.setTrackModel(helix);
