@@ -59,6 +59,7 @@ class Runner:
         outfile = open("make.log",'w')
         subprocess.call('cmake ..', shell=True, cwd = '/root/NewSaRoMaN/B4c/build',stdout=outfile)
         subprocess.call('make', shell=True, cwd = '/root/NewSaRoMaN/B4c/build',stdout=outfile)
+        subprocess.call('cmake ..',shell=True, cwd = '/root/NewSaRoMaN/GenFit/build',stdout=outfile)
         subprocess.call('make tests', shell=True, cwd = '/root/NewSaRoMaN/GenFit/build',stdout=outfile)
         outfile.close()
         
