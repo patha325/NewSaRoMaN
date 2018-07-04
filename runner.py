@@ -15,7 +15,7 @@ class Runner:
         self.pdg = 14
         self.eMin = 0.1 #GeV
         self.eMax = 4.0 #GeV
-        self.energyRange ='0.1,4.0' #'%s,%s' % (self.eMin,self.eMax)
+        self.energyRange =str(self.eMin)+','+str(self.eMax)
         self.NuStorm = True
         self.fluxfile = "/root/NewSaRoMaN/data/nu_mu_decay_ND.root"
         self.histoname = "numu_energy_n"
@@ -49,7 +49,7 @@ class Runner:
                    '-e',self.energyRange,'-f',self.fluxfile+','+self.histoname,'--seed',str(self.seed),
                    '--event-generator-list',self.eventtype,'--cross-sections',targetXSecStr,'-w']
 
-        #print subprocess.list2cmdline(command)
+        print subprocess.list2cmdline(command)
         subprocess.call(subprocess.list2cmdline(command), shell=True, cwd = '/root/genie/bin',stdout=self.FNULL)
         elapsed = (time.time()-start)
         print 'Time to run Genie for %s: %s seconds' % (targetCodeStr,elapsed)
@@ -76,7 +76,7 @@ class Runner:
         
         with open("/root/NewSaRoMaN/B4c/build/macro.mac", "w") as text_file:
             text_file.write("/run/initialize\n")
-            text_file.write("/run/printProgress 10000\n")
+            text_file.write("/run/printProgress 10000\n") #random high number
             text_file.write("/run/beamOn %s" % self.numberOfEvents)
         
         #Geant
