@@ -340,9 +340,9 @@ G4ThreeVector B4cDetectorConstruction::GetVertex(G4String region_name){
     // give up
     return G4ThreeVector(0., 0., 0.);
   }
-  // Made the box 10x10 cm
-  double x = (2*G4UniformRand() - 1)*5.0*cm;//(2*G4UniformRand() - 1)*solidBox->GetXHalfLength();
-  double y = (2*G4UniformRand() - 1)*5.0*cm;//(2*G4UniformRand() - 1)*solidBox->GetYHalfLength();
+  
+  double x = (2*G4UniformRand() - 1)*solidBox->GetXHalfLength();
+  double y = (2*G4UniformRand() - 1)*solidBox->GetYHalfLength();
   double z = (2*G4UniformRand() - 1)*solidBox->GetZHalfLength();
   std::cout<<"Vertex at ("<<x<<", "<<y<<", "<<z<<")"<<std::endl;
   

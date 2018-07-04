@@ -32,6 +32,7 @@
 #include "B4cCalorimeterSD.hh"
 #include "B4cCalorHit.hh"
 #include "B4Analysis.hh"
+#include "B4PrimaryGeneratorAction.hh"
 
 #include "G4RunManager.hh"
 #include "G4Event.hh"
@@ -67,11 +68,14 @@ B4cEventAction::B4cEventAction()
   analysisManager->CreateNtuple("B4", "Edep and TrackL");
   analysisManager->CreateNtupleIColumn("EventID");
   analysisManager->CreateNtupleDColumn("MCtr_Energy");
-  analysisManager->CreateNtupleDColumn("MCtr_Mom");
+  analysisManager->CreateNtupleDColumn("MCtr_MomX");
+  analysisManager->CreateNtupleDColumn("MCtr_MomY");
+  analysisManager->CreateNtupleDColumn("MCtr_MomZ");
   analysisManager->CreateNtupleDColumn("MCtr_Charge");
   analysisManager->CreateNtupleDColumn("MCtr_VertexX");
   analysisManager->CreateNtupleDColumn("MCtr_VertexY");
   analysisManager->CreateNtupleDColumn("MCtr_VertexZ");
+  analysisManager->CreateNtupleDColumn("MCtr_Weight");
   //analysisManager->CreateNtupleDColumn("positionX");
   //analysisManager->CreateNtupleDColumn("positionY");
   //analysisManager->CreateNtupleDColumn("positionZ");
@@ -245,12 +249,16 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   if(primary)
     {
       G4ThreeVector tmp = vertex->GetPosition();
+      const B4PrimaryGeneratorAction *PrimaryGenAction= static_cast<const B4PrimaryGeneratorAction*>(G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
       analysisManager->FillNtupleDColumn(1,primary->GetTotalEnergy());
-      analysisManager->FillNtupleDColumn(2,primary->GetMomentum().z());
-      analysisManager->FillNtupleDColumn(3,primary->GetCharge());
-      analysisManager->FillNtupleDColumn(4,tmp[0]);
-      analysisManager->FillNtupleDColumn(5,tmp[1]);
-      analysisManager->FillNtupleDColumn(6,tmp[2]);
+      analysisManager->FillNtupleDColumn(2,primary->GetMomentum().x());
+      analysisManager->FillNtupleDColumn(3,primary->GetMomentum().y());
+      analysisManager->FillNtupleDColumn(4,primary->GetMomentum().z());
+      analysisManager->FillNtupleDColumn(5,primary->GetCharge());
+      analysisManager->FillNtupleDColumn(6,tmp[0]);
+      analysisManager->FillNtupleDColumn(7,tmp[1]);
+      analysisManager->FillNtupleDColumn(8,tmp[2]);
+      analysisManager->FillNtupleDColumn(9, PrimaryGenAction->GetWeight());
     }
   else
     {
@@ -260,6 +268,9 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
       analysisManager->FillNtupleDColumn(4,0.0);
       analysisManager->FillNtupleDColumn(5,0.0);
       analysisManager->FillNtupleDColumn(6,0.0);
+      analysisManager->FillNtupleDColumn(7,0.0);
+      analysisManager->FillNtupleDColumn(8,0.0);
+      analysisManager->FillNtupleDColumn(9,0.0);
     }
   //std::cout<<collectionHit->GetTrackID()<<std::endl;
 

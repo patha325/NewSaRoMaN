@@ -136,7 +136,11 @@ void B4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   {
   
     G4String region_name = "SFFFS0";//"TASD";//"WAGASCIDetectorMod";//"PASSIVE";//"ACTIVE","TASD"
-    G4int region_code = region_name.contains("PASSIVE") ? 1 : 0;
+    G4int region_code = 0;
+    if(region_name.contains("PASSIVE") || region_name.contains("F"))
+      region_code = 1;
+
+       //= region_name.contains("PASSIVE") ? 1 : 0;
 
     (void) _genieData[region_code]->GetEntry( _evCount[region_code] );
    _genieData[region_code]->Show(_evCount[region_code]);
@@ -156,8 +160,10 @@ void B4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
    EventRecord & gEvent = *(_mcrec[region_code]->event);
    
    //Event information.
+   //https://genie.hepforge.org/doxygen/html/classgenie_1_1EventRecord-members.html
    //Interaction* gInt = gEvent.Summary();
    //GHepParticle* fsl = gEvent.FinalStatePrimaryLepton();
+   _weight = gEvent.Weight();
 
    TObjArrayIter iter(&gEvent);
    GHepParticle *part = dynamic_cast<GHepParticle *>(iter.Next());//0;

@@ -70,6 +70,8 @@ public:
   // set methods
   void SetRandomFlag(G4bool value);
 
+  G4double GetWeight() const {return _weight;}
+
 private:
   G4ParticleGun*  fParticleGun; // G4 particle gun
 
@@ -82,6 +84,7 @@ private:
   G4int _evCount[2]; //< Event counter.
 
   G4int _tasd; //< a tasd detector?
+  G4double _weight;
 
 
 };
