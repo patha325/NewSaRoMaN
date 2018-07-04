@@ -23,6 +23,7 @@ class Runner:
         
     def run(self):
         #Run genie for scintillator
+        # https://arxiv.org/abs/1510.05494v1
         # http://minerva-docdb.fnal.gov/0034/003441/001/GENIE_tutorial-170309.pdf
         # -n, number of events
         # -r MC run number
@@ -30,12 +31,13 @@ class Runner:
         # -t target PDG code
         # -e neutrino energy range
         # -f neutrino flux spectrum file
+        # -w Forces generation of weighted events.
         
         self.seed = 1000*random.random()
         
         start = time.time()
         outfile = open("genie1.log",'w')
-        command = './gevgen -r 14 -n '+str(self.numberOfEvents)+' -p '+str(self.pdg)+' -t 1000060120[0.922582],1000010010[0.077418] -e 0.01,4.0 -f /root/NewSaRoMaN/data/nu_mu_decay_ND.root,numu_energy_n --seed '+str(self.seed)+' --event-generator-list CCQE --cross-sections /root/NewSaRoMaN/data/xsec_C12+H1_splines.xml'
+        command = './gevgen -r 14 -n '+str(self.numberOfEvents)+' -p '+str(self.pdg)+' -t 1000060120[0.922582],1000010010[0.077418] -e 0.1,4.0 -f /root/NewSaRoMaN/data/nu_mu_decay_ND.root,numu_energy_n --seed '+str(self.seed)+' --event-generator-list CCQE --cross-sections /root/NewSaRoMaN/data/xsec_C12+H1_splines.xml -w'
         #command = './gevgen -r 14 -n '+str(self.numberOfEvents)+' -p '+str(self.pdg)+' -t 1000060120[0.922582],1000010010[0.077418] -e 0.01,4.0 -f /root/NewSaRoMaN/data/T2KRHCmodeflux.root,hist_nubar --seed '+str(self.seed)+' --event-generator-list CCQE --cross-sections /root/NewSaRoMaN/data/xsec_C12+H1_splines.xml'
         subprocess.call(command, shell=True, cwd = '/root/genie/bin',stdout=self.FNULL)#outfile)     
         outfile.close()
@@ -46,7 +48,7 @@ class Runner:
         #Run genie for iron
         start = time.time()
         outfile = open("genie2.log",'w')
-        command = './gevgen -r 14 -n '+str(self.numberOfEvents)+' -p '+str(self.pdg)+' -t 1000260560 -e 0.01,4.0 -f /root/NewSaRoMaN/data/nu_mu_decay_ND.root,numu_energy_n --seed '+str(self.seed)+' --event-generator-list CCQE --cross-sections /root/NewSaRoMaN/data/xsec_Fe56_splines.xml'
+        command = './gevgen -r 14 -n '+str(self.numberOfEvents)+' -p '+str(self.pdg)+' -t 1000260560 -e 0.1,4.0 -f /root/NewSaRoMaN/data/nu_mu_decay_ND.root,numu_energy_n --seed '+str(self.seed)+' --event-generator-list CCQE --cross-sections /root/NewSaRoMaN/data/xsec_Fe56_splines.xml -w'
         #command = './gevgen -r 14 -n '+str(self.numberOfEvents)+' -p '+str(self.pdg)+' -t 1000260560 -e 0.01,4.0 -f /root/NewSaRoMaN/data/T2KRHCmodeflux.root,hist_nubar --seed '+str(self.seed)+' --event-generator-list CCQE --cross-sections /root/NewSaRoMaN/data/xsec_Fe56_splines.xml'
         subprocess.call(command, shell=True, cwd = '/root/genie/bin',stdout=self.FNULL)#outfile) 
         outfile.close()
