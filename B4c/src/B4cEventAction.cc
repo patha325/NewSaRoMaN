@@ -68,6 +68,7 @@ B4cEventAction::B4cEventAction()
   analysisManager->CreateNtuple("B4", "Edep and TrackL");
   analysisManager->CreateNtupleIColumn("EventID");
   analysisManager->CreateNtupleDColumn("MCtr_Energy");
+  analysisManager->CreateNtupleDColumn("MCtr_Mom");
   analysisManager->CreateNtupleDColumn("MCtr_MomX");
   analysisManager->CreateNtupleDColumn("MCtr_MomY");
   analysisManager->CreateNtupleDColumn("MCtr_MomZ");
@@ -251,14 +252,15 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
       G4ThreeVector tmp = vertex->GetPosition();
       const B4PrimaryGeneratorAction *PrimaryGenAction= static_cast<const B4PrimaryGeneratorAction*>(G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
       analysisManager->FillNtupleDColumn(1,primary->GetTotalEnergy());
-      analysisManager->FillNtupleDColumn(2,primary->GetMomentum().x());
-      analysisManager->FillNtupleDColumn(3,primary->GetMomentum().y());
-      analysisManager->FillNtupleDColumn(4,primary->GetMomentum().z());
-      analysisManager->FillNtupleDColumn(5,primary->GetCharge());
-      analysisManager->FillNtupleDColumn(6,tmp[0]);
-      analysisManager->FillNtupleDColumn(7,tmp[1]);
-      analysisManager->FillNtupleDColumn(8,tmp[2]);
-      analysisManager->FillNtupleDColumn(9, PrimaryGenAction->GetWeight());
+      analysisManager->FillNtupleDColumn(2,primary->GetMomentum().mag());
+      analysisManager->FillNtupleDColumn(3,primary->GetMomentum().x());
+      analysisManager->FillNtupleDColumn(4,primary->GetMomentum().y());
+      analysisManager->FillNtupleDColumn(5,primary->GetMomentum().z());
+      analysisManager->FillNtupleDColumn(6,primary->GetCharge());
+      analysisManager->FillNtupleDColumn(7,tmp[0]);
+      analysisManager->FillNtupleDColumn(8,tmp[1]);
+      analysisManager->FillNtupleDColumn(9,tmp[2]);
+      analysisManager->FillNtupleDColumn(10, PrimaryGenAction->GetWeight());
     }
   else
     {
@@ -271,6 +273,7 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
       analysisManager->FillNtupleDColumn(7,0.0);
       analysisManager->FillNtupleDColumn(8,0.0);
       analysisManager->FillNtupleDColumn(9,0.0);
+      analysisManager->FillNtupleDColumn(10,0.0);
     }
   //std::cout<<collectionHit->GetTrackID()<<std::endl;
 
