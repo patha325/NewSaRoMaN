@@ -30,7 +30,7 @@ class Runner:
             if self.pdg==14:
                 self.histoname = "hist_nu"
             else:
-                self.histoname = "histo_nubar"
+                self.histoname = "hist_nubar"
 
     def runGenie(self,targetCodeStr,targetXSecStr):
         # https://arxiv.org/abs/1510.05494v1
