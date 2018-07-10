@@ -47,50 +47,104 @@ B4PrimaryGeneratorAction::B4PrimaryGeneratorAction()
  : G4VUserPrimaryGeneratorAction(),
    fParticleGun(nullptr)
 {
-  // for neutrino mode
 
-  _mcrec[0] = new NtpMCEventRecord();
-  _mcrec[1] = new NtpMCEventRecord();
+    // read config file
+    
+    std::ifstream infile("config.file");
+    std::string key;
+    std::string value;
 
-  
-  G4String active_mat_file  = "genie_active.root";//config.GetSParam("active_material_data");
-  _genieFiles[0] = new TFile( active_mat_file.data(), "read" );
-  _genieData[0] = dynamic_cast <TTree *>( _genieFiles[0]->Get("gtree")  );
-  _genieData[0]->SetBranchAddress("gmcrec", &_mcrec[0]);
-  
-  // Only get Iron target events if there is iron.
-  G4String passive_mat_file = "genie_passive.root";//config.GetSParam("passive_material_data");
-    _genieFiles[1] = new TFile( passive_mat_file.data(), "read" );
-    _genieData[1] = dynamic_cast <TTree *>(_genieFiles[1]->Get("gtree")  );
-    _genieData[1]->SetBranchAddress("gmcrec", &_mcrec[1]);
+    std::getline(infile,key,' ');
+    std::getline(infile,value,'\n');
+    //std::cout<<"key="<<key<<" value="<<value<<std::endl;
+    _neutrinoMode=atof(value.c_str());
+    std::getline(infile,key,' ');
+    std::getline(infile,value,'\n');		      
+    _energySpectrum=atof(value.c_str());
+    std::getline(infile,key,' ');
+    std::getline(infile,value,'\n');
+    _eMin=atof(value.c_str());
+    std::getline(infile,key,' ');
+    std::getline(infile,value,'\n');
+    _eMax=atof(value.c_str());
+    std::getline(infile,key,' ');
+    std::getline(infile,value,'\n');
+    _eFix=atof(value.c_str());
+    std::getline(infile,key,' ');
+    std::getline(infile,value,'\n');
+    _genpositionZ=atof(value.c_str());
+    std::getline(infile,key,' ');
+    std::getline(infile,value,'\n');
+    _particle=value;
+    std::getline(infile,key,' ');
+    std::getline(infile,value,'\n');
+    _region_name=value;
     
-    
-    //_fsl_select = config.PeekIParam("FSL_Select") ? config.GetIParam("FSL_Select") : 0;
-    
-    _evCount[0] = 0; _evCount[1] = 0;
-    //if ( MindConfigService::Instance().Geometry().PeekIParam("TASD") )
-    //_tasd = MindConfigService::Instance().Geometry().GetIParam("TASD");
-    //else _tasd = false;
-    _tasd = true;
-    
-    // _had4P = bhep::vdouble(4);
-    //_fspdg = bhep::vdouble(6);
-    //for(int i=0; i<6; i++) _fspdg[i] = 0;
-  
-  
-  /*
-  G4int nofParticles = 1;
-  fParticleGun = new G4ParticleGun(nofParticles);
+    //std::cout<<key<<std::endl;
+    //std::cout<<"key"<<std::endl;
+    //std::cout<<value<<std::endl;
+    //std::cout<<"value"<<std::endl;
 
-  // default particle kinematic
-  //
-  
-  auto particleDefinition 
-    = G4ParticleTable::GetParticleTable()->FindParticle("mu-");
-  fParticleGun->SetParticleDefinition(particleDefinition);
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  //fParticleGun->SetParticleEnergy(3000.*MeV);
-  */
+    /*
+    std::cout<<_neutrinoMode<<std::endl;
+    std::cout<<_energySpectrum<<std::endl;							
+    std::cout<<_eMin<<std::endl;
+    std::cout<<_eMax<<std::endl;
+    std::cout<<_eFix<<std::endl;
+    std::cout<<_genpositionZ<<std::endl;
+    std::cout<<_particle<<std::endl;
+    std::cout<<_region_name<<std::endl;
+    */
+
+    //_neutrinoMode = true;
+    //_energySpectrum = true;
+
+
+    if(_neutrinoMode)
+      {    
+	// for neutrino mode
+	
+	_mcrec[0] = new NtpMCEventRecord();
+	_mcrec[1] = new NtpMCEventRecord();
+	
+	
+	G4String active_mat_file  = "genie_active.root";//config.GetSParam("active_material_data");
+	_genieFiles[0] = new TFile( active_mat_file.data(), "read" );
+	_genieData[0] = dynamic_cast <TTree *>( _genieFiles[0]->Get("gtree")  );
+	_genieData[0]->SetBranchAddress("gmcrec", &_mcrec[0]);
+	
+	// Only get Iron target events if there is iron.
+	G4String passive_mat_file = "genie_passive.root";//config.GetSParam("passive_material_data");
+	_genieFiles[1] = new TFile( passive_mat_file.data(), "read" );
+	_genieData[1] = dynamic_cast <TTree *>(_genieFiles[1]->Get("gtree")  );
+	_genieData[1]->SetBranchAddress("gmcrec", &_mcrec[1]);
+	
+	//_fsl_select = config.PeekIParam("FSL_Select") ? config.GetIParam("FSL_Select") : 0;
+	
+	_evCount[0] = 0; _evCount[1] = 0;
+	//if ( MindConfigService::Instance().Geometry().PeekIParam("TASD") )
+	//_tasd = MindConfigService::Instance().Geometry().GetIParam("TASD");
+	//else _tasd = false;
+	_tasd = true;
+	
+	// _had4P = bhep::vdouble(4);
+	//_fspdg = bhep::vdouble(6);
+	//for(int i=0; i<6; i++) _fspdg[i] = 0;
+      }
+    
+    /*
+      G4int nofParticles = 1;
+      fParticleGun = new G4ParticleGun(nofParticles);
+
+      // default particle kinematic
+      //
+      
+      auto particleDefinition 
+      = G4ParticleTable::GetParticleTable()->FindParticle("mu-");
+      fParticleGun->SetParticleDefinition(particleDefinition);
+      fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
+      //fParticleGun->SetParticleEnergy(3000.*MeV);
+      */
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -100,16 +154,17 @@ B4PrimaryGeneratorAction::~B4PrimaryGeneratorAction()
   //delete fParticleGun;
 
   // for neutrino mode
-  
-  delete _genieData[0];
-  _genieFiles[0]->Close();
-  delete _genieFiles[0];
-  
-  //if ( _genieFiles[1] ) {
-  delete _genieData[1];
-  _genieFiles[1]->Close();
-  delete _genieFiles[1];
-  //}
+  if(_neutrinoMode)
+     {
+       delete _genieData[0];
+       _genieFiles[0]->Close();
+       delete _genieFiles[0];
+       
+       //if ( _genieFiles[1] ) {
+       delete _genieData[1];
+       _genieFiles[1]->Close();
+       delete _genieFiles[1];
+     }
   
 }
 
@@ -126,16 +181,16 @@ void B4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   // for neutrino mode
 
-  bool neutrinoMode = true;//true;
+  //_neutrinoMode = true;//true;
 
   // When not in neutrino mode, use fix energy or spectrum.
   
-  bool energySpectrum = true;//true;
+  //_energySpectrum = true;//true;
   
-  if(neutrinoMode)
+  if(_neutrinoMode)
   {
   
-    G4String region_name = "SFFFS0";//"TASD";//"WAGASCIDetectorMod";//"PASSIVE";//"ACTIVE","TASD"
+    G4String region_name = _region_name;//"SFFFS0";//"TASD";//"WAGASCIDetectorMod";//"PASSIVE";//"ACTIVE","TASD"
     G4int region_code = 0;
     if(region_name.contains("PASSIVE") || region_name.contains("F"))
       region_code = 1;
@@ -234,25 +289,26 @@ void B4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     
     fParticleGun = new G4ParticleGun(nofParticles);
     
-    auto particleDefinition 
-    = G4ParticleTable::GetParticleTable()->FindParticle("mu-");
+    //auto particleDefinition = G4ParticleTable::GetParticleTable()->FindParticle("mu-");
+    auto particleDefinition = G4ParticleTable::GetParticleTable()->FindParticle(_particle);
     fParticleGun->SetParticleDefinition(particleDefinition);
     
     fParticleGun->SetParticleEnergy(0.0);
     
-    G4double min = 200. *MeV;
+    G4double min = _eMin *MeV;//200. *MeV;
     //G4double max = 10000. *MeV;
-    G4double max = 5000. *MeV;
+    G4double max = _eMax*MeV;//5000. *MeV;
     
-    G4double momentum = 2000. * MeV;
+    G4double momentum = _eFix *MeV;//2000. * MeV;
 
-    if(energySpectrum)
+    if(_energySpectrum)
       momentum = (G4UniformRand() * (max - min) + min);
 
     
     fParticleGun->SetParticleMomentum(G4ThreeVector(0.,0.,momentum));
     
-    fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., -3000.0));
+    //fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., -3000.0));
+    fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., _genpositionZ));
     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.0,0.0,1.0));
     
     fParticleGun->GeneratePrimaryVertex(anEvent);

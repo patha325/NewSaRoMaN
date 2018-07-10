@@ -78,8 +78,20 @@ B4cDetectorConstruction::~B4cDetectorConstruction()
 
 G4VPhysicalVolume* B4cDetectorConstruction::Construct()
 {
+  std::ifstream infile("config.file");
+  std::string key;
+  std::string value;
+
+  while(true)
+    {
+    std::getline(infile,key,' ');
+    std::getline(infile,value,'\n');
+    if(key=="geom") break;
+    }
+
   G4PVPlacement* world_physi;
-  _gdml.Read("../../MIND.gdml",0);
+  //_gdml.Read("../../MIND.gdml",0);
+  _gdml.Read(value,0);
   world_physi = dynamic_cast<G4PVPlacement*>(_gdml.GetWorldVolume());
   // SetNullField(*world_physi->GetLogicalVolume());
   regionmass["TASD"] = 0;

@@ -12,9 +12,17 @@ class Runner:
         self.numberOfEvents = in_numberOfEvents #10000
         self.FNULL = open(os.devnull, 'w')
         self.seed = 1000*random.random()
-        self.pdg = 14
+        self.pdg = 14 #PDG number for genie generation, 14 numu, -14 numubar
+        self.neutrinoMode = 0 #1 or 0, lets Geant know to handle neutrinos
+        self.eSpectrum = 0 # 1 or 0, tells Geant in single particle mode (neutrino 0) to run espectrum else eFix.
         self.eMin = 0.1 #GeV
         self.eMax = 4.0 #GeV
+        self.eFix = 2.0 #GeV
+        self.vertexPos = -3000 #mm, position for single particle beam
+        self.particle = "mu-" #particle for single particle beam
+        self.region = "SFFFS0" #region for neutrino interaction. //"SFFFS0";//"TASD";//"WAGASCIDetectorMod";//"PASSIVE";//"ACTIVE","TASD"
+        self.geomFileG = "../../MIND.gdml" #relative path from geant to geometry file.
+        self.geomFileF = "../../../MIND.gdml" #relative path from Genfit to geometry file.
         self.energyRange =str(self.eMin)+','+str(self.eMax)
         self.NuStorm = True
         self.fluxfile = "/root/NewSaRoMaN/data/nu_mu_decay_ND.root"
@@ -66,18 +74,36 @@ class Runner:
         
     def run(self):
         #Run genie for scintillator
-        self.runGenie(self.scintCode,self.scintXSec)
-        subprocess.call('mv gntp.'+str(self.MCrunNumber)+'.ghep.root /root/NewSaRoMaN/B4c/build/genie_active.root ', shell=True, cwd = '/root/genie/bin')
-        #Run genie for iron
-        self.runGenie(self.ironCode,self.ironXSec)
-        subprocess.call('mv gntp.'+str(self.MCrunNumber)+'.ghep.root /root/NewSaRoMaN/B4c/build/genie_passive.root ', shell=True, cwd = '/root/genie/bin')
+
+        if(self.neutrinoMode):
+            self.runGenie(self.scintCode,self.scintXSec)
+            subprocess.call('mv gntp.'+str(self.MCrunNumber)+'.ghep.root /root/NewSaRoMaN/B4c/build/genie_active.root ', shell=True, cwd = '/root/genie/bin')
+            #Run genie for iron
+            self.runGenie(self.ironCode,self.ironXSec)
+            subprocess.call('mv gntp.'+str(self.MCrunNumber)+'.ghep.root /root/NewSaRoMaN/B4c/build/genie_passive.root ', shell=True, cwd = '/root/genie/bin')
         
-        #fix macro file for geant
+        #write macro file for geant
         
         with open("/root/NewSaRoMaN/B4c/build/macro.mac", "w") as text_file:
             text_file.write("/run/initialize\n")
             text_file.write("/run/printProgress 10000\n") #random high number
             text_file.write("/run/beamOn %s" % self.numberOfEvents)
+
+        #write config file for geant
+        eMin = 1000 * self.eMin  #need to be in MeV
+        eMax = 1000 * self.eMax  #need to be in MeV
+        eFix = 1000 * self.eFix  #need to be in MeV
+        with open("/root/NewSaRoMaN/B4c/build/config.file", "w") as text_file:
+            text_file.write("neutrino %s\n" % self.neutrinoMode)
+            text_file.write("eSpectrum %s\n" % self.eSpectrum)
+            text_file.write("eMin %s\n" % eMin) #need to be in MeV
+            text_file.write("eMax %s\n" % eMax)
+            text_file.write("eFix %s\n" % eFix)
+            text_file.write("VertexPosZ %s\n" % self.vertexPos)
+            text_file.write("particle %s\n" % self.particle)
+            text_file.write("region %s\n" % self.region)
+            text_file.write("geom %s" % self.geomFileG)
+        
         
         #Geant
         start = time.time()

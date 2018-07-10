@@ -72,6 +72,8 @@ public:
 
   G4double GetWeight() const {return _weight;}
 
+  
+
 private:
   G4ParticleGun*  fParticleGun; // G4 particle gun
 
@@ -85,6 +87,14 @@ private:
 
   G4int _tasd; //< a tasd detector?
   G4double _weight;
+  bool _neutrinoMode;
+  bool _energySpectrum;
+  G4double _eMin;
+  G4double _eMax;
+  G4double _eFix;
+  G4double _genpositionZ;
+  G4String _particle;
+  G4String _region_name;
 
 
 };
