@@ -49,15 +49,78 @@
 #include <KalmanFitter.h>
 #include <DAF.h>
 
+
+struct Hit
+{
+  Hit() {};
+  ~Hit() {};
+  Hit(TVector3 inpos,int inpdg,double inmom,double inedep,double intime,
+      double inbarPT,double inbarPZ,int inbarO,
+      int inbarN,bool inTASD)
+  {
+    tposition=inpos;
+    tpdg=inpdg;
+    tmom=inmom;
+    edep=inedep;
+    time=intime;
+    barPositionL=inbarPT;
+    barPositionZ=inbarPZ;
+    barOrientation=inbarO;
+    barNumber=inbarN;
+    TASD=inTASD;    
+  };
+  TVector3 tposition;
+  int tpdg;
+  double tmom;
+  double edep;
+  double time;
+  double barPositionL;
+  double barPositionZ;
+  int barOrientation; // 1 is bars providing Y-position (Small bars) 0 is x bars.
+  int barNumber;
+  bool TASD;
+  
+};
+
+struct ClusteredHit
+{
+  ClusteredHit() {};
+  ~ClusteredHit() {};
+  TVector3 clusteredPosition;
+  double time;
+  double combinedEdep;
+
+  std::vector<Hit*> hitList;
+};
+
+struct Plane
+{
+  Plane() {};
+  ~Plane() {};
+  Plane(Hit* inHit )
+  {
+    hitList.push_back(inHit);
+    combinedPositionZ=inHit->barPositionZ;
+  };
+  std::vector<Hit*> hitList;
+  std::vector<ClusteredHit*> clusterHitList; 
+  double combinedPositionZ;
+};
+
 //Declaring global jmp_buf variable to be used by both main and signal handler
 jmp_buf buf;
 
+
 struct sortByZ
 {
-    inline bool operator() (const TVector3& struct1, const TVector3& struct2)
+  inline bool operator() (const TVector3& struct1, const TVector3& struct2)
     {
-        return (struct1[2] < struct2[2]);
+      return (struct1[2] < struct2[2]);
     }
+  inline bool operator() (const Hit* struct1, const Hit* struct2)
+  {
+    return (struct1->barPositionZ < struct2->barPositionZ);
+  }
 };
 
 void magic_handler(int s)
@@ -179,6 +242,10 @@ gRandom->SetSeed(14);
   double o_rec_angle=0.0;
   double o_mc_angle=0.0;
   int o_failCode = 0;
+  int o_numHits = 0;
+  int o_numPlanes = 0;
+  double o_avrHitsPlanes = 0;
+  std::vector<double> *o_plane_zpos=0;
 
   tree->Branch("MC_positionX",&o_vposX);
   tree->Branch("MC_positionY",&o_vposY);
@@ -218,6 +285,10 @@ gRandom->SetSeed(14);
   tree->Branch("MC_angle",&o_mc_angle);
   tree->Branch("Rec_angle",&o_rec_angle);
   tree->Branch("FailCode",&o_failCode);
+  tree->Branch("NumberofHits",&o_numHits);
+  tree->Branch("NumberofPlanes",&o_numPlanes);
+  tree->Branch("AvrHitsPerPlane",&o_avrHitsPlanes);
+  tree->Branch("PlanesZPos",&o_plane_zpos);
   
   //std::ofstream myfile;
   //myfile.open ("example2.txt",std::ofstream::out | std::ofstream::app);
@@ -233,12 +304,19 @@ gRandom->SetSeed(14);
     // it has no hits with pdg 13 for some reason??
 
     std::vector<TVector3> eventHits;
-
+    std::vector<Hit*> eventHitsV;
     std::vector<double> *vposX=0;
     std::vector<double> *vposY=0;
     std::vector<double> *vposZ=0;
     std::vector<double> *vmomZ=0;
     std::vector<int> *vPDG=0;
+    std::vector<int> *vhedep=0;
+    std::vector<int> *vhtime=0;
+    std::vector<int> *vhbaror=0;
+    std::vector<int> *vhtransbarpos=0;
+    std::vector<int> *vhlongbarpos=0;
+    std::vector<int> *vhbarnum=0;
+    std::vector<int> *vTASD=0;
     //int eventIDR = 0;
     double mctr_mom =0.0;
     double mctr_momX =0.0;
@@ -266,7 +344,14 @@ gRandom->SetSeed(14);
     tr->SetBranchAddress("MCtr_Energy",&mctr_eng);
     tr->SetBranchAddress("MCtr_VertexX",&vert_X);
     tr->SetBranchAddress("MCtr_VertexY",&vert_Y);
-    tr->SetBranchAddress("MCtr_VertexZ",&vert_Z);
+    tr->SetBranchAddress("MCtr_VertexZ",&vert_Z); 
+    tr->SetBranchAddress("hitEdep",&vhedep);
+    tr->SetBranchAddress("hitTime",&vhtime);
+    tr->SetBranchAddress("barOrientation",&vhbaror);
+    tr->SetBranchAddress("transBarPos",&vhtransbarpos);
+    tr->SetBranchAddress("longBarPos",&vhlongbarpos);
+    tr->SetBranchAddress("barNumber",&vhbarnum);
+    tr->SetBranchAddress("TASD",&vTASD);
     
     tr->GetEntry(iEvent);
 
@@ -302,13 +387,11 @@ gRandom->SetSeed(14);
     double maxZ = - 9000; //random small
     double minZ = 9000; // random large
     
-    
     // track model
     const int pdg = -13;// particle pdg code
     const int refcharge = TDatabasePDG::Instance()->GetParticle(pdg)->Charge()/3.0;
     //genfit::HelixTrackModel* helix = new genfit::HelixTrackModel(pos, mom, charge);
     //measurementCreator.setTrackModel(helix);
-    
     
     //unsigned int nMeasurements = gRandom->Uniform(5, 15);
     
@@ -353,7 +436,14 @@ gRandom->SetSeed(14);
 	  if(posZ<minZ) minZ = posZ;
 
 	  eventHits.push_back(currentPos);
-	  
+
+	  // This should be filled with all hits and used for the patternrec.
+	  eventHitsV.push_back(new Hit(currentPos,pdgR,vmomZ->at(i),vhedep->at(i),
+				       vhtime->at(i),vhtransbarpos->at(i)/10.0,
+				       vhlongbarpos->at(i)/10.0,vhbaror->at(i),
+				       vhbarnum->at(i),vTASD->at(i)));
+
+	  // 
 	  
 	  // Fill the TClonesArray and the TrackCand
 	  // In a real experiment, you detector code would deliver mySpacepointDetectorHits and fill the TClonesArray.
@@ -383,6 +473,81 @@ gRandom->SetSeed(14);
 	    
       }
 
+    o_numHits = eventHitsV.size();
+    std::sort(eventHitsV.begin(),eventHitsV.end(),sortByZ());
+
+    //combine all bars at most 7.5mm from eachother. (Center to center)
+
+    // debug, take a large size
+
+    double barDiffZ = 15.2/10.0;//7.5; // mm
+    std::vector<Plane*> hitPlanes;
+    int jmp = 1;
+    o_avrHitsPlanes = 0;
+    o_plane_zpos->clear();
+
+    for(unsigned int hitCounter = 0; hitCounter<eventHitsV.size(); hitCounter+=jmp)
+      {
+	jmp=1;
+	hitPlanes.push_back(new Plane(eventHitsV[hitCounter]));
+
+	//std::cout<<"plane pos initial="<<hitPlanes.back()->hitList.back()->barPositionZ<<std::endl;
+	
+	for(unsigned int hitCounterIn = hitCounter+1; hitCounterIn<eventHitsV.size(); hitCounterIn++)
+	  {
+	    //std::cout<<"Wanting to add ="<<eventHitsV[hitCounterIn]->barPositionZ<<std::endl;
+
+	    //std::cout<<"Diff="<<eventHitsV[hitCounterIn]->barPositionZ-
+	    //hitPlanes.back()->hitList.back()->barPositionZ<<std::endl;
+	    
+	    if(eventHitsV[hitCounterIn]->barPositionZ-
+	       hitPlanes.back()->hitList.back()->barPositionZ
+	       < barDiffZ)
+	      {
+		hitPlanes.back()->hitList.push_back(eventHitsV[hitCounterIn]); 
+		jmp++;
+		
+		//std::cout<<"Added"<<std::endl;
+	      }
+	    else
+	      {
+		//std::cout<<"Not added, break"<<std::endl;
+		break;
+	      }
+	  }
+	//std::cout<<"Hits in plane="<<hitPlanes.back()->hitList.size()<<std::endl;
+			  
+	double Z = 0;
+	//o_plane_zpos->clear();
+	//o_avrHitsPlanes = 0;
+	for(unsigned int planeCounter = 0; planeCounter<hitPlanes.back()->hitList.size(); planeCounter++)
+	  {
+	    //std::cout<<"Pos="<<hitPlanes.back()->hitList[planeCounter]->barPositionZ<<std::endl;
+	    Z+= hitPlanes.back()->hitList[planeCounter]->barPositionZ;
+	  }
+
+	//std::cout<<"Z="<<Z<<std::endl;
+	//std::cout<<"Size="<<hitPlanes.back()->hitList.size()<<std::endl;
+	//std::cout<<"plane pos="<<hitPlanes.back()->combinedPositionZ<<std::endl;
+	
+	hitPlanes.back()->combinedPositionZ = Z / hitPlanes.back()->hitList.size();
+
+	o_avrHitsPlanes += hitPlanes.back()->hitList.size();
+
+		   o_plane_zpos->push_back(hitPlanes.back()->combinedPositionZ * 10.0); //cm to mm
+      }
+  
+    //std::cout<<hitPlanes.size()<<std::endl;
+    o_numPlanes = hitPlanes.size();
+
+    //std::cout<<"tot hits planes="<<o_avrHitsPlanes<<std::endl;
+
+    o_avrHitsPlanes/=o_numPlanes;
+
+    //std::cout<<"avr hits planes="<<o_avrHitsPlanes<<std::endl;
+
+    //for(unsigned int planesCounter = 0; planesCounter.)
+    //{
 
     o_true_track_len = maxZ-minZ;
     
@@ -460,7 +625,7 @@ gRandom->SetSeed(14);
       double length = fitTrack.getTrackLen()*10;
       genfit::FitStatus* status = fitTrack.getFitStatus();
 
-      std::cout<<refcharge<<"\t"<<status->getCharge()<<std::endl;
+      //std::cout<<refcharge<<"\t"<<status->getCharge()<<std::endl;
       
       //if(fitTrack.getFittedState().getCharge())
       /*
