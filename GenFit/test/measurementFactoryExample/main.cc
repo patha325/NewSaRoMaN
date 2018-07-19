@@ -141,7 +141,9 @@ int main(int argc, char* argv[]) {
 
 int lowerEventNum = atoi(argv[1]);
 int higherEventNum = atoi(argv[2]);
-  
+
+ bool skipTASD = atoi(argv[3]);
+ 
 gRandom->SetSeed(14);
 
   // init MeasurementCreator
@@ -151,7 +153,8 @@ gRandom->SetSeed(14);
   // init geometry and mag. field
   new TGeoManager("Geometry", "Geane geometry");
   //TGeoManager::Import("genfitGeom.root");
-  TGeoManager::Import("../../../MIND.gdml");
+  //TGeoManager::Import("../../../MIND.gdml");
+  TGeoManager::Import(argv[4]);
   //genfit::FieldManager::getInstance()->init(new genfit::ConstField(0.,0., 15.)); // 15 kGauss
   genfit::FieldManager::getInstance()->init(new genfit::ConstField(-15.,0., 0.)); //1.5 Tesla.
   //genfit::FieldManager::getInstance()->init(new genfit::ConstField(15.,0., 0.)); //1.5 Tesla.
@@ -425,7 +428,7 @@ gRandom->SetSeed(14);
       //instead of pattern rec, just artificially use only muon hits. (Not perfect)
       // For us, enough with cuts on energy dep, checking that hit lines up with track parts.
       
-      if((pdgR==pdg || pdgR==-pdg))// && posZ>-2400)// && fabs(mctr_mom) >500.0)
+      if((pdgR==pdg || pdgR==-pdg) && (!skipTASD || posZ>-1200))// && fabs(mctr_mom) >500.0)
 	  {
 	  currentPos.SetX(posX/10.0);
 	  currentPos.SetY(posY/10.0);

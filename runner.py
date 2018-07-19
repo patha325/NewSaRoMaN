@@ -13,18 +13,19 @@ class Runner:
         self.FNULL = open(os.devnull, 'w')
         self.seed = 1000*random.random()
         self.pdg = 14 #PDG number for genie generation, 14 numu, -14 numubar
-        self.neutrinoMode = 0 #1 or 0, lets Geant know to handle neutrinos
+        self.neutrinoMode = 1 #1 or 0, lets Geant know to handle neutrinos
         self.eSpectrum = 0 # 1 or 0, tells Geant in single particle mode (neutrino 0) to run espectrum else eFix.
         self.eMin = 0.1 #GeV
         self.eMax = 4.0 #GeV
         self.eFix = 2.0 #GeV
         self.vertexPos = -3000 #mm, position for single particle beam
         self.particle = "mu-" #particle for single particle beam
-        self.region = "SFFFS0" #region for neutrino interaction. //"SFFFS0";//"TASD";//"WAGASCIDetectorMod";//"PASSIVE";//"ACTIVE","TASD"
-        self.geomFileG = "../../MIND.gdml" #relative path from geant to geometry file.
-        self.geomFileF = "../../../MIND.gdml" #relative path from Genfit to geometry file.
+        self.region = "TASD" #"SFFFS0" #region for neutrino interaction. //"SFFFS0";//"TASD";//"WAGASCIDetectorMod";//"PASSIVE";//"ACTIVE","TASD"
+        self.geomFileG = "../../MINDnew_aida.gdml" #relative path from geant to geometry file.
+        self.geomFileF = "../../../MINDnew_aida.gdml" #relative path from Genfit to geometry file.
         self.energyRange =str(self.eMin)+','+str(self.eMax)
         self.NuStorm = True
+        self.skipTASD = 0 #adds TASD skipping for fitter.
         self.fluxfile = "/root/NewSaRoMaN/data/nu_mu_decay_ND.root"
         self.histoname = "numu_energy_n"
         self.eventtype = "CCQE"
@@ -122,7 +123,7 @@ class Runner:
         print 'Starting at %s' % time.ctime()
         subprocess.call('scp WAGASCI.gdml GenFit/build/bin', shell=True, cwd = '/root/NewSaRoMaN')
         #outfile = open("GenFit.log",'w')
-        subprocess.call('./measurementFactoryExample 0 '+str(self.numberOfEvents), shell=True, cwd = '/root/NewSaRoMaN/GenFit/build/bin',stdout=self.FNULL, stderr=self.FNULL)#outfile)
+        subprocess.call('./measurementFactoryExample 0 '+str(self.numberOfEvents)+' '+str(self.skipTASD)+' '+self.geomFileF, shell=True, cwd = '/root/NewSaRoMaN/GenFit/build/bin',stdout=self.FNULL, stderr=self.FNULL)#outfile)
         #outfile.close()
         subprocess.call('mv out.root ../../../recOut.root', shell=True, cwd = '/root/NewSaRoMaN/GenFit/build/bin')
         subprocess.call('mv in.root ../../../simOut.root', shell=True, cwd = '/root/NewSaRoMaN/GenFit/build/bin')
