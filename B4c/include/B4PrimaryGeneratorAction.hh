@@ -71,6 +71,7 @@ public:
   void SetRandomFlag(G4bool value);
 
   G4double GetWeight() const {return _weight;}
+   G4int GetInteraction() const {return _interaction;}
 
   
 
@@ -94,6 +95,7 @@ private:
   G4double _eFix;
   G4double _genpositionZ;
   G4String _particle;
+  G4int _interaction;
   G4String _region_name;
 
 

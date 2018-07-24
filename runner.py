@@ -20,19 +20,19 @@ class Runner:
         self.eFix = 2.0 #GeV
         self.vertexPos = -3000 #mm, position for single particle beam
         self.particle = "mu-" #particle for single particle beam
-        self.region = "TASD" #"SFFFS0" #region for neutrino interaction. //"SFFFS0";//"TASD";//"WAGASCIDetectorMod";//"PASSIVE";//"ACTIVE","TASD"
-        self.geomFileG = "../../MINDnew_aida.gdml" #relative path from geant to geometry file.
-        self.geomFileF = "../../../MINDnew_aida.gdml" #relative path from Genfit to geometry file.
+        self.region = "SFFFS0" #"SFFFS0" #region for neutrino interaction. //"SFFFS0";//"TASD";//"WAGASCIDetectorMod";//"PASSIVE";//"ACTIVE","TASD"
+        self.geomFileG = "../../MIND.gdml" #relative path from geant to geometry file.
+        self.geomFileF = "../../../MIND.gdml" #relative path from Genfit to geometry file.
         self.energyRange =str(self.eMin)+','+str(self.eMax)
         self.NuStorm = True
         self.skipTASD = 0 #adds TASD skipping for fitter.
         self.fluxfile = "/root/NewSaRoMaN/data/nu_mu_decay_ND.root"
         self.histoname = "numu_energy_n"
-        self.eventtype = "CCQE"
+        self.eventtype = "NC"
         self.scintCode = "1000060120[0.922582],1000010010[0.077418]"
         self.ironCode = "1000260560"
-        self.scintXSec = "/root/NewSaRoMaN/data/xsec_C12+H1_splines.xml"
-        self.ironXSec = "/root/NewSaRoMaN/data/xsec_Fe56_splines.xml"
+        self.scintXSec = "/root/NewSaRoMaN/data/xsec_splines.xml"#xsec_C12+H1_splines.xml"
+        self.ironXSec = "/root/NewSaRoMaN/data/xsec_splines.xml"#xsec_Fe56_splines.xml"
 
         if not self.NuStorm:
             self.fluxfile = "/root/NewSaRoMaN/data/T2KRHCmodeflux.root"

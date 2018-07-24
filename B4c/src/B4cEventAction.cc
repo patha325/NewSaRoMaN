@@ -77,6 +77,7 @@ B4cEventAction::B4cEventAction()
   analysisManager->CreateNtupleDColumn("MCtr_VertexY");
   analysisManager->CreateNtupleDColumn("MCtr_VertexZ");
   analysisManager->CreateNtupleDColumn("MCtr_Weight");
+  analysisManager->CreateNtupleIColumn("MCtr_Interaction");
   //analysisManager->CreateNtupleDColumn("positionX");
   //analysisManager->CreateNtupleDColumn("positionY");
   //analysisManager->CreateNtupleDColumn("positionZ");
@@ -261,6 +262,7 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
       analysisManager->FillNtupleDColumn(8,tmp[1]);
       analysisManager->FillNtupleDColumn(9,tmp[2]);
       analysisManager->FillNtupleDColumn(10, PrimaryGenAction->GetWeight());
+      analysisManager->FillNtupleIColumn(11, PrimaryGenAction->GetInteraction());
     }
   else
     {
@@ -274,6 +276,7 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
       analysisManager->FillNtupleDColumn(8,0.0);
       analysisManager->FillNtupleDColumn(9,0.0);
       analysisManager->FillNtupleDColumn(10,0.0);
+      analysisManager->FillNtupleIColumn(11,0.0);
     }
   //std::cout<<collectionHit->GetTrackID()<<std::endl;
 

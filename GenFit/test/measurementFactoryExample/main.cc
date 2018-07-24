@@ -212,6 +212,7 @@ gRandom->SetSeed(14);
   double o_mctr_momY = 0.0;
   double o_mctr_momZ = 0.0;
   double o_mctr_weight = 0.0;
+  int o_mctr_interactionType = 0;
   double o_mctr_charge = 0.0;
   double o_mctr_eng = 0.0;
   double o_vertPosX = 0.0;
@@ -263,6 +264,7 @@ gRandom->SetSeed(14);
   tree->Branch("MCtr_MomY",&o_mctr_momY);
   tree->Branch("MCtr_MomZ",&o_mctr_momZ);
   tree->Branch("MCtr_Weight",&o_mctr_weight);
+  tree->Branch("MCtr_Interaction",&o_mctr_interactionType);
   tree->Branch("MCtr_Charge",&o_mctr_charge);
   tree->Branch("MCtr_Energy",&o_mctr_eng);
   tree->Branch("Event",&o_event);
@@ -306,6 +308,8 @@ gRandom->SetSeed(14);
     //if(iEvent==34 || iEvent==666) continue; // Why does this one break??!?!?!
     // it has no hits with pdg 13 for some reason??
 
+
+    // read in tree from geant
     std::vector<TVector3> eventHits;
     std::vector<Hit*> eventHitsV;
     std::vector<double> *vposX=0;
@@ -327,6 +331,7 @@ gRandom->SetSeed(14);
     double mctr_momZ =0.0;
     double mctr_charge =0.0;
     double mctr_weight =0.0;
+    int mctr_interactionType =0;
     double mctr_eng =0.0;
     double vert_X =0.0;
     double vert_Y =0.0;
@@ -343,6 +348,7 @@ gRandom->SetSeed(14);
     tr->SetBranchAddress("MCtr_MomY",&mctr_momY);
     tr->SetBranchAddress("MCtr_MomZ",&mctr_momZ);
     tr->SetBranchAddress("MCtr_Weight",&mctr_weight);
+    tr->SetBranchAddress("MCtr_Interaction",&mctr_interactionType);
     tr->SetBranchAddress("MCtr_Charge",&mctr_charge);
     tr->SetBranchAddress("MCtr_Energy",&mctr_eng);
     tr->SetBranchAddress("MCtr_VertexX",&vert_X);
@@ -369,6 +375,7 @@ gRandom->SetSeed(14);
     o_mctr_momY=mctr_momY;
     o_mctr_momZ=mctr_momZ;
     o_mctr_weight=mctr_weight;
+    o_mctr_interactionType=mctr_interactionType;
     o_mctr_eng=mctr_eng;
     o_mctr_charge=mctr_charge;
     o_vertPosX=vert_X;

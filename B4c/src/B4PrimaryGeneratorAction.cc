@@ -216,9 +216,10 @@ void B4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
    
    //Event information.
    //https://genie.hepforge.org/doxygen/html/classgenie_1_1EventRecord-members.html
-   //Interaction* gInt = gEvent.Summary();
+   Interaction* gInt = gEvent.Summary();
    //GHepParticle* fsl = gEvent.FinalStatePrimaryLepton();
    _weight = gEvent.Weight();
+   _interaction = gInt->ProcInfo().InteractionTypeId();
 
    TObjArrayIter iter(&gEvent);
    GHepParticle *part = dynamic_cast<GHepParticle *>(iter.Next());//0;
