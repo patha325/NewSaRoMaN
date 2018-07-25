@@ -49,15 +49,78 @@
 #include <KalmanFitter.h>
 #include <DAF.h>
 
+
+struct Hit
+{
+  Hit() {};
+  ~Hit() {};
+  Hit(TVector3 inpos,int inpdg,double inmom,double inedep,double intime,
+      double inbarPT,double inbarPZ,int inbarO,
+      int inbarN,bool inTASD)
+  {
+    tposition=inpos;
+    tpdg=inpdg;
+    tmom=inmom;
+    edep=inedep;
+    time=intime;
+    barPositionL=inbarPT;
+    barPositionZ=inbarPZ;
+    barOrientation=inbarO;
+    barNumber=inbarN;
+    TASD=inTASD;    
+  };
+  TVector3 tposition;
+  int tpdg;
+  double tmom;
+  double edep;
+  double time;
+  double barPositionL;
+  double barPositionZ;
+  int barOrientation; // 1 is bars providing Y-position (Small bars) 0 is x bars.
+  int barNumber;
+  bool TASD;
+  
+};
+
+struct ClusteredHit
+{
+  ClusteredHit() {};
+  ~ClusteredHit() {};
+  TVector3 clusteredPosition;
+  double time;
+  double combinedEdep;
+
+  std::vector<Hit*> hitList;
+};
+
+struct Plane
+{
+  Plane() {};
+  ~Plane() {};
+  Plane(Hit* inHit )
+  {
+    hitList.push_back(inHit);
+    combinedPositionZ=inHit->barPositionZ;
+  };
+  std::vector<Hit*> hitList;
+  std::vector<ClusteredHit*> clusterHitList; 
+  double combinedPositionZ;
+};
+
 //Declaring global jmp_buf variable to be used by both main and signal handler
 jmp_buf buf;
 
+
 struct sortByZ
 {
-    inline bool operator() (const TVector3& struct1, const TVector3& struct2)
+  inline bool operator() (const TVector3& struct1, const TVector3& struct2)
     {
-        return (struct1[2] < struct2[2]);
+      return (struct1[2] < struct2[2]);
     }
+  inline bool operator() (const Hit* struct1, const Hit* struct2)
+  {
+    return (struct1->barPositionZ < struct2->barPositionZ);
+  }
 };
 
 void magic_handler(int s)
@@ -78,7 +141,9 @@ int main(int argc, char* argv[]) {
 
 int lowerEventNum = atoi(argv[1]);
 int higherEventNum = atoi(argv[2]);
-  
+
+ bool skipTASD = atoi(argv[3]);
+ 
 gRandom->SetSeed(14);
 
   // init MeasurementCreator
@@ -88,22 +153,44 @@ gRandom->SetSeed(14);
   // init geometry and mag. field
   new TGeoManager("Geometry", "Geane geometry");
   //TGeoManager::Import("genfitGeom.root");
-  TGeoManager::Import("../../../MIND.gdml");
+  //TGeoManager::Import("../../../MIND.gdml");
+  TGeoManager::Import(argv[4]);
   //genfit::FieldManager::getInstance()->init(new genfit::ConstField(0.,0., 15.)); // 15 kGauss
-  //genfit::FieldManager::getInstance()->init(new genfit::ConstField(-15.,0., 0.)); //1.5 Tesla.
-  genfit::FieldManager::getInstance()->init(new genfit::ConstField(15.,0., 0.)); //1.5 Tesla.
+  genfit::FieldManager::getInstance()->init(new genfit::ConstField(-15.,0., 0.)); //1.5 Tesla.
+  //genfit::FieldManager::getInstance()->init(new genfit::ConstField(15.,0., 0.)); //1.5 Tesla.
   genfit::MaterialEffects::getInstance()->init(new genfit::TGeoMaterialInterface());
 
   genfit::MaterialEffects::getInstance()->setMscModel("Highland");
-
-  //genfit::EventDisplay* display = genfit::EventDisplay::getInstance();
   
+  //genfit::MaterialEffects::getInstance()->setDebugLvl();
+  //genfit::MaterialEffects::getInstance()->drawdEdx(13);
+
+  //auto material =new genfit::TGeoMaterialInterface();
+
+  //material->setDebugLvl(2);
+  
+  //genfit::MaterialEffects::getInstance()->init(material);
+
+  //material->setDebugLvl(2);
+  
+
+  // init event display
+  //genfit::EventDisplay* display = genfit::EventDisplay::getInstance();
+
+  //const int nIter = 100; // max number of iterations // randomly chosen number.
+  //const double dPVal = 1.E-6; // convergence criterion // random low number
+
+  // init fitter
+  //genfit::AbsKalmanFitter* fitter = new genfit::KalmanFitterRefTrack(nIter,dPVal);
+  //genfit::AbsKalmanFitter* fitter = new genfit::KalmanFitterRefTrack();
+
   genfit::AbsKalmanFitter* fitter = new genfit::KalmanFitter();//new genfit::KalmanFitterRefTrack();
-  fitter->setMaxIterations(10);
-  fitter->setMinIterations(8);
+  fitter->setMaxIterations(8); //10
+  fitter->setMinIterations(4); //8
 
   const genfit::eMultipleMeasurementHandling mmHandling = genfit::unweightedClosestToPrediction;
   fitter->setMultipleMeasurementHandling(mmHandling);
+
 
   TClonesArray myDetectorHitArray("genfit::mySpacepointDetectorHit");
 
@@ -113,23 +200,30 @@ gRandom->SetSeed(14);
   genfit::MeasurementProducer<genfit::mySpacepointDetectorHit, genfit::mySpacepointMeasurement> myProducer(&myDetectorHitArray);
   factory.addProducer(myDetId, &myProducer);
   
-  //TFile *inFile=new TFile("data.root","READONLY");
-  //TFile *inFile=new TFile("/root/NewSaRoMaN/neutrinoData/Event_31_May_1.root","READONLY");
-  //TFile *inFile=new TFile("/root/NewSaRoMaN/neutrinoData/Event_30_May_6.root","READONLY");
-  //TFile *inFile=new TFile("/root/NewSaRoMaN/neutrinoData/Event_28_May_1.root","READONLY");
-  TFile *inFile=new TFile("/root/NewSaRoMaN/neutrinoData/Event_25_May_1.root","READONLY");
-  TTree *tr=(TTree*)inFile->Get("events");
+  TFile *inFile=new TFile("in.root","READONLY");
+  TTree *tr=(TTree*)inFile->Get("B4");
 
   // Create the out root file and fix all branches
   TFile outFile("out.root","recreate");
   TTree* tree = new TTree("tree","A ROOT TREE");
 
   double o_mctr_mom = 0.0;
+  double o_mctr_momX = 0.0;
+  double o_mctr_momY = 0.0;
+  double o_mctr_momZ = 0.0;
+  double o_mctr_weight = 0.0;
+  int o_mctr_interactionType = 0;
   double o_mctr_charge = 0.0;
   double o_mctr_eng = 0.0;
+  double o_vertPosX = 0.0;
+  double o_vertPosY = 0.0;
+  double o_vertPosZ = 0.0;
   int o_event = 0;
   int o_charge = 0;
   double o_mom = 0.0;
+  double o_momX = 0.0;
+  double o_momY = 0.0;
+  double o_momZ = 0.0;
   double o_mom_range = 0.0;
   double o_cov = 0.0;
   double o_track_len = 0.0;
@@ -152,18 +246,33 @@ gRandom->SetSeed(14);
   double o_rec_angle=0.0;
   double o_mc_angle=0.0;
   int o_failCode = 0;
+  int o_numHits = 0;
+  int o_numPlanes = 0;
+  double o_avrHitsPlanes = 0;
+  std::vector<double> *o_plane_zpos=0;
 
   tree->Branch("MC_positionX",&o_vposX);
   tree->Branch("MC_positionY",&o_vposY);
   tree->Branch("MC_positionZ",&o_vposZ);
+  tree->Branch("MC_VertexX",&o_vertPosX);
+  tree->Branch("MC_VertexY",&o_vertPosY);
+  tree->Branch("MC_VertexZ",&o_vertPosZ);
   tree->Branch("MC_momentumZ",&o_vmomZ);
   tree->Branch("pdg",&o_vPDG);
   tree->Branch("MCtr_Mom",&o_mctr_mom);
+  tree->Branch("MCtr_MomX",&o_mctr_momX);
+  tree->Branch("MCtr_MomY",&o_mctr_momY);
+  tree->Branch("MCtr_MomZ",&o_mctr_momZ);
+  tree->Branch("MCtr_Weight",&o_mctr_weight);
+  tree->Branch("MCtr_Interaction",&o_mctr_interactionType);
   tree->Branch("MCtr_Charge",&o_mctr_charge);
   tree->Branch("MCtr_Energy",&o_mctr_eng);
   tree->Branch("Event",&o_event);
   tree->Branch("Rec_Charge",&o_charge);
-  tree->Branch("Rec_mom",&o_mom);
+  tree->Branch("Rec_Mom",&o_mom);
+  tree->Branch("Rec_MomX",&o_momX);
+  tree->Branch("Rec_MomY",&o_momY);
+  tree->Branch("Rec_MomZ",&o_momZ);
   tree->Branch("Rec_mom_pos",&o_mom_pos);
   tree->Branch("Rec_mom_range",&o_mom_range);
   tree->Branch("Rec_cov",&o_cov);
@@ -181,41 +290,98 @@ gRandom->SetSeed(14);
   tree->Branch("MC_angle",&o_mc_angle);
   tree->Branch("Rec_angle",&o_rec_angle);
   tree->Branch("FailCode",&o_failCode);
+  tree->Branch("NumberofHits",&o_numHits);
+  tree->Branch("NumberofPlanes",&o_numPlanes);
+  tree->Branch("AvrHitsPerPlane",&o_avrHitsPlanes);
+  tree->Branch("PlanesZPos",&o_plane_zpos);
   
   //std::ofstream myfile;
   //myfile.open ("example2.txt",std::ofstream::out | std::ofstream::app);
 
-  // the data file is read in once, providing all of the event data.
 
-  std::vector<double> *vposX=0;
-  std::vector<double> *vposY=0;
-  std::vector<double> *vposZ=0;
-  std::vector<double> *vEventNum=0;
-
-  tr->SetBranchAddress("_PosX",&vposX);
-  tr->SetBranchAddress("_PosY",&vposY);
-  tr->SetBranchAddress("_PosZ",&vposZ);
-  tr->SetBranchAddress("_EventNum",&vEventNum);
-  
-  tr->GetEntry(0);
-  
   // main loop
   for (int iEvent=lowerEventNum; iEvent<higherEventNum; ++iEvent){
+  //for (unsigned int iEvent=0; iEvent<10; ++iEvent){
+  //for (unsigned int iEvent=55655; iEvent<100000; ++iEvent){
     std::cout<<"Event Num="<<iEvent<<std::endl;
- 
+    
+    //if(iEvent==34 || iEvent==666) continue; // Why does this one break??!?!?!
+    // it has no hits with pdg 13 for some reason??
+
+
+    // read in tree from geant
     std::vector<TVector3> eventHits;
+    std::vector<Hit*> eventHitsV;
+    std::vector<double> *vposX=0;
+    std::vector<double> *vposY=0;
+    std::vector<double> *vposZ=0;
+    std::vector<double> *vmomZ=0;
+    std::vector<int> *vPDG=0;
+    std::vector<int> *vhedep=0;
+    std::vector<int> *vhtime=0;
+    std::vector<int> *vhbaror=0;
+    std::vector<int> *vhtransbarpos=0;
+    std::vector<int> *vhlongbarpos=0;
+    std::vector<int> *vhbarnum=0;
+    std::vector<int> *vTASD=0;
+    //int eventIDR = 0;
+    double mctr_mom =0.0;
+    double mctr_momX =0.0;
+    double mctr_momY =0.0;
+    double mctr_momZ =0.0;
+    double mctr_charge =0.0;
+    double mctr_weight =0.0;
+    int mctr_interactionType =0;
+    double mctr_eng =0.0;
+    double vert_X =0.0;
+    double vert_Y =0.0;
+    double vert_Z =0.0;
+    
+    tr->SetBranchAddress("positionX",&vposX);
+    tr->SetBranchAddress("positionY",&vposY);
+    tr->SetBranchAddress("positionZ",&vposZ);
+    tr->SetBranchAddress("momentumZ",&vmomZ);
+    tr->SetBranchAddress("pdg",&vPDG);
+    //tr->SetBranchAddress("EventID",&eventIDR);
+    tr->SetBranchAddress("MCtr_Mom",&mctr_mom);
+    tr->SetBranchAddress("MCtr_MomX",&mctr_momX);
+    tr->SetBranchAddress("MCtr_MomY",&mctr_momY);
+    tr->SetBranchAddress("MCtr_MomZ",&mctr_momZ);
+    tr->SetBranchAddress("MCtr_Weight",&mctr_weight);
+    tr->SetBranchAddress("MCtr_Interaction",&mctr_interactionType);
+    tr->SetBranchAddress("MCtr_Charge",&mctr_charge);
+    tr->SetBranchAddress("MCtr_Energy",&mctr_eng);
+    tr->SetBranchAddress("MCtr_VertexX",&vert_X);
+    tr->SetBranchAddress("MCtr_VertexY",&vert_Y);
+    tr->SetBranchAddress("MCtr_VertexZ",&vert_Z); 
+    tr->SetBranchAddress("hitEdep",&vhedep);
+    tr->SetBranchAddress("hitTime",&vhtime);
+    tr->SetBranchAddress("barOrientation",&vhbaror);
+    tr->SetBranchAddress("transBarPos",&vhtransbarpos);
+    tr->SetBranchAddress("longBarPos",&vhlongbarpos);
+    tr->SetBranchAddress("barNumber",&vhbarnum);
+    tr->SetBranchAddress("TASD",&vTASD);
+    
+    tr->GetEntry(iEvent);
 
     //Fill the out root file with simulation parameters.
-    /*
     o_vposX=vposX;
     o_vposY=vposY;
     o_vposZ=vposZ;
     o_vmomZ=vmomZ;
     o_vPDG=vPDG;
     o_mctr_mom=mctr_mom;
+    o_mctr_momX=mctr_momX;
+    o_mctr_momY=mctr_momY;
+    o_mctr_momZ=mctr_momZ;
+    o_mctr_weight=mctr_weight;
+    o_mctr_interactionType=mctr_interactionType;
     o_mctr_eng=mctr_eng;
     o_mctr_charge=mctr_charge;
-    */
+    o_vertPosX=vert_X;
+    o_vertPosY=vert_Y;
+    o_vertPosZ=vert_Z;
+    
     myDetectorHitArray.Clear();
     
     //TrackCand
@@ -224,14 +390,20 @@ gRandom->SetSeed(14);
     // Provide the fitter with an initial guess.
     TVector3 pos(0, 0, -300); //cm random low number
     TVector3 mom(0,0,2.0); // GeV random number
+    //mom.SetPhi(gRandom->Uniform(0.,2*TMath::Pi()));
+    //mom.SetTheta(gRandom->Uniform(0.4*TMath::Pi(),0.6*TMath::Pi()));
+    //mom.SetMag(gRandom->Uniform(0.2, 1.));
 
     double maxZ = - 9000; //random small
     double minZ = 9000; // random large
     
-    
     // track model
     const int pdg = -13;// particle pdg code
     const int refcharge = TDatabasePDG::Instance()->GetParticle(pdg)->Charge()/3.0;
+    //genfit::HelixTrackModel* helix = new genfit::HelixTrackModel(pos, mom, charge);
+    //measurementCreator.setTrackModel(helix);
+    
+    //unsigned int nMeasurements = gRandom->Uniform(5, 15);
     
     // covariance
     double resolution = 1.0;//0.01; //cm
@@ -240,13 +412,21 @@ gRandom->SetSeed(14);
       cov(i,i) = resolution*resolution;
 
     for(unsigned int i=0; i<vposY->size(); i++){
+    //for(unsigned int i=vposY->size()-1; i>0; i--){
       TVector3 currentPos;
-      
+      //for (unsigned int i=0; i<nMeasurements; ++i) {
+      // "simulate" the detector
+      //TVector3 currentPos = helix->getPos(i*2.);
+      /*
+	currentPos.SetX(gRandom->Gaus(currentPos.X(), resolution));
+	currentPos.SetY(gRandom->Gaus(currentPos.Y(), resolution));
+	currentPos.SetZ(gRandom->Gaus(currentPos.Z(), resolution));
+      */
       //std::cout<<i<<std::endl;
+      int pdgR = vPDG->at(i);
       double posX = vposX->at(i);
       double posY = vposY->at(i);
       double posZ = vposZ->at(i);
-      double eventNum = vEventNum->at(i);
       //std::cout<<"passed"<<std::endl;
 
       // split proton and muon tracks? Need the angle... Use angle from muon assuming neutrino straight in.
@@ -255,28 +435,8 @@ gRandom->SetSeed(14);
       //instead of pattern rec, just artificially use only muon hits. (Not perfect)
       // For us, enough with cuts on energy dep, checking that hit lines up with track parts.
       
-      if(eventNum==iEvent)
+      if((pdgR==pdg || pdgR==-pdg) && (!skipTASD || posZ>-1200))// && fabs(mctr_mom) >500.0)
 	  {
-	    //mapping
-	    if(posZ==-40) posZ= -1627;
-	    else if(posZ==183) posZ= -1376.6;
-	    else if(posZ==387) posZ= -1207.3;
-	    else if(posZ==497) posZ= -1101.5;
-	    else if(posZ==607) posZ= -989.6;
-	    else if(posZ==849) posZ= -902.3;
-	    else if(posZ==1027) posZ= -725.2;
-	    else if(posZ==1342) posZ= -555;
-	    else if(posZ==1521) posZ= -381;
-	    else if(posZ==1828) posZ= -214.25;
-	    else if(posZ==2121) posZ= 49.3;
-	    else if(posZ==2327) posZ= 369.3;
-	    else if(posZ==2551) posZ= 424.3;
-	    else if(posZ==2755) posZ= 719.5;
-	    else if(posZ==3200) posZ= 763;
-	    else if(posZ==3520) posZ= 1068;
-	    else if(posZ==3944) posZ= 1430.5;
-	    else if(posZ==4044) posZ= 1568;
-	    
 	  currentPos.SetX(posX/10.0);
 	  currentPos.SetY(posY/10.0);
 	  currentPos.SetZ(posZ/10.0);
@@ -287,8 +447,13 @@ gRandom->SetSeed(14);
 
 	  eventHits.push_back(currentPos);
 
-	  std::cout<<posX<<"\t"<<posY<<"\t"<<posZ<<std::endl;
-	  
+	  // This should be filled with all hits and used for the patternrec.
+	  eventHitsV.push_back(new Hit(currentPos,pdgR,vmomZ->at(i),vhedep->at(i),
+				       vhtime->at(i),vhtransbarpos->at(i)/10.0,
+				       vhlongbarpos->at(i)/10.0,vhbaror->at(i),
+				       vhbarnum->at(i),vTASD->at(i)));
+
+	  // 
 	  
 	  // Fill the TClonesArray and the TrackCand
 	  // In a real experiment, you detector code would deliver mySpacepointDetectorHits and fill the TClonesArray.
@@ -318,6 +483,81 @@ gRandom->SetSeed(14);
 	    
       }
 
+    o_numHits = eventHitsV.size();
+    std::sort(eventHitsV.begin(),eventHitsV.end(),sortByZ());
+
+    //combine all bars at most 7.5mm from eachother. (Center to center)
+
+    // debug, take a large size
+
+    double barDiffZ = 15.2/10.0;//7.5; // mm
+    std::vector<Plane*> hitPlanes;
+    int jmp = 1;
+    o_avrHitsPlanes = 0;
+    o_plane_zpos->clear();
+
+    for(unsigned int hitCounter = 0; hitCounter<eventHitsV.size(); hitCounter+=jmp)
+      {
+	jmp=1;
+	hitPlanes.push_back(new Plane(eventHitsV[hitCounter]));
+
+	//std::cout<<"plane pos initial="<<hitPlanes.back()->hitList.back()->barPositionZ<<std::endl;
+	
+	for(unsigned int hitCounterIn = hitCounter+1; hitCounterIn<eventHitsV.size(); hitCounterIn++)
+	  {
+	    //std::cout<<"Wanting to add ="<<eventHitsV[hitCounterIn]->barPositionZ<<std::endl;
+
+	    //std::cout<<"Diff="<<eventHitsV[hitCounterIn]->barPositionZ-
+	    //hitPlanes.back()->hitList.back()->barPositionZ<<std::endl;
+	    
+	    if(eventHitsV[hitCounterIn]->barPositionZ-
+	       hitPlanes.back()->hitList.back()->barPositionZ
+	       < barDiffZ)
+	      {
+		hitPlanes.back()->hitList.push_back(eventHitsV[hitCounterIn]); 
+		jmp++;
+		
+		//std::cout<<"Added"<<std::endl;
+	      }
+	    else
+	      {
+		//std::cout<<"Not added, break"<<std::endl;
+		break;
+	      }
+	  }
+	//std::cout<<"Hits in plane="<<hitPlanes.back()->hitList.size()<<std::endl;
+			  
+	double Z = 0;
+	//o_plane_zpos->clear();
+	//o_avrHitsPlanes = 0;
+	for(unsigned int planeCounter = 0; planeCounter<hitPlanes.back()->hitList.size(); planeCounter++)
+	  {
+	    //std::cout<<"Pos="<<hitPlanes.back()->hitList[planeCounter]->barPositionZ<<std::endl;
+	    Z+= hitPlanes.back()->hitList[planeCounter]->barPositionZ;
+	  }
+
+	//std::cout<<"Z="<<Z<<std::endl;
+	//std::cout<<"Size="<<hitPlanes.back()->hitList.size()<<std::endl;
+	//std::cout<<"plane pos="<<hitPlanes.back()->combinedPositionZ<<std::endl;
+	
+	hitPlanes.back()->combinedPositionZ = Z / hitPlanes.back()->hitList.size();
+
+	o_avrHitsPlanes += hitPlanes.back()->hitList.size();
+
+		   o_plane_zpos->push_back(hitPlanes.back()->combinedPositionZ * 10.0); //cm to mm
+      }
+  
+    //std::cout<<hitPlanes.size()<<std::endl;
+    o_numPlanes = hitPlanes.size();
+
+    //std::cout<<"tot hits planes="<<o_avrHitsPlanes<<std::endl;
+
+    o_avrHitsPlanes/=o_numPlanes;
+
+    //std::cout<<"avr hits planes="<<o_avrHitsPlanes<<std::endl;
+
+    //for(unsigned int planesCounter = 0; planesCounter.)
+    //{
 
     o_true_track_len = maxZ-minZ;
     
@@ -398,6 +638,7 @@ gRandom->SetSeed(14);
       //std::cout<<refcharge<<"\t"<<status->getCharge()<<std::endl;
       
       //if(fitTrack.getFittedState().getCharge())
+      /*
       if(status->getCharge()==1)
 	{
 	  o_charge = refcharge;
@@ -406,9 +647,9 @@ gRandom->SetSeed(14);
 	{
 	  o_charge = -refcharge;
 	}
-
+      */
       
-      //o_charge = status->getCharge();
+      o_charge = status->getCharge();
       o_chi2 = status->getChi2();
       o_ndf = status->getNdf();
       o_fitted = status->isFitted(); //fitter->isTrackFitted(track, rep);
@@ -420,7 +661,10 @@ gRandom->SetSeed(14);
       o_event = iEvent;
       //o_charge = reccharge;
       //o_mom = 1000.0/state[0];//
-      o_mom = mom2[2]*1000.0;
+      o_mom = mom2.Mag()*1000.0;
+      o_momX = mom2[0]*1000.0;
+      o_momY = mom2[1]*1000.0;
+      o_momZ = mom2[2]*1000.0;
       o_cov = sqrt(cov2[0][0])*1000;
       o_track_len = length;
 
