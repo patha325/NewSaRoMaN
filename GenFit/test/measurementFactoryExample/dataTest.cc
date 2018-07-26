@@ -117,7 +117,20 @@ gRandom->SetSeed(14);
   //TFile *inFile=new TFile("/root/NewSaRoMaN/neutrinoData/Event_31_May_1.root","READONLY");
   //TFile *inFile=new TFile("/root/NewSaRoMaN/neutrinoData/Event_30_May_6.root","READONLY");
   //TFile *inFile=new TFile("/root/NewSaRoMaN/neutrinoData/Event_28_May_1.root","READONLY");
-  TFile *inFile=new TFile("/root/NewSaRoMaN/neutrinoData/Event_25_May_1.root","READONLY");
+  TFile *inFile=new TFile("/root/NewSaRoMaN/neutrinoData/Event_31_May_1.root","READONLY");
+
+  /*
+24 2,3,5
+25 1,3
+27 1
+28 1 
+29 1
+30 1,2,3,4,5,6
+31 1
+
+
+   */
+  
   TTree *tr=(TTree*)inFile->Get("events");
 
   // Create the out root file and fix all branches
@@ -128,6 +141,9 @@ gRandom->SetSeed(14);
   double o_mctr_charge = 0.0;
   double o_mctr_eng = 0.0;
   int o_event = 0;
+  int o_first = 0;
+  int o_second = 0;
+  int o_third = 0;
   int o_charge = 0;
   double o_mom = 0.0;
   double o_mom_range = 0.0;
@@ -181,6 +197,9 @@ gRandom->SetSeed(14);
   tree->Branch("MC_angle",&o_mc_angle);
   tree->Branch("Rec_angle",&o_rec_angle);
   tree->Branch("FailCode",&o_failCode);
+  tree->Branch("First",&o_first);
+  tree->Branch("Second",&o_second);
+  tree->Branch("Third",&o_third);
   
   //std::ofstream myfile;
   //myfile.open ("example2.txt",std::ofstream::out | std::ofstream::app);
@@ -202,8 +221,17 @@ gRandom->SetSeed(14);
   // main loop
   for (int iEvent=lowerEventNum; iEvent<higherEventNum; ++iEvent){
     std::cout<<"Event Num="<<iEvent<<std::endl;
+
+    o_event = iEvent;
+    o_vposX->clear();
+    o_vposY->clear();
+    o_vposZ->clear();
  
     std::vector<TVector3> eventHits;
+
+    o_first=0;
+    o_second=0;
+    o_third=0;
 
     //Fill the out root file with simulation parameters.
     /*
@@ -258,9 +286,21 @@ gRandom->SetSeed(14);
       if(eventNum==iEvent)
 	  {
 	    //mapping
-	    if(posZ==-40) posZ= -1627;
-	    else if(posZ==183) posZ= -1376.6;
-	    else if(posZ==387) posZ= -1207.3;
+	    if(posZ==-40)
+	      {
+		posZ= -1627;
+		o_first = 1;
+	      }
+	    else if(posZ==183)
+	      {
+		posZ= -1376.6;
+		o_second = 1;
+	      }
+	    else if(posZ==387)
+	      {
+		posZ= -1207.3;
+		o_third = 1;
+	      }
 	    else if(posZ==497) posZ= -1101.5;
 	    else if(posZ==607) posZ= -989.6;
 	    else if(posZ==849) posZ= -902.3;
@@ -276,6 +316,11 @@ gRandom->SetSeed(14);
 	    else if(posZ==3520) posZ= 1068;
 	    else if(posZ==3944) posZ= 1430.5;
 	    else if(posZ==4044) posZ= 1568;
+
+
+	    o_vposX->push_back(posX);
+	    o_vposY->push_back(posY);
+	    o_vposZ->push_back(posZ);
 	    
 	  currentPos.SetX(posX/10.0);
 	  currentPos.SetY(posY/10.0);
@@ -398,6 +443,7 @@ gRandom->SetSeed(14);
       //std::cout<<refcharge<<"\t"<<status->getCharge()<<std::endl;
       
       //if(fitTrack.getFittedState().getCharge())
+      /*
       if(status->getCharge()==1)
 	{
 	  o_charge = refcharge;
@@ -406,9 +452,9 @@ gRandom->SetSeed(14);
 	{
 	  o_charge = -refcharge;
 	}
-
+      */
       
-      //o_charge = status->getCharge();
+      o_charge = status->getCharge();
       o_chi2 = status->getChi2();
       o_ndf = status->getNdf();
       o_fitted = status->isFitted(); //fitter->isTrackFitted(track, rep);
@@ -417,7 +463,7 @@ gRandom->SetSeed(14);
       o_pval = status->getPVal();
 
       //Fill the out root file with rec parameters.
-      o_event = iEvent;
+      //o_event = iEvent;
       //o_charge = reccharge;
       //o_mom = 1000.0/state[0];//
       o_mom = mom2[2]*1000.0;

@@ -304,7 +304,7 @@ gRandom->SetSeed(14);
   //for (unsigned int iEvent=0; iEvent<10; ++iEvent){
   //for (unsigned int iEvent=55655; iEvent<100000; ++iEvent){
     std::cout<<"Event Num="<<iEvent<<std::endl;
-    
+    o_event = iEvent;
     //if(iEvent==34 || iEvent==666) continue; // Why does this one break??!?!?!
     // it has no hits with pdg 13 for some reason??
 
@@ -658,7 +658,7 @@ gRandom->SetSeed(14);
       o_pval = status->getPVal();
 
       //Fill the out root file with rec parameters.
-      o_event = iEvent;
+      //o_event = iEvent;
       //o_charge = reccharge;
       //o_mom = 1000.0/state[0];//
       o_mom = mom2.Mag()*1000.0;
