@@ -219,6 +219,10 @@ gRandom->SetSeed(14);
   double o_vertPosY = 0.0;
   double o_vertPosZ = 0.0;
   int o_event = 0;
+  int o_first = 0;
+  int o_second = 0;
+  int o_third = 0;
+  int o_forth = 0;
   int o_charge = 0;
   double o_mom = 0.0;
   double o_momX = 0.0;
@@ -290,6 +294,10 @@ gRandom->SetSeed(14);
   tree->Branch("MC_angle",&o_mc_angle);
   tree->Branch("Rec_angle",&o_rec_angle);
   tree->Branch("FailCode",&o_failCode);
+  tree->Branch("First",&o_first);
+  tree->Branch("Second",&o_second);
+  tree->Branch("Third",&o_third);
+  tree->Branch("Forth",&o_forth);
   tree->Branch("NumberofHits",&o_numHits);
   tree->Branch("NumberofPlanes",&o_numPlanes);
   tree->Branch("AvrHitsPerPlane",&o_avrHitsPlanes);
@@ -308,7 +316,11 @@ gRandom->SetSeed(14);
     //if(iEvent==34 || iEvent==666) continue; // Why does this one break??!?!?!
     // it has no hits with pdg 13 for some reason??
 
-
+    o_first=0;
+    o_second=0;
+    o_third=0;
+    o_forth=0;
+    
     // read in tree from geant
     std::vector<TVector3> eventHits;
     std::vector<Hit*> eventHitsV;
@@ -434,8 +446,15 @@ gRandom->SetSeed(14);
 
       //instead of pattern rec, just artificially use only muon hits. (Not perfect)
       // For us, enough with cuts on energy dep, checking that hit lines up with track parts.
+
       
-      if((pdgR==pdg || pdgR==-pdg) && (!skipTASD || posZ>-1200))// && fabs(mctr_mom) >500.0)
+      if(-1700<posZ && posZ<-1600) o_first =1;
+      if(-1400<posZ && posZ<-1300) o_second =1;
+      if(-1250<posZ && posZ<-1150) o_third =1;
+      if(-1150<posZ && posZ<-1050) o_forth =1;
+
+      
+      if((pdgR==pdg || pdgR==-pdg))// && (!skipTASD || posZ>-1200))// && fabs(mctr_mom) >500.0)
 	  {
 	  currentPos.SetX(posX/10.0);
 	  currentPos.SetY(posY/10.0);

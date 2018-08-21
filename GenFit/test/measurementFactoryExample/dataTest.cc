@@ -144,6 +144,7 @@ gRandom->SetSeed(14);
   int o_first = 0;
   int o_second = 0;
   int o_third = 0;
+  int o_forth = 0;
   int o_charge = 0;
   double o_mom = 0.0;
   double o_mom_range = 0.0;
@@ -200,6 +201,7 @@ gRandom->SetSeed(14);
   tree->Branch("First",&o_first);
   tree->Branch("Second",&o_second);
   tree->Branch("Third",&o_third);
+  tree->Branch("Forth",&o_forth);
   
   //std::ofstream myfile;
   //myfile.open ("example2.txt",std::ofstream::out | std::ofstream::app);
@@ -232,6 +234,7 @@ gRandom->SetSeed(14);
     o_first=0;
     o_second=0;
     o_third=0;
+    o_forth=0;
 
     //Fill the out root file with simulation parameters.
     /*
@@ -301,7 +304,11 @@ gRandom->SetSeed(14);
 		posZ= -1207.3;
 		o_third = 1;
 	      }
-	    else if(posZ==497) posZ= -1101.5;
+	    else if(posZ==497)
+	      {
+		posZ= -1101.5;
+		o_forth = 1;
+	      }
 	    else if(posZ==607) posZ= -989.6;
 	    else if(posZ==849) posZ= -902.3;
 	    else if(posZ==1027) posZ= -725.2;
